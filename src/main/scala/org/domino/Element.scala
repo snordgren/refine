@@ -18,7 +18,7 @@ case class CaptionElement(attributes: Seq[CaptionAttribute],
   children: Seq[Element[_]]) extends SpecialElement[CaptionAttribute]("caption")
 
 case class ColElement(attributes: Seq[ColAttribute],
-  children: Seq[Element[_]]) extends SpecialElement[ColElement]("col")
+  children: Seq[Element[_]]) extends SpecialElement[ColAttribute]("col")
 
 case class ColGroupElement(attributes: Seq[ColGroupAttribute],
   children: Seq[Element[_]]) extends SpecialElement[ColGroupAttribute]("colgroup")
