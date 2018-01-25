@@ -1,3 +1,4 @@
+
 package org.domino.html
 
 trait Elements {
@@ -214,116 +215,116 @@ trait Elements {
     ParagraphElement(attributes, children)
 
   def param(attributes: GlobalAttribute*)(children: Node*) =
-    Element("param", attributes, children)
+    ParamElement(attributes, children)
 
   def picture(attributes: GlobalAttribute*)(children: Node*) =
-    Element("picture", attributes, children)
+    PictureElement(attributes, children)
 
   def pre(attributes: GlobalAttribute*)(children: Node*) =
-    Element("pre", attributes, children)
+    PreElement(attributes, children)
 
   def progress(attributes: GlobalAttribute*)(children: Node*) =
-    Element("progress", attributes, children)
+    ProgressElement(attributes, children)
 
   def q(attributes: GlobalAttribute*)(children: Node*) =
-    Element("q", attributes, children)
+    QElement(attributes, children)
 
   def rp(attributes: GlobalAttribute*)(children: Node*) =
-    Element("rp", attributes, children)
+    RPElement(attributes, children)
 
   def rt(attributes: GlobalAttribute*)(children: Node*) =
-    Element("rt", attributes, children)
+    RTElement(attributes, children)
 
   def ruby(attributes: GlobalAttribute*)(children: Node*) =
-    Element("ruby", attributes, children)
+    RubyElement(attributes, children)
 
   def s(attributes: GlobalAttribute*)(children: Node*) =
-    Element("s", attributes, children)
+    SElement(attributes, children)
 
   def samp(attributes: GlobalAttribute*)(children: Node*) =
-    Element("samp", attributes, children)
+    SampElement(attributes, children)
 
   def script(attributes: GlobalAttribute*)(children: Node*) =
-    Element("script", attributes, children)
+    ScriptElement(attributes, children)
 
   def section(attributes: GlobalAttribute*)(children: Node*) =
-    Element("section", attributes, children)
+    SectionElement(attributes, children)
 
   def select(attributes: GlobalAttribute*)(children: Node*) =
-    Element("select", attributes, children)
+    SelectElement(attributes, children)
 
   def small(attributes: GlobalAttribute*)(children: Node*) =
-    Element("small", attributes, children)
+    SmallElement(attributes, children)
 
   def source(attributes: SourceAttribute*)(children: Node*) =
-    Element("source", attributes, children)
+    SourceElement(attributes, children)
 
   def span(attributes: GlobalAttribute*)(children: Node*) =
-    Element("span", attributes, children)
+    SpanElement(attributes, children)
 
   def strong(attributes: GlobalAttribute*)(children: Node*) =
-    Element("strong", attributes, children)
+    StrongElement(attributes, children)
 
   def style(attributes: StyleAttribute*)(children: Node*) =
-    Element("style", attributes, children)
+    StyleElement(attributes, children)
 
   def sub(attributes: GlobalAttribute*)(children: Node*) =
-    Element("sub", attributes, children)
+    SubElement(attributes, children)
 
   def summary(attributes: GlobalAttribute*)(children: Node*) =
-    Element("summary", attributes, children)
+    SummaryElement(attributes, children)
 
   def sup(attributes: GlobalAttribute*)(children: Node*) =
-    Element("sup", attributes, children)
+    SupElement(attributes, children)
 
   def table(attributes: GlobalAttribute*)(children: Node*) =
-    Element("table", attributes, children)
+    TableElement(attributes, children)
 
   def tbody(attributes: GlobalAttribute*)(children: Node*) =
-    Element("tbody", attributes, children)
+    TBodyElement(attributes, children)
 
   def td(attributes: GlobalAttribute*)(children: Node*) =
-    Element("td", attributes, children)
+    TDElement(attributes, children)
 
   def template(attributes: GlobalAttribute*)(children: Node*) =
-    Element("template", attributes, children)
+    TemplateElement(attributes, children)
 
   def textarea(attributes: TextAreaAttribute*)(children: Node*) =
-    Element("textarea", attributes, children)
+    TextAreaElement(attributes, children)
 
   def tfoot(attributes: GlobalAttribute*)(children: Node*) =
-    Element("tfoot", attributes, children)
+    TFootElement(attributes, children)
 
   def th(attributes: GlobalAttribute*)(children: Node*) =
-    Element("th", attributes, children)
+    THElement(attributes, children)
 
   def thead(attributes: GlobalAttribute*)(children: Node*) =
-    Element("thead", attributes, children)
+    THeadElement(attributes, children)
 
   def time(attributes: GlobalAttribute*)(children: Node*) =
-    Element("time", attributes, children)
+    TimeElement(attributes, children)
 
   def title(attributes: GlobalAttribute*)(children: Node*) =
-    Element("title", attributes, children)
+    TitleElement(attributes, children)
 
   def tr(attributes: GlobalAttribute*)(children: Node*) =
-    Element("tr", attributes, children)
+    TRElement(attributes, children)
 
   def track(attributes: TrackAttribute*)(children: Node*) =
-    Element("track", attributes, children)
+    TrackElement(attributes, children)
 
   def u(attributes: GlobalAttribute*)(children: Node*) =
-    Element("u", attributes, children)
+    UElement(attributes, children)
 
   def ul(attributes: GlobalAttribute*)(children: Node*) =
-    Element("ul", attributes, children)
+    ULElement(attributes, children)
 
   def `var`(attributes: GlobalAttribute*)(children: Node*) =
-    Element("var", attributes, children)
+    VarElement(attributes, children)
 
   def video(attributes: GlobalAttribute*)(children: Node*) =
-    Element("video", attributes, children)
+    VideoElement(attributes, children)
 
   def wbr(attributes: GlobalAttribute*)(children: Node*) =
-    Element("wbr", attributes, children)
+    WBRElement(attributes, children)
 }
