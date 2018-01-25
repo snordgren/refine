@@ -133,7 +133,7 @@ object Attribute {
     with ImageAttribute
     with InputAttribute
 
-  case class Async(value: Boolean) extends ScriptAttribute
+  final case class Async(value: Boolean) extends ScriptAttribute
   case class AutoComplete(value: Boolean) extends FormAttribute with InputAttribute
   case class AutoFocus(value: Boolean) extends ButtonAttribute
     with InputAttribute

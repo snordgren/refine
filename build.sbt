@@ -18,7 +18,7 @@ resourceGenerators in Compile += Def.task {
       raw"""package org.domino.html
 
 sealed trait Node
-case class Text(value: String) extends Node
+final case class Text(value: String) extends Node
 sealed trait Element[A <: Attribute] extends Node {
   def name: String
   def attributes: Seq[A]
@@ -34,7 +34,7 @@ abstract class AbstractElement[A <: Attribute](val name: String) extends Element
         val attr = parts(1)
         val name = parts(2)
         s"""
-case class ${name}Element(attributes: Seq[${attr}Attribute],
+final case class ${name}Element(attributes: Seq[${attr}Attribute],
 children: Seq[Node]) extends AbstractElement[${attr}Attribute]("$tag")"""
       }).reduce((l, r) => s"$l\n$r")
 
