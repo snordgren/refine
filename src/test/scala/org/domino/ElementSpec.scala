@@ -7,7 +7,12 @@ class ElementSpec extends UnitSpec {
     import Attribute._
 
     val source = html(lang := "en", manifest := "yes")(
-      div(lang := "en")()
-    )
+      head()(
+        title()("Welcome to Domino!")
+      ),
+      body()(
+        h1()("Welcome to Domino!"),
+        p(data("Why") := "")("")
+      ))
   }
 }
