@@ -75,7 +75,7 @@ object Domino {
   def del(attributes: DelAttribute*)(children: Node*) =
     Element("del", attributes, children)
 
-  def details(attributes: GlobalAttribute*)(children: Node*) =
+  def details(attributes: DetailsAttribute*)(children: Node*) =
     Element("details", attributes, children)
 
   def dfn(attributes: GlobalAttribute*)(children: Node*) =
@@ -177,13 +177,13 @@ object Domino {
   def main(attributes: GlobalAttribute*)(children: Node*) =
     Element("main", attributes, children)
 
-  def map(attributes: GlobalAttribute*)(children: Node*) =
+  def map(attributes: MapAttribute*)(children: Node*) =
     Element("map", attributes, children)
 
   def mark(attributes: GlobalAttribute*)(children: Node*) =
     Element("mark", attributes, children)
 
-  def meta(attributes: GlobalAttribute*)(children: Node*) =
+  def meta(attributes: MetaAttribute*)(children: Node*) =
     Element("meta", attributes, children)
 
   def meter(attributes: MeterAttribute*)(children: Node*) =
@@ -192,13 +192,13 @@ object Domino {
   def nav(attributes: GlobalAttribute*)(children: Node*) =
     Element("nav", attributes, children)
 
-  def noscript(attributes: GlobalAttribute*)(children: Node*) =
+  def noscript(attributes: ScriptAttribute*)(children: Node*) =
     Element("noscript", attributes, children)
 
   def `object`(attributes: ObjectAttribute*)(children: Node*) =
     Element("object", attributes, children)
 
-  def ol(attributes: GlobalAttribute*)(children: Node*) =
+  def ol(attributes: OLAttribute*)(children: Node*) =
     Element("ol", attributes, children)
 
   def optgroup(attributes: GlobalAttribute*)(children: Node*) =
@@ -255,7 +255,7 @@ object Domino {
   def small(attributes: GlobalAttribute*)(children: Node*) =
     Element("small", attributes, children)
 
-  def source(attributes: GlobalAttribute*)(children: Node*) =
+  def source(attributes: SourceAttribute*)(children: Node*) =
     Element("source", attributes, children)
 
   def span(attributes: GlobalAttribute*)(children: Node*) =
@@ -264,7 +264,7 @@ object Domino {
   def strong(attributes: GlobalAttribute*)(children: Node*) =
     Element("strong", attributes, children)
 
-  def style(attributes: GlobalAttribute*)(children: Node*) =
+  def style(attributes: StyleAttribute*)(children: Node*) =
     Element("style", attributes, children)
 
   def sub(attributes: GlobalAttribute*)(children: Node*) =
@@ -309,7 +309,7 @@ object Domino {
   def tr(attributes: GlobalAttribute*)(children: Node*) =
     Element("tr", attributes, children)
 
-  def track(attributes: GlobalAttribute*)(children: Node*) =
+  def track(attributes: TrackAttribute*)(children: Node*) =
     Element("track", attributes, children)
 
   def u(attributes: GlobalAttribute*)(children: Node*) =

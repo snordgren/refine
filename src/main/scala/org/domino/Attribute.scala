@@ -14,6 +14,7 @@ sealed trait ColAttribute extends Attribute
 sealed trait ColGroupAttribute extends Attribute
 sealed trait CommandAttribute extends Attribute
 sealed trait DelAttribute extends Attribute
+sealed trait DetailsAttribute extends Attribute
 sealed trait EmbedAttribute extends Attribute
 sealed trait FieldSetAttribute extends Attribute
 sealed trait FormAttribute extends Attribute
@@ -25,16 +26,22 @@ sealed trait InputAttribute extends Attribute
 sealed trait InsAttribute extends Attribute
 sealed trait LabelAttribute extends Attribute
 sealed trait LinkAttribute extends Attribute
+sealed trait LIAttribute extends Attribute
+sealed trait MapAttribute extends Attribute
 sealed trait MetaAttribute extends Attribute
 sealed trait MeterAttribute extends Attribute
 sealed trait ObjectAttribute extends Attribute
+sealed trait OLAttribute extends Attribute
 sealed trait OptGroupAttribute extends Attribute
 sealed trait OptionAttribute extends Attribute
 sealed trait OutputAttribute extends Attribute
+sealed trait ParamAttribute extends Attribute
 sealed trait ProgressAttribute extends Attribute
 sealed trait QAttribute extends Attribute
 sealed trait ScriptAttribute extends Attribute
 sealed trait SelectAttribute extends Attribute
+sealed trait SourceAttribute extends Attribute
+sealed trait StyleAttribute extends Attribute
 sealed trait TableAttribute extends Attribute
 sealed trait TBodyAttribute extends Attribute
 sealed trait TDAttribute extends Attribute
@@ -64,6 +71,7 @@ sealed trait GlobalAttribute extends Attribute
   with ColGroupAttribute
   with CommandAttribute
   with DelAttribute
+  with DetailsAttribute
   with EmbedAttribute
   with FieldSetAttribute
   with FormAttribute
@@ -75,16 +83,22 @@ sealed trait GlobalAttribute extends Attribute
   with InsAttribute
   with LabelAttribute
   with LinkAttribute
+  with LIAttribute
+  with MapAttribute
   with MetaAttribute
   with MeterAttribute
   with ObjectAttribute
+  with OLAttribute
   with OptGroupAttribute
   with OptionAttribute
   with OutputAttribute
+  with ParamAttribute
   with ProgressAttribute
   with QAttribute
   with ScriptAttribute
   with SelectAttribute
+  with SourceAttribute
+  with StyleAttribute
   with TableAttribute
   with TBodyAttribute
   with TDAttribute
@@ -161,7 +175,7 @@ object Attribute {
     with QAttribute
   val cite = AttributeFactory(Cite)
 
-  case class ClassName(name: String) extends GlobalAttribute
+  case class ClassName(value: String) extends GlobalAttribute
   val className = AttributeFactory(ClassName)
 
   case class Cols(value: String) extends TextAreaAttribute
@@ -296,9 +310,233 @@ object Attribute {
   case class ItemProp(value: String) extends GlobalAttribute
   val itemprop = AttributeFactory(ItemProp)
 
+  case class Kind(value: String) extends TrackAttribute
+  val kind = AttributeFactory(Kind)
+
+  case class Label(value: String) extends TrackAttribute
+  val label = AttributeFactory(Label)
+
   case class Language(value: String) extends GlobalAttribute
   val lang = AttributeFactory(Language)
 
+  case class ScriptingLanguage(value: String) extends ScriptAttribute
+  val language = AttributeFactory(ScriptingLanguage)
+
+  case class List(value: String) extends InputAttribute
+  val list = AttributeFactory(List)
+
+  case class Loop(value: String) extends AudioAttribute with VideoAttribute
+  val loop = AttributeFactory(Loop)
+
+  case class Low(value: String) extends MeterAttribute
+  val low = AttributeFactory(Low)
+
   case class Manifest(value: String) extends HTMLAttribute
   val manifest = AttributeFactory(Manifest)
+
+  case class Max(value: String) extends InputAttribute
+    with MeterAttribute
+    with ProgressAttribute
+  val max = AttributeFactory(Max)
+
+  case class MaxLength(value: String) extends InputAttribute with TextAreaAttribute
+  val maxlength = AttributeFactory(MaxLength)
+
+  case class MinLength(value: String) extends InputAttribute with TextAreaAttribute
+  val minlength = AttributeFactory(MinLength)
+
+  case class Media(value: String) extends AnchorAttribute
+    with AreaAttribute
+    with LinkAttribute
+    with SourceAttribute
+  val media = AttributeFactory(Media)
+
+  case class Method(value: String) extends FormAttribute
+  val method = AttributeFactory(Method)
+
+  case class Min(value: String) extends InputAttribute with MeterAttribute
+  val min = AttributeFactory(Min)
+
+  case class Multiple(value: String) extends InputAttribute with SelectAttribute
+  val multiple = AttributeFactory(Multiple)
+
+  case class Muted(value: String) extends AudioAttribute with VideoAttribute
+  val muted = AttributeFactory(Muted)
+
+  case class Name(value: String) extends ButtonAttribute
+    with FormAttribute
+    with FieldSetAttribute
+    with IFrameAttribute
+    with InputAttribute
+    with MapAttribute
+    with MetaAttribute
+    with ObjectAttribute
+    with OutputAttribute
+    with ParamAttribute
+    with SelectAttribute
+    with TextAreaAttribute
+  val name = AttributeFactory(Name)
+
+  case class NoValidate(value: String) extends FormAttribute
+  val novalidate = AttributeFactory(NoValidate)
+
+  case class Open(value: String) extends DetailsAttribute
+  val open = AttributeFactory(Open)
+
+  case class Optimum(value: String) extends MeterAttribute
+  val optimum = AttributeFactory(Optimum)
+
+  case class Pattern(value: String) extends InputAttribute
+  val pattern = AttributeFactory(Pattern)
+
+  case class Ping(value: String) extends AnchorAttribute with AreaAttribute
+  val ping = AttributeFactory(Ping)
+
+  case class Placeholder(value: String) extends InputAttribute with TextAreaAttribute
+  val placeholder = AttributeFactory(Placeholder)
+
+  case class Poster(value: String) extends VideoAttribute
+  val poster = AttributeFactory(Poster)
+
+  case class Preload(Value: String) extends AudioAttribute with VideoAttribute
+  val preload = AttributeFactory(Preload)
+
+  case class RadioGroup(value: String) extends AudioAttribute with VideoAttribute
+  val radiogroup = AttributeFactory(RadioGroup)
+
+  case class ReadOnly(value: String) extends InputAttribute with TextAreaAttribute
+  val readonly = AttributeFactory(ReadOnly)
+
+  case class Rel(value: String) extends AnchorAttribute
+    with AreaAttribute
+    with LinkAttribute
+  val rel = AttributeFactory(Rel)
+
+  case class Required(value: String) extends InputAttribute
+    with SelectAttribute
+    with TextAreaAttribute
+  val required = AttributeFactory(Required)
+
+  case class Reversed(value: String) extends OLAttribute
+  val reversed = AttributeFactory(Reversed)
+
+  case class Rows(value: String) extends TextAreaAttribute
+  val rows = AttributeFactory(Rows)
+
+  case class RowSpan(value: String) extends TDAttribute with THAttribute
+  val rowspan = AttributeFactory(RowSpan)
+
+  case class Sandbox(value: String) extends IFrameAttribute
+  val sandbox = AttributeFactory(Sandbox)
+
+  case class Scope(value: String) extends THAttribute
+  val scope = AttributeFactory(Scope)
+
+  case class Scoped(value: String) extends AnchorAttribute with AreaAttribute
+  val scoped = AttributeFactory(Scoped)
+
+  case class Seamless(value: String) extends IFrameAttribute
+  val seamless = AttributeFactory(Seamless)
+
+  case class Selected(value: String) extends OptionAttribute
+  val selected = AttributeFactory(Selected)
+
+  case class Shape(value: String) extends AnchorAttribute with AreaAttribute
+  val shape = AttributeFactory(Shape)
+
+  case class Size(value: String) extends InputAttribute with SelectAttribute
+  val size = AttributeFactory(Size)
+
+  case class Sizes(value: String) extends LinkAttribute
+    with ImageAttribute
+    with SourceAttribute
+  val sizes = AttributeFactory(Sizes)
+
+  case class Slot(value: String) extends GlobalAttribute
+  val slot = AttributeFactory(Slot)
+
+  case class Span(value: String) extends ColAttribute with ColGroupAttribute
+  val span = AttributeFactory(Span)
+
+  case class SpellCheck(value: String) extends GlobalAttribute
+  val spellcheck = AttributeFactory(SpellCheck)
+
+  case class Source(value: String) extends AudioAttribute
+    with EmbedAttribute
+    with IFrameAttribute
+    with ImageAttribute
+    with InputAttribute
+    with ScriptAttribute
+    with SourceAttribute
+    with TrackAttribute
+    with VideoAttribute
+  val src = AttributeFactory(Source)
+
+  case class SourceDocument(value: String) extends IFrameAttribute
+  val srcdoc = AttributeFactory(SourceDocument)
+
+  case class SourceLanguage(value: String) extends TrackAttribute
+  val srclang = AttributeFactory(SourceLanguage)
+
+  case class SourceSet(value: String) extends ImageAttribute
+  val srcset = AttributeFactory(SourceSet)
+
+  case class Start(value: String) extends OLAttribute
+  val start = AttributeFactory(Start)
+
+  case class Step(value: String) extends InputAttribute
+  val step = AttributeFactory(Step)
+
+  case class Style(value: String) extends GlobalAttribute
+  val style = AttributeFactory(Style)
+
+  case class Summary(value: String) extends TableAttribute
+  val summary = AttributeFactory(Summary)
+
+  case class TabIndex(value: String) extends GlobalAttribute
+  val tabindex = AttributeFactory(TabIndex)
+
+  case class Target(value: String) extends AnchorAttribute
+    with AreaAttribute
+    with BaseAttribute
+    with FormAttribute
+  val target = AttributeFactory(Target)
+
+  case class Title(value: String) extends GlobalAttribute
+  val title = AttributeFactory(Title)
+
+  case class Type(value: String) extends ButtonAttribute
+    with EmbedAttribute
+    with InputAttribute
+    with ObjectAttribute
+    with ScriptAttribute
+    with SourceAttribute
+    with StyleAttribute
+  val `type` = AttributeFactory(Type)
+
+  case class UseMap(value: String) extends ImageAttribute
+    with InputAttribute
+    with ObjectAttribute
+  val usemap = AttributeFactory(UseMap)
+
+  case class Value(value: String) extends ButtonAttribute
+    with InputAttribute
+    with LIAttribute
+    with MeterAttribute
+    with OptionAttribute
+    with ParamAttribute
+    with ProgressAttribute
+  val value = AttributeFactory(Value)
+
+  case class Width(value: String) extends CanvasAttribute
+    with EmbedAttribute
+    with IFrameAttribute
+    with ImageAttribute
+    with InputAttribute
+    with ObjectAttribute
+    with VideoAttribute
+  val width = AttributeFactory(Width)
+
+  case class Wrap(value: String) extends TextAreaAttribute
+  val wrap = AttributeFactory(Wrap)
 }
