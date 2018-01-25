@@ -1,4 +1,3 @@
-
 package org.domino.html
 
 sealed trait Node
@@ -10,7 +9,6 @@ sealed trait Element[A <: Attribute] extends Node {
 }
 
 abstract class AbstractElement[A <: Attribute](val name: String) extends Element[A]
-
 
 case class AnchorElement(attributes: Seq[AnchorAttribute],
   children: Seq[Node]) extends AbstractElement[AnchorAttribute]("a")

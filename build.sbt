@@ -9,7 +9,7 @@ version := "0.1.0-SNAPSHOT"
 scalaVersion := "2.12.4"
 scalacOptions ++= Seq("-language:implicitConversions")
 
-sourceGenerators in Compile += Def.task {
+resourceGenerators in Compile += Def.task {
   import scala.io.Source
   val elementData = file("src/main/csv/ElementData.csv")
 
@@ -26,7 +26,6 @@ sealed trait Element[A <: Attribute] extends Node {
 }
 
 abstract class AbstractElement[A <: Attribute](val name: String) extends Element[A]
-
 """
     val body = Source.fromFile(elementData).getLines().drop(1)
       .map((line) => {

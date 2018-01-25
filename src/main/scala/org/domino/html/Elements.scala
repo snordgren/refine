@@ -1,4 +1,3 @@
-
 package org.domino.html
 
 trait Elements {
