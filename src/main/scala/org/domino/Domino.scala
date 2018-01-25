@@ -4,332 +4,332 @@ object Domino {
   implicit def string2Node(s: String): Node = Text(s)
 
   def a(attributes: AnchorAttribute*)(children: Node*) =
-    AnchorElement(attributes, children)
+    Element("a", attributes, children)
 
   def abbr(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("abbr", attributes, children)
+    Element("abbr", attributes, children)
 
   def address(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("address", attributes, children)
+    Element("address", attributes, children)
 
-  def area(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("area", attributes, children)
+  def area(attributes: AreaAttribute*)(children: Node*) =
+    Element("area", attributes, children)
 
   def article(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("article", attributes, children)
+    Element("article", attributes, children)
 
   def aside(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("aside", attributes, children)
+    Element("aside", attributes, children)
 
   def audio(attributes: AudioAttribute*)(children: Node*) =
-    AudioElement(attributes, children)
+    Element("audio", attributes, children)
 
   def b(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("b", attributes, children)
+    Element("b", attributes, children)
 
-  def base(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("base", attributes, children)
+  def base(attributes: BaseAttribute*)(children: Node*) =
+    Element("base", attributes, children)
 
   def bdi(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("bdi", attributes, children)
+    Element("bdi", attributes, children)
 
   def bdo(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("bdo", attributes, children)
+    Element("bdo", attributes, children)
 
-  def blockquote(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("blockquote", attributes, children)
+  def blockquote(attributes: BlockQuoteAttribute*)(children: Node*) =
+    Element("blockquote", attributes, children)
 
   def body(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("body", attributes, children)
+    Element("body", attributes, children)
 
   def br(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("br", attributes, children)
+    Element("br", attributes, children)
 
   def button(attributes: ButtonAttribute*)(children: Node*) =
-    ButtonElement(attributes, children)
+    Element("button", attributes, children)
 
-  def canvas(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("canvas", attributes, children)
+  def canvas(attributes: CanvasAttribute*)(children: Node*) =
+    Element("canvas", attributes, children)
 
-  def caption(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("caption", attributes, children)
+  def caption(attributes: CaptionAttribute*)(children: Node*) =
+    Element("caption", attributes, children)
 
   def cite(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("cite", attributes, children)
+    Element("cite", attributes, children)
 
   def code(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("code", attributes, children)
+    Element("code", attributes, children)
 
-  def col(attributes: GlobalAttribute*)(children: Node*) =
-    ColElement(attributes, children)
+  def col(attributes: ColAttribute*)(children: Node*) =
+    Element("col", attributes, children)
 
-  def colgroup(attributes: GlobalAttribute*)(children: Node*) =
-    ColGroupElement(attributes, children)
+  def colgroup(attributes: ColGroupAttribute*)(children: Node*) =
+    Element("colgroup", attributes, children)
 
   def datalist(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("datalist", attributes, children)
+    Element("datalist", attributes, children)
 
   def dd(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("dd", attributes, children)
+    Element("dd", attributes, children)
 
-  def del(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("del", attributes, children)
+  def del(attributes: DelAttribute*)(children: Node*) =
+    Element("del", attributes, children)
 
   def details(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("details", attributes, children)
+    Element("details", attributes, children)
 
   def dfn(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("dfn", attributes, children)
+    Element("dfn", attributes, children)
 
   def dialog(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("dialog", attributes, children)
+    Element("dialog", attributes, children)
 
   def div(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("div", attributes, children)
+    Element("div", attributes, children)
 
   def dl(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("dl", attributes, children)
+    Element("dl", attributes, children)
 
   def dt(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("dt", attributes, children)
+    Element("dt", attributes, children)
 
   def em(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("em", attributes, children)
+    Element("em", attributes, children)
 
-  def embed(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("embed", attributes, children)
+  def embed(attributes: EmbedAttribute*)(children: Node*) =
+    Element("embed", attributes, children)
 
-  def fieldset(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("fieldset", attributes, children)
+  def fieldset(attributes: FieldSetAttribute*)(children: Node*) =
+    Element("fieldset", attributes, children)
 
   def figcaption(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("figcaption", attributes, children)
+    Element("figcaption", attributes, children)
 
   def figure(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("figure", attributes, children)
+    Element("figure", attributes, children)
 
   def footer(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("footer", attributes, children)
+    Element("footer", attributes, children)
 
   def form(attributes: FormAttribute*)(children: Node*) =
-    FormElement(attributes, children)
+    Element("form", attributes, children)
 
   def h1(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("h1", attributes, children)
+    Element("h1", attributes, children)
 
   def h2(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("h2", attributes, children)
+    Element("h2", attributes, children)
 
   def h3(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("h3", attributes, children)
+    Element("h3", attributes, children)
 
   def h4(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("h4", attributes, children)
+    Element("h4", attributes, children)
 
   def h5(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("h5", attributes, children)
+    Element("h5", attributes, children)
 
   def h6(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("h6", attributes, children)
+    Element("h6", attributes, children)
 
   def head(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("head", attributes, children)
+    Element("head", attributes, children)
 
   def header(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("header", attributes, children)
+    Element("header", attributes, children)
 
-  def hr(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("hr", attributes, children)
+  def hr(attributes: HRAttribute*)(children: Node*) =
+    Element("hr", attributes, children)
 
   def html(attributes: HTMLAttribute*)(children: Node*) =
-    HTMLElement(attributes, children)
+    Element("html", attributes, children)
 
   def i(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("i", attributes, children)
+    Element("i", attributes, children)
 
-  def iframe(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("iframe", attributes, children)
+  def iframe(attributes: IFrameAttribute*)(children: Node*) =
+    Element("iframe", attributes, children)
 
-  def img(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("img", attributes, children)
+  def img(attributes: ImageAttribute*)(children: Node*) =
+    Element("img", attributes, children)
 
   def input(attributes: InputAttribute*)(children: Node*) =
-    InputElement(attributes, children)
+    Element("input", attributes, children)
 
-  def ins(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("ins", attributes, children)
+  def ins(attributes: InsAttribute*)(children: Node*) =
+    Element("ins", attributes, children)
 
   def kbd(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("kbd", attributes, children)
+    Element("kbd", attributes, children)
 
-  def label(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("label", attributes, children)
+  def label(attributes: LabelAttribute*)(children: Node*) =
+    Element("label", attributes, children)
 
   def legend(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("legend", attributes, children)
+    Element("legend", attributes, children)
 
   def li(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("li", attributes, children)
+    Element("li", attributes, children)
 
-  def link(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("link", attributes, children)
+  def link(attributes: LinkAttribute*)(children: Node*) =
+    Element("link", attributes, children)
 
   def main(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("main", attributes, children)
+    Element("main", attributes, children)
 
   def map(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("map", attributes, children)
+    Element("map", attributes, children)
 
   def mark(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("mark", attributes, children)
+    Element("mark", attributes, children)
 
   def menu(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("menu", attributes, children)
+    Element("menu", attributes, children)
 
   def menuitem(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("menuitem", attributes, children)
+    Element("menuitem", attributes, children)
 
   def meta(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("meta", attributes, children)
+    Element("meta", attributes, children)
 
-  def meter(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("meter", attributes, children)
+  def meter(attributes: MeterAttribute*)(children: Node*) =
+    Element("meter", attributes, children)
 
   def nav(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("nav", attributes, children)
+    Element("nav", attributes, children)
 
   def noscript(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("noscript", attributes, children)
+    Element("noscript", attributes, children)
 
   def `object`(attributes: ObjectAttribute*)(children: Node*) =
-    ObjectElement(attributes, children)
+    Element("object", attributes, children)
 
   def ol(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("ol", attributes, children)
+    Element("ol", attributes, children)
 
   def optgroup(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("optgroup", attributes, children)
+    Element("optgroup", attributes, children)
 
   def option(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("option", attributes, children)
+    Element("option", attributes, children)
 
   def output(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("output", attributes, children)
+    Element("output", attributes, children)
 
   def p(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("p", attributes, children)
+    Element("p", attributes, children)
 
   def param(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("param", attributes, children)
+    Element("param", attributes, children)
 
   def picture(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("picture", attributes, children)
+    Element("picture", attributes, children)
 
   def pre(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("pre", attributes, children)
+    Element("pre", attributes, children)
 
   def progress(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("progress", attributes, children)
+    Element("progress", attributes, children)
 
   def q(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("q", attributes, children)
+    Element("q", attributes, children)
 
   def rp(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("rp", attributes, children)
+    Element("rp", attributes, children)
 
   def rt(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("rt", attributes, children)
+    Element("rt", attributes, children)
 
   def ruby(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("ruby", attributes, children)
+    Element("ruby", attributes, children)
 
   def s(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("s", attributes, children)
+    Element("s", attributes, children)
 
   def samp(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("samp", attributes, children)
+    Element("samp", attributes, children)
 
   def script(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("script", attributes, children)
+    Element("script", attributes, children)
 
   def section(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("section", attributes, children)
+    Element("section", attributes, children)
 
   def select(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("select", attributes, children)
+    Element("select", attributes, children)
 
   def small(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("small", attributes, children)
+    Element("small", attributes, children)
 
   def source(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("source", attributes, children)
+    Element("source", attributes, children)
 
   def span(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("span", attributes, children)
+    Element("span", attributes, children)
 
   def strong(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("strong", attributes, children)
+    Element("strong", attributes, children)
 
   def style(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("style", attributes, children)
+    Element("style", attributes, children)
 
   def sub(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("sub", attributes, children)
+    Element("sub", attributes, children)
 
   def summary(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("summary", attributes, children)
+    Element("summary", attributes, children)
 
   def sup(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("sup", attributes, children)
+    Element("sup", attributes, children)
 
   def table(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("table", attributes, children)
+    Element("table", attributes, children)
 
   def tbody(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("tbody", attributes, children)
+    Element("tbody", attributes, children)
 
   def td(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("td", attributes, children)
+    Element("td", attributes, children)
 
   def template(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("template", attributes, children)
+    Element("template", attributes, children)
 
-  def textarea(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("textarea", attributes, children)
+  def textarea(attributes: TextAreaAttribute*)(children: Node*) =
+    Element("textarea", attributes, children)
 
   def tfoot(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("tfoot", attributes, children)
+    Element("tfoot", attributes, children)
 
   def th(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("th", attributes, children)
+    Element("th", attributes, children)
 
   def thead(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("thead", attributes, children)
+    Element("thead", attributes, children)
 
   def time(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("time", attributes, children)
+    Element("time", attributes, children)
 
   def title(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("title", attributes, children)
+    Element("title", attributes, children)
 
   def tr(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("tr", attributes, children)
+    Element("tr", attributes, children)
 
   def track(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("track", attributes, children)
+    Element("track", attributes, children)
 
   def u(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("u", attributes, children)
+    Element("u", attributes, children)
 
   def ul(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("ul", attributes, children)
+    Element("ul", attributes, children)
 
   def `var`(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("var", attributes, children)
+    Element("var", attributes, children)
 
   def video(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("video", attributes, children)
+    Element("video", attributes, children)
 
   def wbr(attributes: GlobalAttribute*)(children: Node*) =
-    GenericElement("wbr", attributes, children)
+    Element("wbr", attributes, children)
 }

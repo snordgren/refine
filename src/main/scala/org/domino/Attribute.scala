@@ -5,13 +5,16 @@ sealed trait Attribute
 sealed trait AnchorAttribute extends Attribute
 sealed trait AreaAttribute extends Attribute
 sealed trait AudioAttribute extends Attribute
+sealed trait BaseAttribute extends Attribute
 sealed trait BlockQuoteAttribute extends Attribute
 sealed trait ButtonAttribute extends Attribute
+sealed trait CanvasAttribute extends Attribute
 sealed trait CaptionAttribute extends Attribute
 sealed trait ColAttribute extends Attribute
 sealed trait ColGroupAttribute extends Attribute
 sealed trait CommandAttribute extends Attribute
 sealed trait DelAttribute extends Attribute
+sealed trait EmbedAttribute extends Attribute
 sealed trait FieldSetAttribute extends Attribute
 sealed trait FormAttribute extends Attribute
 sealed trait HRAttribute extends Attribute
@@ -22,7 +25,6 @@ sealed trait InputAttribute extends Attribute
 sealed trait InsAttribute extends Attribute
 sealed trait LabelAttribute extends Attribute
 sealed trait LinkAttribute extends Attribute
-sealed trait KeyGenAttribute extends Attribute
 sealed trait MetaAttribute extends Attribute
 sealed trait MeterAttribute extends Attribute
 sealed trait ObjectAttribute extends Attribute
@@ -56,11 +58,13 @@ sealed trait GlobalAttribute extends Attribute
   with AudioAttribute
   with BlockQuoteAttribute
   with ButtonAttribute
+  with CanvasAttribute
   with CaptionAttribute
   with ColAttribute
   with ColGroupAttribute
   with CommandAttribute
   with DelAttribute
+  with EmbedAttribute
   with FieldSetAttribute
   with FormAttribute
   with HRAttribute
@@ -69,7 +73,6 @@ sealed trait GlobalAttribute extends Attribute
   with ImageAttribute
   with InputAttribute
   with InsAttribute
-  with KeyGenAttribute
   with LabelAttribute
   with LinkAttribute
   with MetaAttribute
@@ -136,7 +139,6 @@ object Attribute {
 
   case class AutoFocus(value: Boolean) extends ButtonAttribute
     with InputAttribute
-    with KeyGenAttribute
     with SelectAttribute
     with TextAreaAttribute
   val autoFocus = AttributeFactory(AutoFocus)
@@ -146,9 +148,6 @@ object Attribute {
 
   case class Buffered(value: String) extends AudioAttribute with VideoAttribute
   val buffered = AttributeFactory(Buffered)
-
-  case class Challenge(value: String) extends KeyGenAttribute
-  val challenge = AttributeFactory(Challenge)
 
   case class Charset(value: String) extends MetaAttribute with ScriptAttribute
   val charset = AttributeFactory(Charset)
@@ -217,7 +216,6 @@ object Attribute {
     with CommandAttribute
     with FieldSetAttribute
     with InputAttribute
-    with KeyGenAttribute
     with OptGroupAttribute
     with OptionAttribute
     with SelectAttribute
@@ -242,7 +240,6 @@ object Attribute {
   case class Form(value: String) extends ButtonAttribute
     with FieldSetAttribute
     with InputAttribute
-    with KeyGenAttribute
     with LabelAttribute
     with MeterAttribute
     with ObjectAttribute
@@ -251,6 +248,53 @@ object Attribute {
     with SelectAttribute
     with TextAreaAttribute
   val form = AttributeFactory(Form)
+
+  case class FormAction(value: String) extends InputAttribute with ButtonAttribute
+  val formaction = AttributeFactory(FormAction)
+
+  case class Headers(name: String) extends TDAttribute with THAttribute
+  val headers = AttributeFactory(Headers)
+
+  case class Height(value: String) extends CanvasAttribute
+    with EmbedAttribute
+    with IFrameAttribute
+    with ImageAttribute
+    with InputAttribute
+    with ObjectAttribute
+    with VideoAttribute
+  val height = AttributeFactory(Height)
+
+  case class Hidden(value: Boolean) extends GlobalAttribute
+  val hidden = AttributeFactory(Hidden)
+
+  case class High(value: String) extends MeterAttribute
+  val high = AttributeFactory(High)
+
+  case class Href(value: String) extends AnchorAttribute
+    with AreaAttribute
+    with BaseAttribute
+    with LinkAttribute
+  val href = AttributeFactory(Href)
+
+  case class HrefLanguage(value: String) extends AnchorAttribute
+    with AreaAttribute
+    with LinkAttribute
+  val hreflang = AttributeFactory(HrefLanguage)
+
+  case class HTTPEquiv(value: String) extends MetaAttribute
+  val httpEquiv = AttributeFactory(HTTPEquiv)
+
+  case class Id(value: String) extends GlobalAttribute
+  val id = AttributeFactory(Id)
+
+  case class Integrity(value: String) extends LinkAttribute with ScriptAttribute
+  val integrity = AttributeFactory(Integrity)
+
+  case class IsMap(value: String) extends ImageAttribute
+  val ismap = AttributeFactory(IsMap)
+
+  case class ItemProp(value: String) extends GlobalAttribute
+  val itemprop = AttributeFactory(ItemProp)
 
   case class Language(value: String) extends GlobalAttribute
   val lang = AttributeFactory(Language)
