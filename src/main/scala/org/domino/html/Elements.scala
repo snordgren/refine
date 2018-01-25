@@ -1,142 +1,142 @@
 package org.domino.html
 
 trait Elements {
-  implicit def string2Node(s: String): Node = Text(s)
+  implicit def string2Text(s: String): Node = Text(s)
 
   def a(attributes: AnchorAttribute*)(children: Node*) =
-    Element("a", attributes, children)
+    AnchorElement(attributes, children)
 
   def abbr(attributes: GlobalAttribute*)(children: Node*) =
-    Element("abbr", attributes, children)
+    AbbrElement(attributes, children)
 
   def address(attributes: GlobalAttribute*)(children: Node*) =
-    Element("address", attributes, children)
+    AddressElement(attributes, children)
 
   def area(attributes: AreaAttribute*)(children: Node*) =
-    Element("area", attributes, children)
+    AreaElement(attributes, children)
 
   def article(attributes: GlobalAttribute*)(children: Node*) =
-    Element("article", attributes, children)
+    ArticleElement(attributes, children)
 
   def aside(attributes: GlobalAttribute*)(children: Node*) =
-    Element("aside", attributes, children)
+    AsideElement(attributes, children)
 
   def audio(attributes: AudioAttribute*)(children: Node*) =
-    Element("audio", attributes, children)
+    AudioElement(attributes, children)
 
   def b(attributes: GlobalAttribute*)(children: Node*) =
-    Element("b", attributes, children)
+    BElement(attributes, children)
 
   def base(attributes: BaseAttribute*)(children: Node*) =
-    Element("base", attributes, children)
+    BaseElement(attributes, children)
 
   def bdi(attributes: GlobalAttribute*)(children: Node*) =
-    Element("bdi", attributes, children)
+    BDIElement(attributes, children)
 
   def bdo(attributes: GlobalAttribute*)(children: Node*) =
-    Element("bdo", attributes, children)
+    BDOElement(attributes, children)
 
   def blockquote(attributes: BlockQuoteAttribute*)(children: Node*) =
-    Element("blockquote", attributes, children)
+    BlockQuoteElement(attributes, children)
 
   def body(attributes: GlobalAttribute*)(children: Node*) =
-    Element("body", attributes, children)
+    BodyElement(attributes, children)
 
   def br(attributes: GlobalAttribute*)(children: Node*) =
-    Element("br", attributes, children)
+    BRElement(attributes, children)
 
   def button(attributes: ButtonAttribute*)(children: Node*) =
-    Element("button", attributes, children)
+    ButtonElement(attributes, children)
 
   def canvas(attributes: CanvasAttribute*)(children: Node*) =
-    Element("canvas", attributes, children)
+    CanvasElement(attributes, children)
 
   def caption(attributes: CaptionAttribute*)(children: Node*) =
-    Element("caption", attributes, children)
+    CaptionElement(attributes, children)
 
   def cite(attributes: GlobalAttribute*)(children: Node*) =
-    Element("cite", attributes, children)
+    CiteElement(attributes, children)
 
   def code(attributes: GlobalAttribute*)(children: Node*) =
-    Element("code", attributes, children)
+    CodeElement(attributes, children)
 
   def col(attributes: ColAttribute*)(children: Node*) =
-    Element("col", attributes, children)
+    ColElement(attributes, children)
 
   def colgroup(attributes: ColGroupAttribute*)(children: Node*) =
-    Element("colgroup", attributes, children)
+    ColGroupElement(attributes, children)
 
   def datalist(attributes: GlobalAttribute*)(children: Node*) =
-    Element("datalist", attributes, children)
+    DataListElement(attributes, children)
 
   def dd(attributes: GlobalAttribute*)(children: Node*) =
-    Element("dd", attributes, children)
+    DDElement(attributes, children)
 
   def del(attributes: DelAttribute*)(children: Node*) =
-    Element("del", attributes, children)
+    DelElement(attributes, children)
 
   def details(attributes: DetailsAttribute*)(children: Node*) =
-    Element("details", attributes, children)
+    DetailsElement(attributes, children)
 
   def dfn(attributes: GlobalAttribute*)(children: Node*) =
-    Element("dfn", attributes, children)
+    DFNElement(attributes, children)
 
   def dialog(attributes: GlobalAttribute*)(children: Node*) =
-    Element("dialog", attributes, children)
+    DialogElement(attributes, children)
 
   def div(attributes: GlobalAttribute*)(children: Node*) =
-    Element("div", attributes, children)
+    DivElement(attributes, children)
 
   def dl(attributes: GlobalAttribute*)(children: Node*) =
-    Element("dl", attributes, children)
+    DLElement(attributes, children)
 
   def dt(attributes: GlobalAttribute*)(children: Node*) =
-    Element("dt", attributes, children)
+    DTElement(attributes, children)
 
   def em(attributes: GlobalAttribute*)(children: Node*) =
-    Element("em", attributes, children)
+    EMElement(attributes, children)
 
   def embed(attributes: EmbedAttribute*)(children: Node*) =
-    Element("embed", attributes, children)
+    EmbedElement(attributes, children)
 
   def fieldset(attributes: FieldSetAttribute*)(children: Node*) =
-    Element("fieldset", attributes, children)
+    FieldSetElement(attributes, children)
 
   def figcaption(attributes: GlobalAttribute*)(children: Node*) =
-    Element("figcaption", attributes, children)
+    FigCaptionElement(attributes, children)
 
   def figure(attributes: GlobalAttribute*)(children: Node*) =
-    Element("figure", attributes, children)
+    FigureElement(attributes, children)
 
   def footer(attributes: GlobalAttribute*)(children: Node*) =
-    Element("footer", attributes, children)
+    FooterElement(attributes, children)
 
   def form(attributes: FormAttribute*)(children: Node*) =
-    Element("form", attributes, children)
+    FormElement(attributes, children)
 
   def h1(attributes: GlobalAttribute*)(children: Node*) =
-    Element("h1", attributes, children)
+    H1Element(attributes, children)
 
   def h2(attributes: GlobalAttribute*)(children: Node*) =
-    Element("h2", attributes, children)
+    H2Element(attributes, children)
 
   def h3(attributes: GlobalAttribute*)(children: Node*) =
-    Element("h3", attributes, children)
+    H3Element(attributes, children)
 
   def h4(attributes: GlobalAttribute*)(children: Node*) =
-    Element("h4", attributes, children)
+    H4Element(attributes, children)
 
   def h5(attributes: GlobalAttribute*)(children: Node*) =
-    Element("h5", attributes, children)
+    H5Element(attributes, children)
 
   def h6(attributes: GlobalAttribute*)(children: Node*) =
-    Element("h6", attributes, children)
+    H6Element(attributes, children)
 
   def head(attributes: GlobalAttribute*)(children: Node*) =
-    Element("head", attributes, children)
+    HeadElement(attributes, children)
 
   def header(attributes: GlobalAttribute*)(children: Node*) =
-    Element("header", attributes, children)
+    HeaderElement(attributes, children)
 
   def hr(attributes: HRAttribute*)(children: Node*) =
     Element("hr", attributes, children)
