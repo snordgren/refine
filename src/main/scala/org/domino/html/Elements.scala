@@ -139,79 +139,79 @@ trait Elements {
     HeaderElement(attributes, children)
 
   def hr(attributes: HRAttribute*)(children: Node*) =
-    Element("hr", attributes, children)
+    HRElement(attributes, children)
 
   def html(attributes: HTMLAttribute*)(children: Node*) =
-    Element("html", attributes, children)
+    HTMLElement(attributes, children)
 
   def i(attributes: GlobalAttribute*)(children: Node*) =
-    Element("i", attributes, children)
+    IElement(attributes, children)
 
   def iframe(attributes: IFrameAttribute*)(children: Node*) =
-    Element("iframe", attributes, children)
+    IFrameElement(attributes, children)
 
   def img(attributes: ImageAttribute*)(children: Node*) =
-    Element("img", attributes, children)
+    ImageElement(attributes, children)
 
   def input(attributes: InputAttribute*)(children: Node*) =
-    Element("input", attributes, children)
+    InputElement(attributes, children)
 
   def ins(attributes: InsAttribute*)(children: Node*) =
-    Element("ins", attributes, children)
+    InsElement(attributes, children)
 
   def kbd(attributes: GlobalAttribute*)(children: Node*) =
-    Element("kbd", attributes, children)
+    KBDElement(attributes, children)
 
   def label(attributes: LabelAttribute*)(children: Node*) =
-    Element("label", attributes, children)
+    LabelElement(attributes, children)
 
   def legend(attributes: GlobalAttribute*)(children: Node*) =
-    Element("legend", attributes, children)
+    LegendElement(attributes, children)
 
   def li(attributes: GlobalAttribute*)(children: Node*) =
-    Element("li", attributes, children)
+    LIElement(attributes, children)
 
   def link(attributes: LinkAttribute*)(children: Node*) =
-    Element("link", attributes, children)
+    LinkElement(attributes, children)
 
   def main(attributes: GlobalAttribute*)(children: Node*) =
-    Element("main", attributes, children)
+    MainElement(attributes, children)
 
   def map(attributes: MapAttribute*)(children: Node*) =
-    Element("map", attributes, children)
+    MapElement(attributes, children)
 
   def mark(attributes: GlobalAttribute*)(children: Node*) =
-    Element("mark", attributes, children)
+    MarkElement(attributes, children)
 
   def meta(attributes: MetaAttribute*)(children: Node*) =
-    Element("meta", attributes, children)
+    MetaElement(attributes, children)
 
   def meter(attributes: MeterAttribute*)(children: Node*) =
-    Element("meter", attributes, children)
+    MeterElement(attributes, children)
 
   def nav(attributes: GlobalAttribute*)(children: Node*) =
-    Element("nav", attributes, children)
+    NavElement(attributes, children)
 
-  def noscript(attributes: ScriptAttribute*)(children: Node*) =
-    Element("noscript", attributes, children)
+  def noscript(attributes: GlobalAttribute*)(children: Node*) =
+    NoScriptElement(attributes, children)
 
   def `object`(attributes: ObjectAttribute*)(children: Node*) =
-    Element("object", attributes, children)
+    ObjectElement(attributes, children)
 
   def ol(attributes: OLAttribute*)(children: Node*) =
-    Element("ol", attributes, children)
+    OLElement(attributes, children)
 
   def optgroup(attributes: GlobalAttribute*)(children: Node*) =
-    Element("optgroup", attributes, children)
+    OptGroupElement(attributes, children)
 
   def option(attributes: GlobalAttribute*)(children: Node*) =
-    Element("option", attributes, children)
+    OptionElement(attributes, children)
 
   def output(attributes: GlobalAttribute*)(children: Node*) =
-    Element("output", attributes, children)
+    OutputElement(attributes, children)
 
   def p(attributes: GlobalAttribute*)(children: Node*) =
-    Element("p", attributes, children)
+    ParagraphElement(attributes, children)
 
   def param(attributes: GlobalAttribute*)(children: Node*) =
     Element("param", attributes, children)

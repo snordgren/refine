@@ -147,80 +147,80 @@ case class HeadElement(attributes: Seq[GlobalAttribute],
 case class HeaderElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("header")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class HRElement(attributes: Seq[HRAttribute],
+  children: Seq[Node]) extends AbstractElement[HRAttribute]("hr")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class HTMLElement(attributes: Seq[HTMLAttribute],
+  children: Seq[Node]) extends AbstractElement[HTMLAttribute]("html")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class IElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("i")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class IFrameElement(attributes: Seq[IFrameAttribute],
+  children: Seq[Node]) extends AbstractElement[IFrameAttribute]("iframe")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class ImageElement(attributes: Seq[ImageAttribute],
+  children: Seq[Node]) extends AbstractElement[ImageAttribute]("img")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class InputElement(attributes: Seq[InputAttribute],
+  children: Seq[Node]) extends AbstractElement[InputAttribute]("input")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class InsElement(attributes: Seq[InsAttribute],
+  children: Seq[Node]) extends AbstractElement[InsAttribute]("ins")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class KBDElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("kbd")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class LabelElement(attributes: Seq[LabelAttribute],
+  children: Seq[Node]) extends AbstractElement[LabelAttribute]("label")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class LegendElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("legend")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class LIElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("li")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class LinkElement(attributes: Seq[LinkAttribute],
+  children: Seq[Node]) extends AbstractElement[LinkAttribute]("link")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class MainElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("main")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class MapElement(attributes: Seq[MapAttribute],
+  children: Seq[Node]) extends AbstractElement[MapAttribute]("map")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class MarkElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("mark")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class MetaElement(attributes: Seq[MetaAttribute],
+  children: Seq[Node]) extends AbstractElement[MetaAttribute]("meta")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class MeterElement(attributes: Seq[MeterAttribute],
+  children: Seq[Node]) extends AbstractElement[MeterAttribute]("meter")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class NavElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("nav")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class NoScriptElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("noscript")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class ObjectElement(attributes: Seq[ObjectAttribute],
+  children: Seq[Node]) extends AbstractElement[ObjectAttribute]("object")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class OLElement(attributes: Seq[OLAttribute],
+  children: Seq[Node]) extends AbstractElement[OLAttribute]("ol")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class OptGroupElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("optgroup")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class OptionElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("option")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class OutputElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("output")
 
-case class Element(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
+case class ParagraphElement(attributes: Seq[GlobalAttribute],
+  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("p")
 
 case class Element(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("a")
