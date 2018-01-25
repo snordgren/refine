@@ -15,6 +15,7 @@ trait IFrameAttribute extends Attribute
 trait ImageAttribute extends Attribute
 trait InputAttribute extends Attribute
 trait KeyGenAttribute extends Attribute
+trait ObjectAttribute extends Attribute
 trait ScriptAttribute extends Attribute
 trait SelectAttribute extends Attribute
 trait TableAttribute extends Attribute
@@ -46,6 +47,7 @@ trait GlobalAttribute extends Attribute
   with ImageAttribute
   with InputAttribute
   with KeyGenAttribute
+  with ObjectAttribute
   with ScriptAttribute
   with SelectAttribute
   with TableAttribute
@@ -59,7 +61,6 @@ trait GlobalAttribute extends Attribute
   with VideoAttribute
 
 object Attribute {
-
   case class AttributeFactory[T, A](f: T => A) {
     def :=(value: T): A = f(value)
   }

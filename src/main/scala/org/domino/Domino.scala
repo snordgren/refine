@@ -19,8 +19,8 @@ object Domino {
   def aside(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("aside", attributes, children)
 
-  def audio(attributes: GlobalAttribute*)(children: Element[_]*) =
-    GenericElement("audio", attributes, children)
+  def audio(attributes: AudioAttribute*)(children: Element[_]*) =
+    AudioElement(attributes, children)
 
   def b(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("b", attributes, children)
@@ -44,7 +44,7 @@ object Domino {
     GenericElement("br", attributes, children)
 
   def button(attributes: GlobalAttribute*)(children: Element[_]*) =
-    GenericElement("button", attributes, children)
+    ButtonElement(attributes, children)
 
   def canvas(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("canvas", attributes, children)
@@ -59,10 +59,10 @@ object Domino {
     GenericElement("code", attributes, children)
 
   def col(attributes: GlobalAttribute*)(children: Element[_]*) =
-    GenericElement("col", attributes, children)
+    ColElement(attributes, children)
 
   def colgroup(attributes: GlobalAttribute*)(children: Element[_]*) =
-    GenericElement("colgroup", attributes, children)
+    ColGroupElement(attributes, children)
 
   def datalist(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("datalist", attributes, children)
@@ -109,8 +109,8 @@ object Domino {
   def footer(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("footer", attributes, children)
 
-  def form(attributes: GlobalAttribute*)(children: Element[_]*) =
-    GenericElement("form", attributes, children)
+  def form(attributes: FormAttribute*)(children: Element[_]*) =
+    FormElement(attributes, children)
 
   def head(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("head", attributes, children)
@@ -133,8 +133,8 @@ object Domino {
   def img(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("img", attributes, children)
 
-  def input(attributes: GlobalAttribute*)(children: Element[_]*) =
-    GenericElement("input", attributes, children)
+  def input(attributes: InputAttribute*)(children: Element[_]*) =
+    InputElement(attributes, children)
 
   def ins(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("ins", attributes, children)
@@ -181,8 +181,8 @@ object Domino {
   def noscript(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("noscript", attributes, children)
 
-  def `object`(attributes: GlobalAttribute*)(children: Element[_]*) =
-    GenericElement("object", attributes, children)
+  def `object`(attributes: ObjectAttribute*)(children: Element[_]*) =
+    ObjectElement(attributes, children)
 
   def ol(attributes: GlobalAttribute*)(children: Element[_]*) =
     GenericElement("ol", attributes, children)
