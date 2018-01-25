@@ -2,38 +2,38 @@ package org.domino
 
 sealed trait Attribute
 
-trait AreaAttribute extends Attribute
-trait AudioAttribute extends Attribute
-trait ButtonAttribute extends Attribute
-trait CaptionAttribute extends Attribute
-trait ColAttribute extends Attribute
-trait ColGroupAttribute extends Attribute
-trait FormAttribute extends Attribute
-trait HRAttribute extends Attribute
-trait HTMLAttribute extends Attribute
-trait IFrameAttribute extends Attribute
-trait ImageAttribute extends Attribute
-trait InputAttribute extends Attribute
-trait KeyGenAttribute extends Attribute
-trait ObjectAttribute extends Attribute
-trait ScriptAttribute extends Attribute
-trait SelectAttribute extends Attribute
-trait TableAttribute extends Attribute
-trait TBodyAttribute extends Attribute
-trait TDAttribute extends Attribute
-trait TextAreaAttribute extends Attribute
-trait TFootAttribute extends Attribute
-trait THAttribute extends Attribute
-trait THeadAttribute extends Attribute
-trait TRAttribute extends Attribute
-trait VideoAttribute extends Attribute
+sealed trait AreaAttribute extends Attribute
+sealed trait AudioAttribute extends Attribute
+sealed trait ButtonAttribute extends Attribute
+sealed trait CaptionAttribute extends Attribute
+sealed trait ColAttribute extends Attribute
+sealed trait ColGroupAttribute extends Attribute
+sealed trait FormAttribute extends Attribute
+sealed trait HRAttribute extends Attribute
+sealed trait HTMLAttribute extends Attribute
+sealed trait IFrameAttribute extends Attribute
+sealed trait ImageAttribute extends Attribute
+sealed trait InputAttribute extends Attribute
+sealed trait KeyGenAttribute extends Attribute
+sealed trait ObjectAttribute extends Attribute
+sealed trait ScriptAttribute extends Attribute
+sealed trait SelectAttribute extends Attribute
+sealed trait TableAttribute extends Attribute
+sealed trait TBodyAttribute extends Attribute
+sealed trait TDAttribute extends Attribute
+sealed trait TextAreaAttribute extends Attribute
+sealed trait TFootAttribute extends Attribute
+sealed trait THAttribute extends Attribute
+sealed trait THeadAttribute extends Attribute
+sealed trait TRAttribute extends Attribute
+sealed trait VideoAttribute extends Attribute
 
 /**
  * The bottom type, a subtype of any potential type of attribute. This means that
  * attributes that are defined as instances of this trait are applicable to any
  * kind of element.
  */
-trait GlobalAttribute extends Attribute
+sealed trait GlobalAttribute extends Attribute
   with AreaAttribute
   with AudioAttribute
   with ButtonAttribute
