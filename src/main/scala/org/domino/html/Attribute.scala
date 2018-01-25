@@ -1,4 +1,4 @@
-package org.domino
+package org.domino.html
 
 sealed trait Attribute
 

@@ -1,12 +1,8 @@
-package org.domino
+package org.domino.html
 
 trait Attributes {
 
-  import org.domino.Attribute._
-
-  case class AttributeFactory[T, A](f: T => A) {
-    def :=(value: T): A = f(value)
-  }
+  import Attribute._
 
   val accept = AttributeFactory(Accept)
   val acceptCharset = AttributeFactory(AcceptCharset)
@@ -22,7 +18,7 @@ trait Attributes {
   val checked = AttributeFactory(Checked)
   val cite = AttributeFactory(Cite)
   val className = AttributeFactory(ClassName)
-  val cols = AttributeFactory(cols)
+  val cols = AttributeFactory(Cols)
   val colspan = AttributeFactory(ColSpan)
   val content = AttributeFactory(Content)
   val contenteditable = AttributeFactory(ContentEditable)
@@ -30,7 +26,6 @@ trait Attributes {
   val controls = AttributeFactory(Controls)
   val crossorigin = AttributeFactory(CrossOrigin)
   val data = AttributeFactory(Data)
-  def data(name: String) = AttributeFactory((t: String) => CustomData(name, t))
   val datetime = AttributeFactory(DateTime)
   val default = AttributeFactory(Default)
   val defer = AttributeFactory(Defer)
@@ -51,7 +46,7 @@ trait Attributes {
   val href = AttributeFactory(Href)
   val hreflang = AttributeFactory(HrefLanguage)
   val httpEquiv = AttributeFactory(HTTPEquiv)
-  val id = AttributeFactory(Id)
+  val id: AttributeFactory[String, Id] = AttributeFactory(Id)
   val integrity = AttributeFactory(Integrity)
   val ismap = AttributeFactory(IsMap)
   val itemprop = AttributeFactory(ItemProp)
@@ -114,6 +109,8 @@ trait Attributes {
   val value = AttributeFactory(Value)
   val width = AttributeFactory(Width)
   val wrap = AttributeFactory(Wrap)
+  def data(name: String) = AttributeFactory((t: String) => CustomData(name, t))
+  case class AttributeFactory[T, A](f: T => A) {
+    def :=(value: T): A = f(value)
+  }
 }
-
-object Attributes extends Attributes

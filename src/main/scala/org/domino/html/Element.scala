@@ -1,4 +1,4 @@
-package org.domino
+package org.domino.html
 
 sealed trait Node
 case class Text(value: String) extends Node

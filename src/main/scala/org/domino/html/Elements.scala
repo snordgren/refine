@@ -1,4 +1,4 @@
-package org.domino
+package org.domino.html
 
 trait Elements {
   implicit def string2Node(s: String): Node = Text(s)
