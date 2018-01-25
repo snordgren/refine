@@ -1,5 +1,3 @@
 package org.domino
 
-object Domino extends Elements {
-
-}
+object Domino extends Elements

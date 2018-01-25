@@ -349,4 +349,3 @@ object Attribute {
 
   case class Wrap(value: String) extends TextAreaAttribute
 }
-
