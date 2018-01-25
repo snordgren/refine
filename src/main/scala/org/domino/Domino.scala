@@ -45,7 +45,7 @@ object Domino {
   def br(attributes: GlobalAttribute*)(children: Node*) =
     GenericElement("br", attributes, children)
 
-  def button(attributes: GlobalAttribute*)(children: Node*) =
+  def button(attributes: ButtonAttribute*)(children: Node*) =
     ButtonElement(attributes, children)
 
   def canvas(attributes: GlobalAttribute*)(children: Node*) =

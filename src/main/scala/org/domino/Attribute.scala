@@ -20,12 +20,16 @@ sealed trait IFrameAttribute extends Attribute
 sealed trait ImageAttribute extends Attribute
 sealed trait InputAttribute extends Attribute
 sealed trait InsAttribute extends Attribute
+sealed trait LabelAttribute extends Attribute
 sealed trait LinkAttribute extends Attribute
 sealed trait KeyGenAttribute extends Attribute
 sealed trait MetaAttribute extends Attribute
+sealed trait MeterAttribute extends Attribute
 sealed trait ObjectAttribute extends Attribute
 sealed trait OptGroupAttribute extends Attribute
 sealed trait OptionAttribute extends Attribute
+sealed trait OutputAttribute extends Attribute
+sealed trait ProgressAttribute extends Attribute
 sealed trait QAttribute extends Attribute
 sealed trait ScriptAttribute extends Attribute
 sealed trait SelectAttribute extends Attribute
@@ -66,11 +70,15 @@ sealed trait GlobalAttribute extends Attribute
   with InputAttribute
   with InsAttribute
   with KeyGenAttribute
+  with LabelAttribute
   with LinkAttribute
   with MetaAttribute
+  with MeterAttribute
   with ObjectAttribute
   with OptGroupAttribute
   with OptionAttribute
+  with OutputAttribute
+  with ProgressAttribute
   with QAttribute
   with ScriptAttribute
   with SelectAttribute
@@ -218,6 +226,31 @@ object Attribute {
 
   case class Download(value: String) extends AnchorAttribute with AreaAttribute
   val download = AttributeFactory(Download)
+
+  case class Draggable(value: String) extends GlobalAttribute
+  val draggable = AttributeFactory(Draggable)
+
+  case class DropZone(value: String) extends GlobalAttribute
+  val dropzone = AttributeFactory(DropZone)
+
+  case class EncodingType(value: String) extends FormAttribute
+  val enctype = AttributeFactory(EncodingType)
+
+  case class For(value: String) extends LabelAttribute with OutputAttribute
+  val `for` = AttributeFactory(For)
+
+  case class Form(value: String) extends ButtonAttribute
+    with FieldSetAttribute
+    with InputAttribute
+    with KeyGenAttribute
+    with LabelAttribute
+    with MeterAttribute
+    with ObjectAttribute
+    with OutputAttribute
+    with ProgressAttribute
+    with SelectAttribute
+    with TextAreaAttribute
+  val form = AttributeFactory(Form)
 
   case class Language(value: String) extends GlobalAttribute
   val lang = AttributeFactory(Language)
