@@ -183,12 +183,6 @@ object Domino {
   def mark(attributes: GlobalAttribute*)(children: Node*) =
     Element("mark", attributes, children)
 
-  def menu(attributes: GlobalAttribute*)(children: Node*) =
-    Element("menu", attributes, children)
-
-  def menuitem(attributes: GlobalAttribute*)(children: Node*) =
-    Element("menuitem", attributes, children)
-
   def meta(attributes: GlobalAttribute*)(children: Node*) =
     Element("meta", attributes, children)
 
