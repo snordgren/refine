@@ -77,11 +77,9 @@ object VirtualDOM {
     if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
       (0 until target.attributes.length).flatMap((index) => {
         val attribute = target.attributes.item(index)
-        if (attribute != null) {
-          val name = attribute.name
-          if (!source.nonErasedAttr.exists((attr) => attr.name.equalsIgnoreCase(name))) {
-            Some(name)
-          } else None
+        val name = attribute.name
+        if (!source.nonErasedAttr.exists((attr) => attr.name.equalsIgnoreCase(name))) {
+          Some(name)
         } else None
       }).foreach((name) => {
         target.attributes.removeNamedItem(name)
