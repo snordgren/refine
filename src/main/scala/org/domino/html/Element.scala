@@ -1,8 +1,12 @@
 package org.domino.html
 
-sealed trait Node
+sealed trait Node {
+  def render: String
+}
 
-final case class Text(value: String) extends Node
+final case class Text(value: String) extends Node {
+  override def render: String = value
+}
 
 sealed trait Element[A <: Attribute] extends Node {
   def name: String
@@ -10,6 +14,36 @@ sealed trait Element[A <: Attribute] extends Node {
   def children: Seq[Node]
 
   def nonErasedAttr: Seq[Attribute] = attributes
+
+  final def render: String = {
+    val attrStr = if (this.nonErasedAttr.nonEmpty) {
+      val attributes = this.nonErasedAttr
+      val attrBuf = new StringBuilder()
+      var index = 0
+
+      while (index < attributes.length) {
+        val attr = attributes(index)
+        attrBuf.append(' ')
+        attrBuf.append(attr.render)
+        index += 1
+      }
+
+      attrBuf.toString()
+    } else ""
+
+    val childStr = if (this.children.nonEmpty) {
+      val childBuf = new StringBuilder()
+      var index = 0
+      while (index < this.children.length) {
+        val child = this.children(index)
+        childBuf.append(child.render)
+        index += 1
+      }
+      childBuf.toString()
+    } else ""
+
+    "<" + this.name + attrStr + ">" + childStr + "</" + this.name + ">"
+  }
 }
 
 abstract class AbstractElement[A <: Attribute](val name: String) extends Element[A]

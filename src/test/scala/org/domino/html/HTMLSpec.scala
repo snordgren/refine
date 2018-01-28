@@ -1,6 +1,6 @@
 package org.domino.html
 
-import org.domino.{TextRenderer, UnitSpec}
+import org.domino.UnitSpec
 
 class HTMLSpec extends UnitSpec {
   "HTML" should "be performant" in {
@@ -15,18 +15,17 @@ class HTMLSpec extends UnitSpec {
       val startTime = System.currentTimeMillis()
 
       (0 until times).foreach(_ => {
-        TextRenderer(
-          html(
-            head(script("console.log(1)")),
-            body(
-              header(id := "header", title := "This is the header.")(titleString),
-              h1(titleString),
-              div(
-                p(className := contentpara + " " + first)(0, firstParaString),
-                div((0 until 5).map(n => p(className := contentpara)("Paragraph ", n)): _*)
-              )
+        html(
+          head(script("console.log(1)")),
+          body(
+            header(id := "header", title := "This is the header.")(titleString),
+            h1(titleString),
+            div(
+              p(className := contentpara + " " + first)(0, firstParaString),
+              div((0 until 5).map(n => p(className := contentpara)("Paragraph ", n)): _*)
             )
-          ))
+          )
+        ).render
       })
 
       val endTime = System.currentTimeMillis()
@@ -70,5 +69,6 @@ class HTMLSpec extends UnitSpec {
     val dmResult = testDomino()
     val stResult = testScalaTags()
     println(stResult + ", " + dmResult)
+    dmResult should be < stResult
   }
 }

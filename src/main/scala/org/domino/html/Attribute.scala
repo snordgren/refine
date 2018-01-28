@@ -15,14 +15,14 @@ sealed trait Attribute {
 sealed abstract class SimpleAttribute[T](val name: String) extends Attribute {
   val value: T
 
-  override def render =
+  final override def render =
     name + "=\"" + value + "\""
 }
 
 sealed abstract class EventAttribute[T](val name: String) extends GlobalAttribute {
   val f: (T => _)
 
-  override def render =
+  final override def render =
     name + "=\"" + f.toString() + "\""
 }
 
