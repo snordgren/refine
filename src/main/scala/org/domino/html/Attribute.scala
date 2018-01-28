@@ -375,8 +375,9 @@ object Attribute {
   final case class HTTPEquiv(value: String) extends SimpleAttribute[String]("http-equiv")
     with MetaAttribute
 
-  final case class Id(value: String) extends SimpleAttribute[String]("id")
-    with GlobalAttribute
+  final case class Id(value: String) extends GlobalAttribute {
+    val name = s"#$value"
+  }
 
   final case class Integrity(value: String) extends SimpleAttribute[String]("integrity")
     with LinkAttribute with ScriptAttribute

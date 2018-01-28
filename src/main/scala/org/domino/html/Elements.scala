@@ -1,7 +1,6 @@
 package org.domino.html
 
 trait Elements {
-  implicit def string2Text(s: String): Node = Text(s)
 
   def a(children: Node*) = AnchorElement(Seq.empty, children)
 

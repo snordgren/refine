@@ -8,7 +8,8 @@ scalaVersion := "2.12.4"
 
 libraryDependencies ++= Seq(
   "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-  "org.scalatest" %%% "scalatest" % "3.0.4" % Test
+  "org.scalatest" %%% "scalatest" % "3.0.4" % Test,
+  "com.lihaoyi" %%% "scalatags" % "0.6.7" % Test
 )
 
 scalacOptions ++= Seq("-language:implicitConversions")
@@ -56,7 +57,6 @@ final case class ${name}Element(attributes: Seq[${attr}Attribute],
       raw"""package org.domino.html
 
 trait Elements {
-  implicit def string2Text(s: String): Node = Text(s)
 """
     val footer = "}"
     val body: String = Source.fromFile(elementData).getLines().drop(1)
