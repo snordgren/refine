@@ -32,9 +32,9 @@ object VirtualDOM {
                 val (childSrc, childDest) = n
                 render(childSrc, childDest)
               })
-    
+  
               Right()
-    
+  
             } else recreate(createElement(element))
 
           case _ => recreate(createElement(element))
@@ -72,17 +72,20 @@ object VirtualDOM {
       case e: html.EventAttribute[_] =>
         target.addEventListener(e.name, e.f)
     }
-    
-    if (target.attributes.length > source.attributes.length) {
+  
+    if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
       (0 to target.attributes.length).flatMap((index) => {
-        val attribute = target.attributes(index)
-        val name = attribute.name
-        if (!source.nonErasedAttr.exists((attr) => attr.name.equalsIgnoreCase(name))) {
-          Some(name)
+        val attribute = target.attributes.item(index)
+        if (attribute != null) {
+          val name = attribute.name
+          if (!source.nonErasedAttr.exists((attr) => attr.name.equalsIgnoreCase(name))) {
+            Some(name)
+          } else None
         } else None
       }).foreach((name) => {
         target.attributes.removeNamedItem(name)
       })
     }
   }
+  
 }
