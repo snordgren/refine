@@ -2,6 +2,14 @@ package org.domino.html
 
 sealed trait Attribute
 
+/**
+ * Most attributes have no special behavior, and only need a name and a value that
+ * can be transformed into a string (any object).
+ */
+sealed abstract class SimpleAttribute[T](val name: String) extends Attribute {
+  val value: T
+}
+
 sealed trait AnchorAttribute extends Attribute
 sealed trait AreaAttribute extends Attribute
 sealed trait AudioAttribute extends Attribute
@@ -112,10 +120,21 @@ sealed trait GlobalAttribute extends Attribute
   with VideoAttribute
 
 object Attribute {
-  case class Accept(value: String) extends FormAttribute with InputAttribute
-  case class AcceptCharset(value: String) extends FormAttribute
-  case class Action(value: String) extends FormAttribute
-  case class Align(value: String) extends CaptionAttribute
+  final case class Accept(value: String) extends SimpleAttribute[String]("accept")
+    with FormAttribute
+    with InputAttribute
+
+  final case class AcceptCharset(value: String) extends SimpleAttribute[String]("accept-charset")
+    with FormAttribute
+
+  final case class AccessKey(value: String) extends SimpleAttribute[String]("accesskey")
+    with GlobalAttribute
+
+  final case class Action(value: String) extends SimpleAttribute[String]("action")
+    with FormAttribute
+
+  final case class Align(value: String) extends SimpleAttribute[String]("align")
+    with CaptionAttribute
     with ColAttribute
     with ColGroupAttribute
     with HRAttribute
@@ -129,50 +148,104 @@ object Attribute {
     with THeadAttribute
     with TRAttribute
 
-  case class Alternative(value: String) extends AreaAttribute
+  final case class Alternative(value: String) extends SimpleAttribute[String]("alt")
+    with AreaAttribute
     with ImageAttribute
     with InputAttribute
 
-  final case class Async(value: Boolean) extends ScriptAttribute
-  case class AutoComplete(value: Boolean) extends FormAttribute with InputAttribute
-  case class AutoFocus(value: Boolean) extends ButtonAttribute
+  final case class Async(value: Boolean) extends SimpleAttribute[Boolean]("async")
+    with ScriptAttribute
+
+  final case class AutoComplete(value: Boolean) extends SimpleAttribute[Boolean]("autocomplete")
+    with FormAttribute
+    with InputAttribute
+
+  final case class AutoFocus(value: Boolean) extends SimpleAttribute[Boolean]("autofocus")
+    with ButtonAttribute
     with InputAttribute
     with SelectAttribute
     with TextAreaAttribute
 
-  case class AutoPlay(value: Boolean) extends AudioAttribute with VideoAttribute
-  case class Buffered(value: String) extends AudioAttribute with VideoAttribute
-  case class Charset(value: String) extends MetaAttribute with ScriptAttribute
-  case class Checked(value: String) extends CommandAttribute with InputAttribute
-  case class Cite(value: String) extends BlockQuoteAttribute
+  final case class AutoPlay(value: Boolean) extends SimpleAttribute[Boolean]("autoplay")
+    with AudioAttribute
+    with VideoAttribute
+
+  final case class Buffered(value: String) extends SimpleAttribute[String]("buffered")
+    with AudioAttribute
+    with VideoAttribute
+
+  final case class Charset(value: String) extends SimpleAttribute[String]("charset")
+    with MetaAttribute
+
+  final case class Checked(value: String) extends SimpleAttribute[String]("checked")
+    with CommandAttribute
+    with InputAttribute
+
+  final case class Cite(value: String) extends SimpleAttribute[String]("cite")
+    with BlockQuoteAttribute
     with DelAttribute
     with InsAttribute
     with QAttribute
 
-  case class ClassName(value: String) extends GlobalAttribute
-  case class Cols(value: String) extends TextAreaAttribute
-  case class ColSpan(value: String) extends TDAttribute with THAttribute
-  case class Content(value: String) extends MetaAttribute
-  case class ContentEditable(value: String) extends GlobalAttribute
-  case class ContextMenu(value: String) extends GlobalAttribute
-  case class Controls(value: String) extends AudioAttribute with VideoAttribute
-  case class CrossOrigin(value: String) extends AudioAttribute
+  final case class ClassName(value: String) extends SimpleAttribute[String]("class")
+    with GlobalAttribute
+
+  final case class Cols(value: String) extends SimpleAttribute[String]("cols")
+    with TextAreaAttribute
+
+  final case class ColSpan(value: String) extends SimpleAttribute[String]("colspan")
+    with TDAttribute
+    with THAttribute
+
+  final case class Content(value: String) extends SimpleAttribute[String]("content")
+    with MetaAttribute
+
+  final case class ContentEditable(value: String) extends SimpleAttribute[String]("contenteditable")
+    with GlobalAttribute
+
+  final case class Controls(value: String) extends SimpleAttribute[String]("controls")
+    with AudioAttribute
+    with VideoAttribute
+
+  final case class CrossOrigin(value: String) extends SimpleAttribute[String]("crossorigin")
+    with AudioAttribute
     with ImageAttribute
     with LinkAttribute
     with ScriptAttribute
     with VideoAttribute
 
-  case class Data(value: String) extends ObjectAttribute
-  case class CustomData(name: String, value: String) extends GlobalAttribute
-  case class DateTime(value: String) extends DelAttribute
+  final case class Data(value: String) extends SimpleAttribute[String]("data")
+    with ObjectAttribute
+
+  /**
+   * The CustomData attribute type represents a custom data attribute on an element. Because it
+   * requires special handling, it cannot be a subclass of SimpleAttribute.
+   *
+   * @param name The name of the data, without the <code>data-</code> prefix.
+   * @param value The value of the data.
+   */
+  final case class CustomData(name: String, value: String) extends GlobalAttribute
+
+  final case class DateTime(value: String) extends SimpleAttribute[String]("datetime")
+    with DelAttribute
     with InsAttribute
     with TimeAttribute
 
-  case class Default(value: String) extends TrackAttribute
-  case class Defer(value: String) extends ScriptAttribute
-  case class Dir(value: String) extends GlobalAttribute
-  case class DirName(value: String) extends InputAttribute with TextAreaAttribute
-  case class Disabled(value: Boolean) extends ButtonAttribute
+  final case class Default(value: String) extends SimpleAttribute[String]("default")
+    with TrackAttribute
+
+  final case class Defer(value: String) extends SimpleAttribute[String]("defer")
+    with ScriptAttribute
+
+  // TODO Add custom data type to represent the limited set of values.
+  final case class Dir(value: String) extends SimpleAttribute[String]("dir")
+    with GlobalAttribute
+
+  final case class DirName(value: String) extends SimpleAttribute[String]("dirname")
+    with InputAttribute with TextAreaAttribute
+
+  final case class Disabled(value: Boolean) extends SimpleAttribute[Boolean]("disabled")
+    with ButtonAttribute
     with CommandAttribute
     with FieldSetAttribute
     with InputAttribute
@@ -181,12 +254,23 @@ object Attribute {
     with SelectAttribute
     with TextAreaAttribute
 
-  case class Download(value: String) extends AnchorAttribute with AreaAttribute
-  case class Draggable(value: String) extends GlobalAttribute
-  case class DropZone(value: String) extends GlobalAttribute
-  case class EncodingType(value: String) extends FormAttribute
-  case class For(value: String) extends LabelAttribute with OutputAttribute
-  case class Form(value: String) extends ButtonAttribute
+  final case class Download(value: String) extends SimpleAttribute[String]("download")
+    with AnchorAttribute with AreaAttribute
+
+  final case class Draggable(value: Boolean) extends SimpleAttribute[Boolean]("draggable")
+    with GlobalAttribute
+
+  final case class DropZone(value: String) extends SimpleAttribute[String]("dropzone")
+    with GlobalAttribute
+
+  final case class EncodingType(value: String) extends SimpleAttribute[String]("enctype")
+    with FormAttribute
+
+  final case class For(value: String) extends SimpleAttribute[String]("for")
+    with LabelAttribute with OutputAttribute
+
+  final case class Form(value: String) extends SimpleAttribute[String]("form")
+    with ButtonAttribute
     with FieldSetAttribute
     with InputAttribute
     with LabelAttribute
@@ -197,9 +281,14 @@ object Attribute {
     with SelectAttribute
     with TextAreaAttribute
 
-  case class FormAction(value: String) extends InputAttribute with ButtonAttribute
-  case class Headers(name: String) extends TDAttribute with THAttribute
-  case class Height(value: String) extends CanvasAttribute
+  final case class FormAction(value: String) extends SimpleAttribute[String]("formaction")
+    with InputAttribute with ButtonAttribute
+
+  final case class Headers(value: String) extends SimpleAttribute[String]("headers")
+    with TDAttribute with THAttribute
+
+  final case class Height(value: String) extends SimpleAttribute[String]("height")
+    with CanvasAttribute
     with EmbedAttribute
     with IFrameAttribute
     with ImageAttribute
@@ -207,46 +296,92 @@ object Attribute {
     with ObjectAttribute
     with VideoAttribute
 
-  case class Hidden(value: Boolean) extends GlobalAttribute
-  case class High(value: String) extends MeterAttribute
-  case class Href(value: String) extends AnchorAttribute
+  final case class Hidden(value: Boolean) extends SimpleAttribute[Boolean]("hidden")
+    with GlobalAttribute
+
+  final case class High(value: String) extends SimpleAttribute[String]("high")
+    with MeterAttribute
+
+  final case class Href(value: String) extends SimpleAttribute[String]("href")
+    with AnchorAttribute
     with AreaAttribute
     with BaseAttribute
     with LinkAttribute
 
-  case class HrefLanguage(value: String) extends AnchorAttribute
+  final case class HrefLanguage(value: String) extends SimpleAttribute[String]("hreflang")
+    with AnchorAttribute
     with AreaAttribute
     with LinkAttribute
 
-  case class HTTPEquiv(value: String) extends MetaAttribute
-  case class Id(value: String) extends GlobalAttribute
-  case class Integrity(value: String) extends LinkAttribute with ScriptAttribute
-  case class IsMap(value: String) extends ImageAttribute
-  case class ItemProp(value: String) extends GlobalAttribute
-  case class Kind(value: String) extends TrackAttribute
-  case class Label(value: String) extends TrackAttribute
-  case class Language(value: String) extends GlobalAttribute
-  case class ScriptingLanguage(value: String) extends ScriptAttribute
-  case class List(value: String) extends InputAttribute
-  case class Loop(value: String) extends AudioAttribute with VideoAttribute
-  case class Low(value: String) extends MeterAttribute
-  case class Manifest(value: String) extends HTMLAttribute
-  case class Max(value: String) extends InputAttribute
+  final case class HTTPEquiv(value: String) extends SimpleAttribute[String]("http-equiv")
+    with MetaAttribute
+  final case class Id(value: String) extends SimpleAttribute[String]("id")
+    with GlobalAttribute
+
+  final case class Integrity(value: String) extends SimpleAttribute[String]("integrity")
+    with LinkAttribute with ScriptAttribute
+
+  final case class IsMap(value: Boolean) extends SimpleAttribute[Boolean]("ismap")
+    with ImageAttribute
+
+  final case class ItemProp(value: String) extends SimpleAttribute[String]("itemprop")
+    with GlobalAttribute
+
+  final case class Kind(value: String) extends SimpleAttribute[String]("kind")
+    with TrackAttribute
+
+  final case class Label(value: String) extends SimpleAttribute[String]("label")
+    with TrackAttribute
+
+  final case class Language(value: String) extends SimpleAttribute[String]("lang")
+    with GlobalAttribute
+
+  final case class ScriptingLanguage(value: String) extends SimpleAttribute[String]("language")
+    with ScriptAttribute
+
+  final case class List(value: String) extends SimpleAttribute[String]("list")
+    with InputAttribute
+
+  final case class Loop(value: String) extends SimpleAttribute[String]("loop")
+    with AudioAttribute with VideoAttribute
+
+  final case class Low(value: String) extends SimpleAttribute[String]("low")
+    with MeterAttribute
+
+  final case class Manifest(value: String) extends SimpleAttribute[String]("manifest")
+    with HTMLAttribute
+
+  final case class Max(value: String) extends SimpleAttribute[String]("max")
+    with InputAttribute
     with MeterAttribute
     with ProgressAttribute
 
-  case class MaxLength(value: String) extends InputAttribute with TextAreaAttribute
-  case class MinLength(value: String) extends InputAttribute with TextAreaAttribute
-  case class Media(value: String) extends AnchorAttribute
+  final case class MaxLength(value: String) extends SimpleAttribute[String]("maxlength")
+    with InputAttribute with TextAreaAttribute
+
+  final case class MinLength(value: String) extends SimpleAttribute[String]("minlength")
+    with InputAttribute with TextAreaAttribute
+
+  final case class Media(value: String) extends SimpleAttribute[String]("media")
+    with AnchorAttribute
     with AreaAttribute
     with LinkAttribute
     with SourceAttribute
 
-  case class Method(value: String) extends FormAttribute
-  case class Min(value: String) extends InputAttribute with MeterAttribute
-  case class Multiple(value: String) extends InputAttribute with SelectAttribute
-  case class Muted(value: String) extends AudioAttribute with VideoAttribute
-  case class Name(value: String) extends ButtonAttribute
+  final case class Method(value: String) extends SimpleAttribute[String]("method")
+    with FormAttribute
+
+  final case class Min(value: String) extends SimpleAttribute[String]("min")
+    with InputAttribute with MeterAttribute
+
+  final case class Multiple(value: String) extends SimpleAttribute[String]("multiple")
+    with InputAttribute with SelectAttribute
+
+  final case class Muted(value: String) extends SimpleAttribute[String]("muted")
+    with AudioAttribute with VideoAttribute
+
+  final case class Name(value: String) extends SimpleAttribute[String]("name")
+    with ButtonAttribute
     with FormAttribute
     with FieldSetAttribute
     with IFrameAttribute
@@ -260,42 +395,82 @@ object Attribute {
     with TextAreaAttribute
 
 
-  case class NoValidate(value: String) extends FormAttribute
-  case class Open(value: String) extends DetailsAttribute
-  case class Optimum(value: String) extends MeterAttribute
-  case class Pattern(value: String) extends InputAttribute
-  case class Ping(value: String) extends AnchorAttribute with AreaAttribute
-  case class Placeholder(value: String) extends InputAttribute with TextAreaAttribute
-  case class Poster(value: String) extends VideoAttribute
-  case class Preload(Value: String) extends AudioAttribute with VideoAttribute
-  case class RadioGroup(value: String) extends AudioAttribute with VideoAttribute
-  case class ReadOnly(value: String) extends InputAttribute with TextAreaAttribute
-  case class Rel(value: String) extends AnchorAttribute
+  final case class NoValidate(value: String) extends SimpleAttribute[String]("novalidate")
+    with FormAttribute
+  final case class Open(value: String) extends SimpleAttribute[String]("open")
+    with DetailsAttribute
+  final case class Optimum(value: String) extends SimpleAttribute[String]("optimum")
+    with MeterAttribute
+  final case class Pattern(value: String) extends SimpleAttribute[String]("pattern")
+    with InputAttribute
+  final case class Ping(value: String) extends SimpleAttribute[String]("ping")
+    with AnchorAttribute with AreaAttribute
+  final case class Placeholder(value: String) extends SimpleAttribute[String]("placeholder")
+    with InputAttribute with TextAreaAttribute
+  final case class Poster(value: String) extends SimpleAttribute[String]("poster")
+    with VideoAttribute
+  final case class Preload(value: String) extends SimpleAttribute[String]("preload")
+    with AudioAttribute with VideoAttribute
+  final case class RadioGroup(value: String) extends SimpleAttribute[String]("radiogroup")
+    with AudioAttribute with VideoAttribute
+  final case class ReadOnly(value: String) extends SimpleAttribute[String]("readonly")
+    with InputAttribute with TextAreaAttribute
+  final case class Rel(value: String) extends SimpleAttribute[String]("rel")
+    with AnchorAttribute
     with AreaAttribute
     with LinkAttribute
 
-  case class Required(value: String) extends InputAttribute
+  final case class Required(value: String) extends SimpleAttribute[String]("required")
+    with InputAttribute
     with SelectAttribute
     with TextAreaAttribute
 
-  case class Reversed(value: String) extends OLAttribute
-  case class Rows(value: String) extends TextAreaAttribute
-  case class RowSpan(value: String) extends TDAttribute with THAttribute
-  case class Sandbox(value: String) extends IFrameAttribute
-  case class Scope(value: String) extends THAttribute
-  case class Scoped(value: String) extends AnchorAttribute with AreaAttribute
-  case class Seamless(value: String) extends IFrameAttribute
-  case class Selected(value: String) extends OptionAttribute
-  case class Shape(value: String) extends AnchorAttribute with AreaAttribute
-  case class Size(value: String) extends InputAttribute with SelectAttribute
-  case class Sizes(value: String) extends LinkAttribute
+  final case class Reversed(value: String) extends SimpleAttribute[String]("reversed")
+    with OLAttribute
+
+  final case class Rows(value: String) extends SimpleAttribute[String]("rows")
+    with TextAreaAttribute
+
+  final case class RowSpan(value: String) extends SimpleAttribute[String]("rowspan")
+    with TDAttribute with THAttribute
+
+  final case class Sandbox(value: String) extends SimpleAttribute[String]("sandbox")
+    with IFrameAttribute
+
+  final case class Scope(value: String) extends SimpleAttribute[String]("scope")
+    with THAttribute
+
+  final case class Scoped(value: String) extends SimpleAttribute[String]("scoped")
+    with AnchorAttribute with AreaAttribute
+
+  final case class Seamless(value: String) extends SimpleAttribute[String]("seamless")
+    with IFrameAttribute
+
+  final case class Selected(value: String) extends SimpleAttribute[String]("selected")
+    with OptionAttribute
+
+  final case class Shape(value: String) extends SimpleAttribute[String]("shape")
+    with AnchorAttribute with AreaAttribute
+
+  final case class Size(value: String) extends SimpleAttribute[String]("size")
+    with InputAttribute with SelectAttribute
+
+  final case class Sizes(value: String) extends SimpleAttribute[String]("sizes")
+    with LinkAttribute
     with ImageAttribute
     with SourceAttribute
 
-  case class Slot(value: String) extends GlobalAttribute
-  case class Span(value: String) extends ColAttribute with ColGroupAttribute
-  case class SpellCheck(value: String) extends GlobalAttribute
-  case class Source(value: String) extends AudioAttribute
+  final case class Slot(value: String) extends SimpleAttribute[String]("slot")
+    with GlobalAttribute
+
+  final case class Span(value: String) extends SimpleAttribute[String]("span")
+    with ColAttribute with ColGroupAttribute
+
+  final case class SpellCheck(value: String) extends SimpleAttribute[String]("spellcheck")
+    with GlobalAttribute
+
+  final case class Source(value: String) extends SimpleAttribute[String]("src")
+    with AudioAttribute
     with EmbedAttribute
     with IFrameAttribute
     with ImageAttribute
@@ -305,21 +480,41 @@ object Attribute {
     with TrackAttribute
     with VideoAttribute
 
-  case class SourceDocument(value: String) extends IFrameAttribute
-  case class SourceLanguage(value: String) extends TrackAttribute
-  case class SourceSet(value: String) extends ImageAttribute
-  case class Start(value: String) extends OLAttribute
-  case class Step(value: String) extends InputAttribute
-  case class Style(value: String) extends GlobalAttribute
-  case class Summary(value: String) extends TableAttribute
-  case class TabIndex(value: String) extends GlobalAttribute
-  case class Target(value: String) extends AnchorAttribute
+  final case class SourceDocument(value: String) extends SimpleAttribute[String]("srcdoc")
+    with IFrameAttribute
+
+  final case class SourceLanguage(value: String) extends SimpleAttribute[String]("srclang")
+    with TrackAttribute
+
+  final case class SourceSet(value: String) extends SimpleAttribute[String]("srcset")
+    with ImageAttribute
+
+  final case class Start(value: String) extends SimpleAttribute[String]("start")
+    with OLAttribute
+
+  final case class Step(value: String) extends SimpleAttribute[String]("step")
+    with InputAttribute
+
+  final case class Style(value: String) extends SimpleAttribute[String]("style")
+    with GlobalAttribute
+
+  final case class Summary(value: String) extends SimpleAttribute[String]("summary")
+    with TableAttribute
+
+  final case class TabIndex(value: String) extends SimpleAttribute[String]("tabindex")
+    with GlobalAttribute
+
+  final case class Target(value: String) extends SimpleAttribute[String]("target")
+    with AnchorAttribute
     with AreaAttribute
     with BaseAttribute
     with FormAttribute
 
-  case class Title(value: String) extends GlobalAttribute
-  case class Type(value: String) extends ButtonAttribute
+  final case class Title(value: String) extends SimpleAttribute[String]("title")
+    with GlobalAttribute
+
+  final case class Type(value: String) extends SimpleAttribute[String]("type")
+    with ButtonAttribute
     with EmbedAttribute
     with InputAttribute
     with ObjectAttribute
@@ -327,11 +522,13 @@ object Attribute {
     with SourceAttribute
     with StyleAttribute
 
-  case class UseMap(value: String) extends ImageAttribute
+  final case class UseMap(value: String) extends SimpleAttribute[String]("usemap")
+    with ImageAttribute
     with InputAttribute
     with ObjectAttribute
 
-  case class Value(value: String) extends ButtonAttribute
+  final case class Value(value: String) extends SimpleAttribute[String]("value")
+    with ButtonAttribute
     with InputAttribute
     with LIAttribute
     with MeterAttribute
@@ -339,7 +536,8 @@ object Attribute {
     with ParamAttribute
     with ProgressAttribute
 
-  case class Width(value: String) extends CanvasAttribute
+  final case class Width(value: String) extends SimpleAttribute[String]("width")
+    with CanvasAttribute
     with EmbedAttribute
     with IFrameAttribute
     with ImageAttribute
@@ -347,5 +545,6 @@ object Attribute {
     with ObjectAttribute
     with VideoAttribute
 
-  case class Wrap(value: String) extends TextAreaAttribute
+  final case class Wrap(value: String) extends SimpleAttribute[String]("wrap")
+    with TextAreaAttribute
 }

@@ -6,6 +6,7 @@ trait Attributes {
 
   val accept = AttributeFactory(Accept)
   val acceptCharset = AttributeFactory(AcceptCharset)
+  val accesskey = AttributeFactory(AccessKey)
   val action = AttributeFactory(Action)
   val align = AttributeFactory(Align)
   val alt = AttributeFactory(Alternative)
@@ -14,7 +15,6 @@ trait Attributes {
   val autoFocus = AttributeFactory(AutoFocus)
   val autoplay = AttributeFactory(AutoPlay)
   val buffered = AttributeFactory(Buffered)
-  val charset = AttributeFactory(Attribute.Charset)
   val checked = AttributeFactory(Checked)
   val cite = AttributeFactory(Cite)
   val className = AttributeFactory(ClassName)
@@ -22,7 +22,6 @@ trait Attributes {
   val colspan = AttributeFactory(ColSpan)
   val content = AttributeFactory(Content)
   val contenteditable = AttributeFactory(ContentEditable)
-  val contextmenu = AttributeFactory(ContextMenu)
   val controls = AttributeFactory(Controls)
   val crossorigin = AttributeFactory(CrossOrigin)
   val data = AttributeFactory(Data)
