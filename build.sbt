@@ -38,7 +38,7 @@ abstract class AbstractElement[A <: Attribute](val name: String) extends Element
         val name = parts(2)
         s"""
 final case class ${name}Element(attributes: Seq[${attr}Attribute],
-children: Seq[Node]) extends AbstractElement[${attr}Attribute]("$tag")"""
+  children: Seq[Node]) extends AbstractElement[${attr}Attribute]("$tag")"""
       }).reduce((l, r) => s"$l\n$r")
 
     header + body

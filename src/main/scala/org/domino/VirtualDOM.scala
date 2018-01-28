@@ -2,11 +2,14 @@ package org.domino
 
 import org.scalajs.dom.{document, raw}
 
+import scala.scalajs.js
+
 object VirtualDOM {
   def render(src: html.Node, dest: raw.Node): Either[String, Unit] = {
     if (dest == null) return Left("The target node was null.")
-    
-    def recreate(newChild: raw.Node) = {
+    if (js.isUndefined(dest)) return Left("The target node was undefined.")
+  
+    def recreate(newChild: raw.Node): Either[String, Unit] = {
       dest.parentNode.replaceChild(newChild, dest)
       render(src, newChild)
     }
@@ -17,26 +20,25 @@ object VirtualDOM {
           case dest: raw.HTMLElement =>
             if (dest.nodeName.equalsIgnoreCase(element.name)) {
               updateElement(element, dest)
-              println(dest.childElementCount + ", " + element.children.length)
-              element.children.zipWithIndex.map((n) => {
-                val (node, index) = n
-                if (dest.childElementCount <= index) {
-                  val newChild = node match {
-                    case childEl: html.Element[_] => createElement(childEl)
-                    case text: html.Text => document.createTextNode(text.value)
+              if (dest.childNodes.length > element.children.length) {
+                val start = element.children.length
+                (start until dest.childNodes.length).map(dest.childNodes(_)) foreach (child => {
+                  child.parentNode.removeChild(child)
+                })
+              }
+              element.children.zipWithIndex.foreach { case (child, index) =>
+                if (dest.childNodes.length <= index) {
+                  val newChild = child match {
+                    case e: html.Element[_] => createElement(e)
+                    case html.Text(text) => document.createTextNode(text)
                   }
                   dest.appendChild(newChild)
                 }
-                (node, dest.children.item(index))
-              }).foreach(n => {
-                val (childSrc, childDest) = n
-                render(childSrc, childDest)
-              })
-  
+                val target = dest.childNodes(index)
+                render(child, target)
+              }
               Right()
-  
             } else recreate(createElement(element))
-
           case _ => recreate(createElement(element))
         }
 
@@ -49,7 +51,6 @@ object VirtualDOM {
             Right()
           
           case _ =>
-            dest.parentNode.removeChild(dest)
             recreate(document.createTextNode(text))
         }
     }
@@ -74,7 +75,7 @@ object VirtualDOM {
     }
   
     if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
-      (0 to target.attributes.length).flatMap((index) => {
+      (0 until target.attributes.length).flatMap((index) => {
         val attribute = target.attributes.item(index)
         if (attribute != null) {
           val name = attribute.name
@@ -87,5 +88,4 @@ object VirtualDOM {
       })
     }
   }
-  
 }
