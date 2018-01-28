@@ -5,13 +5,53 @@ import org.scalajs.dom.{document, raw}
 import scala.scalajs.js
 
 object VirtualDOM {
-  def render(src: html.Node, dest: raw.Node): Either[String, Unit] = {
+  def render(src: html.Element[_], dest: raw.Element): Either[String, Unit] = {
+    if (dest.childNodes.length < 1) {
+      val newChild = createElement(src)
+      dest.appendChild(newChild)
+      merge(src, newChild)
+    } else {
+      merge(src, dest.firstChild)
+    }
+  }
+  
+  private def createElement(element: html.Element[_]): raw.HTMLElement =
+    document.createElement(element.name).asInstanceOf[raw.HTMLElement]
+  
+  private def updateElement(source: html.Element[_], target: raw.HTMLElement): Unit = {
+    import org.domino.html.Attribute._
+    
+    source.attributes.foreach {
+      case CustomData(name, value) =>
+        val attrId = s"data-$name"
+        target.setAttribute(attrId, value)
+      
+      case c: html.SimpleAttribute[_] =>
+        target.setAttribute(c.name, c.value.toString)
+      
+      case e: html.EventAttribute[_] =>
+        target.addEventListener(e.name, e.f)
+    }
+    
+    if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
+      (0 until target.attributes.length).flatMap((index) => {
+        val attribute = target.attributes.item(index)
+        val name = attribute.name
+        if (!source.nonErasedAttr.exists((attr) => attr.name.equalsIgnoreCase(name))) {
+          Some(name)
+        } else None
+      }).foreach((name) => {
+        target.attributes.removeNamedItem(name)
+      })
+    }
+  }
+  private def merge(src: html.Node, dest: raw.Node): Either[String, Unit] = {
     if (dest == null) return Left("The target node was null.")
     if (js.isUndefined(dest)) return Left("The target node was undefined.")
   
     def recreate(newChild: raw.Node): Either[String, Unit] = {
       dest.parentNode.replaceChild(newChild, dest)
-      render(src, newChild)
+      merge(src, newChild)
     }
     
     src match {
@@ -35,7 +75,7 @@ object VirtualDOM {
                   dest.appendChild(newChild)
                 }
                 val target = dest.childNodes(index)
-                render(child, target)
+                merge(child, target)
               }
               Right()
             } else recreate(createElement(element))
@@ -53,37 +93,6 @@ object VirtualDOM {
           case _ =>
             recreate(document.createTextNode(text))
         }
-    }
-  }
-  
-  private def createElement(element: html.Element[_]): raw.HTMLElement =
-    document.createElement(element.name).asInstanceOf[raw.HTMLElement]
-  
-  private def updateElement(source: html.Element[_], target: raw.HTMLElement): Unit = {
-    import org.domino.html.Attribute._
-    
-    source.attributes.foreach {
-      case CustomData(name, value) =>
-        val attrId = s"data-$name"
-        target.setAttribute(attrId, value)
-
-      case c: html.SimpleAttribute[_] =>
-        target.setAttribute(c.name, c.value.toString)
-
-      case e: html.EventAttribute[_] =>
-        target.addEventListener(e.name, e.f)
-    }
-  
-    if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
-      (0 until target.attributes.length).flatMap((index) => {
-        val attribute = target.attributes.item(index)
-        val name = attribute.name
-        if (!source.nonErasedAttr.exists((attr) => attr.name.equalsIgnoreCase(name))) {
-          Some(name)
-        } else None
-      }).foreach((name) => {
-        target.attributes.removeNamedItem(name)
-      })
     }
   }
 }
