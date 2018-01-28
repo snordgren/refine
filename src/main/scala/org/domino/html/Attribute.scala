@@ -4,6 +4,8 @@ import org.scalajs.dom.raw.{DragEvent, Event, FocusEvent, KeyboardEvent, MouseEv
 
 sealed trait Attribute {
   val name: String
+
+  def render: String
 }
 
 /**
@@ -12,10 +14,16 @@ sealed trait Attribute {
  */
 sealed abstract class SimpleAttribute[T](val name: String) extends Attribute {
   val value: T
+
+  override def render =
+    name + "=\"" + value + "\""
 }
 
 sealed abstract class EventAttribute[T](val name: String) extends GlobalAttribute {
   val f: (T => _)
+
+  override def render =
+    name + "=\"" + f.toString() + "\""
 }
 
 sealed trait AnchorAttribute extends Attribute
@@ -283,7 +291,10 @@ object Attribute {
    * @param name The name of the data, without the <code>data-</code> prefix.
    * @param value The value of the data.
    */
-  final case class CustomData(name: String, value: String) extends GlobalAttribute
+  final case class CustomData(name: String, value: String) extends GlobalAttribute {
+    override def render =
+      "data-" + name + "=\"" + value + "\""
+  }
 
   final case class DateTime(value: String) extends SimpleAttribute[String]("datetime")
     with DelAttribute
@@ -377,6 +388,9 @@ object Attribute {
 
   final case class Id(value: String) extends GlobalAttribute {
     val name = s"#$value"
+
+    override def render =
+      "id=\"#" + value + "\""
   }
 
   final case class Integrity(value: String) extends SimpleAttribute[String]("integrity")

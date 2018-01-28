@@ -8,7 +8,7 @@ class HTMLSpec extends UnitSpec {
     val firstParaString = "This is my first paragraph"
     val contentpara = "contentpara"
     val first = "first"
-    val times = 1024 * 10
+    val times = 1024 * 32
 
     def testDomino() = {
       import HTML._
@@ -19,6 +19,7 @@ class HTMLSpec extends UnitSpec {
           html(
             head(script("console.log(1)")),
             body(
+              header(id := "header", title := "This is the header.")(titleString),
               h1(titleString),
               div(
                 p(className := contentpara + " " + first)(0, firstParaString),
@@ -41,8 +42,9 @@ class HTMLSpec extends UnitSpec {
             script("console.log(1)")
           ),
           body(
-            h1()(titleString),
-            div()(
+            header(id := "header", title := "This is the header.", titleString),
+            h1(titleString),
+            div(
               p(0, cls := contentpara + " " + first, firstParaString),
               div(for (i <- 0 until 5) yield {
                 p(i,
@@ -60,8 +62,13 @@ class HTMLSpec extends UnitSpec {
       endTime - startTime
     }
 
-    val stResult = testScalaTags()
+    (0 until 3).foreach { _ =>
+      testDomino()
+      testScalaTags()
+    }
+
     val dmResult = testDomino()
+    val stResult = testScalaTags()
     println(stResult + ", " + dmResult)
   }
 }

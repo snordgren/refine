@@ -1,7 +1,6 @@
 package org.domino
 
-import org.domino.html.Attribute.{CustomData, Id}
-import org.domino.html.{Element, EventAttribute, Node, SimpleAttribute, Text}
+import org.domino.html.{Element, Node, Text}
 
 object TextRenderer {
   def apply(root: Node): String = render(root)
@@ -10,18 +9,33 @@ object TextRenderer {
     root match {
       case Text(text) => text
       case el: Element[_] =>
-        val attrs = el.nonErasedAttr.map {
-          case s: SimpleAttribute[_] =>
-            s"""${s.name}="${s.value}""""
-          case e: EventAttribute[_] =>
-            s"""${e.name}="${e.f.toString()}""""
-          case d: CustomData =>
-            s"""data-${d.name}="${d.value}""""
-          case Id(value) =>
-            s"""id="#$value""""
-        }.foldLeft("")((left, right) => s"$left $right")
-        val children = el.children.map(render).fold("")((left, right) => s"$left$right")
-        s"<${el.name}$attrs>$children</${el.name}>"
+        val attrStr = if (el.nonErasedAttr.nonEmpty) {
+          val attributes = el.nonErasedAttr
+          val attrBuf = new StringBuilder()
+          var index = 0
+
+          while (index < attributes.length) {
+            val attr = attributes(index)
+            attrBuf.append(' ')
+            attrBuf.append(attr.render)
+            index += 1
+          }
+
+          attrBuf.toString()
+        } else ""
+
+        val childStr = if (el.children.nonEmpty) {
+          val childBuf = new StringBuilder()
+          var index = 0
+          while (index < el.children.length) {
+            val child = el.children(index)
+            childBuf.append(render(child))
+            index += 1
+          }
+          childBuf.toString()
+        } else ""
+
+        "<" + el.name + attrStr + ">" + childStr + "</" + el.name + ">"
     }
   }
 }
