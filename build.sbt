@@ -19,7 +19,9 @@ resourceGenerators in Compile += Def.task {
       raw"""package org.domino.html
 
 sealed trait Node
+
 final case class Text(value: String) extends Node
+
 sealed trait Element[A <: Attribute] extends Node {
   def name: String
   def attributes: Seq[A]

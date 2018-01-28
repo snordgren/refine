@@ -1,12 +1,14 @@
 package org.domino.html
 
 sealed trait Node
+
 final case class Text(value: String) extends Node
+
 sealed trait Element[A <: Attribute] extends Node {
   def name: String
   def attributes: Seq[A]
   def children: Seq[Node]
-  
+
   def nonErasedAttr: Seq[Attribute] = attributes
 }
 

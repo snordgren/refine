@@ -1,9 +1,9 @@
 package org.domino.html
 
 trait Attributes {
-  
+
   import Attribute._
-  
+
   val accept = AttributeFactory(Accept)
   val acceptCharset = AttributeFactory(AcceptCharset)
   val accesskey = AttributeFactory(AccessKey)
@@ -171,11 +171,11 @@ trait Attributes {
   val value = AttributeFactory(Value)
   val width = AttributeFactory(Width)
   val wrap = AttributeFactory(Wrap)
-  
+
   def data(name: String) = AttributeFactory((t: String) => CustomData(name, t))
-  
+
   case class AttributeFactory[T, A](f: T => A) {
     def :=(value: T): A = f(value)
   }
-  
+
 }
