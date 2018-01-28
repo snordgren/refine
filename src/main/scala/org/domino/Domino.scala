@@ -62,7 +62,7 @@ object Domino {
               updateElement(element, dest)
               if (dest.childNodes.length > element.children.length) {
                 val start = element.children.length
-                (start until dest.childNodes.length).map(dest.childNodes(_)) foreach (child => {
+                (start until dest.childNodes.length).map(dest.childNodes(_)).foreach(child => {
                   child.parentNode.removeChild(child)
                 })
               }
