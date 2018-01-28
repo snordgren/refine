@@ -8,6 +8,7 @@ libraryDependencies ++= Seq(
 version := "0.1.0-SNAPSHOT"
 scalaVersion := "2.12.4"
 scalacOptions ++= Seq("-language:implicitConversions")
+scalaJSUseMainModuleInitializer := true
 
 resourceGenerators in Compile += Def.task {
   import scala.io.Source

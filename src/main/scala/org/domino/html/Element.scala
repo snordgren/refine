@@ -6,6 +6,8 @@ sealed trait Element[A <: Attribute] extends Node {
   def name: String
   def attributes: Seq[A]
   def children: Seq[Node]
+  
+  def nonErasedAttr: Seq[Attribute] = attributes
 }
 
 abstract class AbstractElement[A <: Attribute](val name: String) extends Element[A]

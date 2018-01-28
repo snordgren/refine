@@ -88,6 +88,7 @@ trait Attributes {
   val onDragEnter = AttributeFactory(OnDragEnter)
   val onDragLeave = AttributeFactory(OnDragLeave)
   val onDragOver = AttributeFactory(OnDragOver)
+  val onDragStart = AttributeFactory(OnDragStart)
   val onDrop = AttributeFactory(OnDrop)
   val onEmptied = AttributeFactory(OnEmptied)
   val onEnded = AttributeFactory(OnEnded)
