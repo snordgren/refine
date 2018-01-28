@@ -66,8 +66,10 @@ trait Elements {
         val attr = parts(1)
         val name = parts(2)
         s"""
-  def $tag(attributes: ${attr}Attribute*)(children: Node*) =
-    ${name}Element(attributes, children)
+  def $tag(children: Node*) = ${name}Element(Seq.empty, children)
+
+  def $tag(head: ${attr}Attribute, tail: ${attr}Attribute*)(children: Node*) =
+    ${name}Element(head +: tail, children)
 """
       }).reduce((l: String, r: String) => l + r)
 

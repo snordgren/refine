@@ -12,10 +12,10 @@ class ElementSpec extends UnitSpec {
 
     val source =
       html(lang := "en", manifest := "yes")(
-        head()(
+        head(
           title(title := "no")("Welcome to Domino!")),
-        body()(
-          h1()("Welcome to Domino!"),
+        body(
+          h1("Welcome to Domino!"),
           p(data("home") := "where the heart is")("")))
   }
 }

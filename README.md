@@ -16,11 +16,11 @@ object App {
   import HTML._
 
   def page() =
-    div()(
-      h1()("Hello, world!"),
-      p(id := "description")(
+    div(
+      h1("Hello, world!"),
+      p(id := "description", title := "These are attributes.")(
         "This page was rendered with the Domino library for Scala.js."),
-      p()("Enjoy!"))
+      p("Enjoy!"))
 
   def main(args: Array[String]): Unit = {
     val root = document.getElementById("root")
