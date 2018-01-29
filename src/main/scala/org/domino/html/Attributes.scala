@@ -18,6 +18,7 @@ trait Attributes {
   val checked = AttributeFactory(Checked)
   val cite = AttributeFactory(Cite)
   val className = AttributeFactory(ClassName)
+  val cls = className
   val cols = AttributeFactory(Cols)
   val colspan = AttributeFactory(ColSpan)
   val content = AttributeFactory(Content)
