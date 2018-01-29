@@ -33,7 +33,19 @@ object Domino {
         target.setAttribute(c.name, c.value.toString)
 
       case e: html.EventAttribute[_] =>
-        target.addEventListener(e.name, e.f)
+        val dynamicTarget = target.asInstanceOf[js.Dynamic]
+        if (js.isUndefined(dynamicTarget.handler)) {
+          dynamicTarget.handler = js.Dynamic.literal()
+        }
+
+        if (js.isUndefined(dynamicTarget.handler.selectDynamic(e.name))) {
+          target.addEventListener(e.name, (event: raw.Event) => {
+            val handler = dynamicTarget.handler.selectDynamic(e.name)
+            handler.apply(event)
+          })
+        }
+
+        dynamicTarget.handler.updateDynamic(e.name)(e.f)
     }
 
     if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
