@@ -1,8 +1,6 @@
 # Domino
 
-Domino is a Scala.js library for declarative HTML rendering using a virtual DOM.
-It is a minimal alternative to React for Scala.js, with the added benefit of
-type safety.
+Domino is a library for declarative HTML rendering in Scala.js.
 
 ## Example
 
