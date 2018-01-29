@@ -8,7 +8,7 @@ class HTMLSpec extends UnitSpec {
     val firstParaString = "This is my first paragraph"
     val contentpara = "contentpara"
     val first = "first"
-    val times = 1024 * 32
+    val times = 1024
 
     def testDomino() = {
       import HTML._

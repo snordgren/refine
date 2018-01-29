@@ -12,6 +12,7 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %%% "scalatags" % "0.6.7" % Test
 )
 
-scalacOptions ++= Seq("-language:implicitConversions")
+libraryDependencies += "org.scala-js" %% "scalajs-env-jsdom-nodejs" % "1.0.0-M1"
+jsEnv in Test := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv()
 
-scalaJSUseMainModuleInitializer := true
+scalacOptions ++= Seq("-language:implicitConversions")

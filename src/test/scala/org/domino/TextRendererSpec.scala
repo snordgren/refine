@@ -12,7 +12,7 @@ class TextRendererSpec extends UnitSpec {
     import org.domino.html.HTML._
     val source = p(id := "my-paragraph")("This is my paragraph.")
     val result = source.render
-    val expected = """<p id="#my-paragraph">This is my paragraph.</p>"""
+    val expected = """<p id="my-paragraph">This is my paragraph.</p>"""
     result should be(expected)
   }
 

@@ -1,0 +1,24 @@
+{
+  "name": "domino",
+  "version": "1.0.0",
+  "description": "A declarative HTML rendering library for Scala.js.",
+  "repository": {
+	"type": "git",
+	"url": "git+https://github.com/snordgren/domino.git"
+  },
+  "keywords": [
+	"scala",
+	"scala-js",
+	"dom",
+	"virtual-dom"
+  ],
+  "author": "Silas Nordgren <nordgrensilas@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+	"url": "https://github.com/snordgren/domino/issues"
+  },
+  "homepage": "https://github.com/snordgren/domino#readme",
+  "devDependencies": {
+	"jsdom": "^11.6.1"
+  }
+}
