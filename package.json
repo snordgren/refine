@@ -6,12 +6,6 @@
 	"type": "git",
 	"url": "git+https://github.com/snordgren/domino.git"
   },
-  "keywords": [
-	"scala",
-	"scala-js",
-	"dom",
-	"virtual-dom"
-  ],
   "author": "Silas Nordgren <nordgrensilas@gmail.com>",
   "license": "ISC",
   "bugs": {
