@@ -21,7 +21,7 @@ object Domino {
   private def updateElement(source: html.Element[_], target: raw.HTMLElement): Unit = {
     import org.domino.html.Attribute._
 
-    removeEventAttributes(target)
+    prepareEventDelegation(target)
     source.attributes.foreach {
       case CustomData(name, value) =>
         val attrId = s"data-$name"
@@ -34,7 +34,7 @@ object Domino {
         target.setAttribute(c.name, c.value.toString)
 
       case e: html.EventAttribute[_] =>
-        updateEventAttribute(e, target)
+        updateEventDelegate(e, target)
     }
 
     if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
@@ -107,7 +107,7 @@ object Domino {
    *
    * @param target The target to remove the listeners from.
    */
-  private def removeEventAttributes(target: raw.HTMLElement): Unit = {
+  private def prepareEventDelegation(target: raw.HTMLElement): Unit = {
     val dynamicTarget = target.asInstanceOf[js.Dynamic]
 
     // The listenerStore field on the target DOM element is used to store the event listeners
@@ -137,7 +137,7 @@ object Domino {
    * @param attr The event listener to link with the element.
    * @param target The element that the event listener should be attached to.
    */
-  private def updateEventAttribute(attr: html.EventAttribute[_], target: raw.HTMLElement): Unit = {
+  private def updateEventDelegate(attr: html.EventAttribute[_], target: raw.HTMLElement): Unit = {
     val dynamicTarget = target.asInstanceOf[js.Dynamic]
 
     // If the listenerInfo field does not have an entry with the name of this event,
