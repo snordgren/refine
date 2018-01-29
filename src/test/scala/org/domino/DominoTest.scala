@@ -46,21 +46,19 @@ class DominoTest extends UnitTest {
           h1("Hello, world!"),
           p(id := "description", title := "These are attributes.")(
             "This page was rendered with the Domino library for Scala.js."),
-          p(onClick := ((_: MouseEvent) => {
-            println("This is state 2.")
-            clicked = false
-            render()
-          }))("Enjoy!"))
+          p(id := "click-listener",
+            onClick := ((_: MouseEvent) => {
+              clicked = false
+            }))("Enjoy!"))
       } else
         div(
           h1("Hello, world!"),
           p(id := "description", title := "These are attributes.")(
             "This page was rendered with the Domino library for Scala.js."),
-          p(onClick := ((_: MouseEvent) => {
-            println("This is state 1.")
-            clicked = true
-            render()
-          }))("Enjoy!"))
+          p(id := "click-listener",
+            onClick := ((_: MouseEvent) => {
+              clicked = true
+            }))("Enjoy!"))
 
     def render(): Unit = {
       val root = document.getElementById("root")
@@ -68,6 +66,19 @@ class DominoTest extends UnitTest {
       Domino.render(page(), root)
     }
 
+    def click(): Unit = {
+      val p = document.getElementById("click-listener")
+      val event = document.createEvent("HTMLEvents")
+      event.initEvent("click", canBubbleArg = false, cancelableArg = true)
+      p.dispatchEvent(event)
+    }
+
+    clicked should be(false)
     render()
+    click()
+    clicked should be(true)
+    render()
+    click()
+    clicked should be(false)
   }
 }
