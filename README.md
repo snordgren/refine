@@ -28,3 +28,9 @@ object App {
   }
 }
 ```
+
+## Install
+Add the following to your `build.sbt`.
+
+	resolvers += "jitpack" at "https://jitpack.io"
+	libraryDependencies += "com.github.snordgren" % "domino" % "-SNAPSHOT"
