@@ -27,7 +27,7 @@ object Domino {
         target.setAttribute(attrId, value)
 
       case Id(value) =>
-        target.setAttribute("id", s"#$value")
+        target.setAttribute("id", value)
 
       case c: html.SimpleAttribute[_] =>
         target.setAttribute(c.name, c.value.toString)

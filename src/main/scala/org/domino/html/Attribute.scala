@@ -390,7 +390,7 @@ object Attribute {
     val name = s"#$value"
 
     override def render =
-      "id=\"#" + value + "\""
+      "id=\"" + value + "\""
   }
 
   final case class Integrity(value: String) extends SimpleAttribute[String]("integrity")
