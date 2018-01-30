@@ -1,5 +1,7 @@
 # Domino
 
+[![Join the chat at https://gitter.im/scalajs-domino/Lobby](https://badges.gitter.im/scalajs-domino/Lobby.svg)](https://gitter.im/scalajs-domino/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Domino is a library for declarative HTML rendering in Scala.js.
 
 ## Example
