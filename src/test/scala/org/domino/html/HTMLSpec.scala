@@ -68,7 +68,6 @@ class HTMLSpec extends UnitSpec {
 
     val dmResult = testDomino()
     val stResult = testScalaTags()
-    println(stResult + ", " + dmResult)
     dmResult should be < stResult
   }
 }
