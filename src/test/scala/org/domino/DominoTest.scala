@@ -38,17 +38,18 @@ class DominoTest extends UnitTest {
   test("Adding and removing event handlers") {
     import HTML._
 
-    var clicked = false
+    var upperClicks = 0
+    var lowerClicks = 0
 
-    def page(): DivElement =
-      if (clicked) {
+    def page(upper: Boolean): DivElement =
+      if (upper) {
         div(
           h1("Hello, world!"),
           p(id := "description", title := "These are attributes.")(
             "This page was rendered with the Domino library for Scala.js."),
           p(id := "click-listener",
             onClick := ((_: MouseEvent) => {
-              clicked = false
+              upperClicks += 1
             }))("Enjoy!"))
       } else
         div(
@@ -57,13 +58,13 @@ class DominoTest extends UnitTest {
             "This page was rendered with the Domino library for Scala.js."),
           p(id := "click-listener",
             onClick := ((_: MouseEvent) => {
-              clicked = true
+              lowerClicks += 1
             }))("Enjoy!"))
 
-    def render(): Unit = {
+    def render(upper: Boolean): Unit = {
       val root = document.getElementById("root")
       root should not be null
-      Domino.render(page(), root)
+      Domino.render(page(upper), root)
     }
 
     def click(): Unit = {
@@ -73,12 +74,15 @@ class DominoTest extends UnitTest {
       p.dispatchEvent(event)
     }
 
-    clicked should be(false)
-    render()
+    render(false)
     click()
-    clicked should be(true)
-    render()
+    lowerClicks should be(1)
+    upperClicks should be(0)
+    render(true)
     click()
-    clicked should be(false)
+    // if the event handlers work as they should, each side should have received
+    // only one click.
+    lowerClicks should be(1)
+    upperClicks should be(1)
   }
 }
