@@ -1,7 +1,7 @@
 package org.domino.dom
 
 import org.domino.Attribute.{CustomData, Id}
-import org.domino.{Element, EventAttribute, Node, SimpleAttribute, Text}
+import org.domino.{Component, Element, EventAttribute, Node, SimpleAttribute, Text}
 import org.scalajs.dom.{document, raw}
 
 import scala.scalajs.js
@@ -51,6 +51,7 @@ object DominoDOM {
       })
     }
   }
+
   private def merge(src: Node, dest: raw.Node): Either[String, Unit] = {
     if (dest == null) return Left("The target node was null.")
     if (js.isUndefined(dest)) return Left("The target node was undefined.")
@@ -74,11 +75,7 @@ object DominoDOM {
               }
               element.children.zipWithIndex.foreach { case (child, index) =>
                 if (dest.childNodes.length <= index) {
-                  val newChild = child match {
-                    case e: Element[_] => createElement(e)
-                    case Text(text) => document.createTextNode(text)
-                  }
-                  dest.appendChild(newChild)
+                  dest.appendChild(createChild(child))
                 }
                 val target = dest.childNodes(index)
                 merge(child, target)
@@ -99,6 +96,16 @@ object DominoDOM {
           case _ =>
             recreate(document.createTextNode(text))
         }
+
+      case c: Component =>
+        merge(c.render, dest)
     }
   }
+
+  private def createChild(source: Node): raw.Node =
+    source match {
+      case c: Component => createChild(c.render)
+      case e: Element[_] => createElement(e)
+      case Text(text) => document.createTextNode(text)
+    }
 }

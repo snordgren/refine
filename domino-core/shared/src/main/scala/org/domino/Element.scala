@@ -1,11 +1,18 @@
 package org.domino
 
 sealed trait Node {
-  def render: String
+  def renderToString: String
 }
 
 final case class Text(value: String) extends Node {
-  override def render: String = value
+  override def renderToString: String = value
+}
+
+trait Component extends Node {
+  def render: Node
+
+  override final def renderToString =
+    render.renderToString
 }
 
 sealed trait Element[A <: Attribute] extends Node {
@@ -15,7 +22,7 @@ sealed trait Element[A <: Attribute] extends Node {
 
   def nonErasedAttr: Seq[Attribute] = attributes
 
-  final def render: String = {
+  final def renderToString: String = {
     val attrStr = if (this.nonErasedAttr.nonEmpty) {
       val attributes = this.nonErasedAttr
       val attrBuf = new StringBuilder()
@@ -36,7 +43,7 @@ sealed trait Element[A <: Attribute] extends Node {
       var index = 0
       while (index < this.children.length) {
         val child = this.children(index)
-        childBuf.append(child.render)
+        childBuf.append(child.renderToString)
         index += 1
       }
       childBuf.toString()
