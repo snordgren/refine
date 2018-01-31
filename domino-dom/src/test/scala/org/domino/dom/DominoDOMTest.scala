@@ -1,5 +1,6 @@
 package org.domino.dom
 
+import org.domino.{Component, HTML}
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.MouseEvent
 import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
@@ -14,7 +15,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     }
   }
 
-  test("A simple page") {
+  test("a simple page") {
     import org.domino.HTML._
 
     def page() =
@@ -34,8 +35,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     document.getElementById("enjoy") should not be null
   }
 
-  // TODO Add more assertions here.
-  test("Adding and removing event handlers") {
+  test("adding and removing event handlers") {
     import Events._
     import org.domino.HTML._
 
@@ -85,5 +85,30 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     // only one click.
     lowerClicks should be(1)
     upperClicks should be(1)
+  }
+
+  test("rendering components") {
+    import HTML._
+
+    val articleDiv = "article-div"
+    val articleH1 = "article-h1"
+    val articleP = "article-p"
+
+    case class Article(title: String, body: String) extends Component {
+      override def render =
+        div(id := articleDiv)(
+          h1(id := articleH1)(title),
+          p(id := articleP)(body))
+    }
+
+    val title = "Swiss university unveils yodeling degree"
+    val body = "Yodellers in Switzerland have something to sing about after a " +
+      "university revealed it will offer degrees in the alpine art-form."
+    val source = div(Article(title, body))
+
+    DominoDOM.render(source, document.getElementById("root"))
+    document.getElementById(articleDiv).childElementCount should be(2)
+    document.getElementById(articleH1).textContent should be(title)
+    document.getElementById(articleP).textContent should be(body)
   }
 }

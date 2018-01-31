@@ -8,6 +8,13 @@ final case class Text(value: String) extends Node {
   override def renderToString: String = value
 }
 
+trait Component extends Node {
+  def render: Node
+
+  override final def renderToString =
+    render.renderToString
+}
+
 sealed trait Element[A <: Attribute] extends Node {
   def name: String
   def attributes: Seq[A]
