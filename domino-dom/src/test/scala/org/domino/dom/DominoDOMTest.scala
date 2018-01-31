@@ -1,10 +1,10 @@
-package org.domino
+package org.domino.dom
 
-import org.domino.html.{DivElement, HTML}
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.MouseEvent
+import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
 
-class DominoTest extends UnitTest {
+class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   before {
     if (document.getElementById("root") == null) {
       val body = document.querySelector("body")
@@ -15,7 +15,7 @@ class DominoTest extends UnitTest {
   }
 
   test("A simple page") {
-    import HTML._
+    import org.domino.HTML._
 
     def page() =
       div(id := "div")(
@@ -26,7 +26,7 @@ class DominoTest extends UnitTest {
 
     val root = document.getElementById("root")
     root should not be null
-    Domino.render(page(), root)
+    DominoDOM.render(page(), root)
 
     document.getElementById("div") should not be null
     document.getElementById("h1") should not be null
@@ -36,12 +36,13 @@ class DominoTest extends UnitTest {
 
   // TODO Add more assertions here.
   test("Adding and removing event handlers") {
-    import HTML._
+    import Events._
+    import org.domino.HTML._
 
     var upperClicks = 0
     var lowerClicks = 0
 
-    def page(upper: Boolean): DivElement =
+    def page(upper: Boolean) =
       if (upper) {
         div(
           h1("Hello, world!"),
@@ -64,7 +65,7 @@ class DominoTest extends UnitTest {
     def render(upper: Boolean): Unit = {
       val root = document.getElementById("root")
       root should not be null
-      Domino.render(page(upper), root)
+      DominoDOM.render(page(upper), root)
     }
 
     def click(): Unit = {

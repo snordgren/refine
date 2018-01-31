@@ -1,6 +1,4 @@
-package org.domino.html
-
-import org.domino.UnitSpec
+package org.domino
 
 class ElementSpec extends UnitSpec {
 
