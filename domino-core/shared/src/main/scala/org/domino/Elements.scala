@@ -1,4 +1,4 @@
-package org.domino.html
+package org.domino
 
 trait Elements {
 

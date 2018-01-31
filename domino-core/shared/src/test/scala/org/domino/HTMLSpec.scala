@@ -1,6 +1,4 @@
-package org.domino.html
-
-import org.domino.UnitSpec
+package org.domino
 
 class HTMLSpec extends UnitSpec {
   "HTML" should "be performant" in {
@@ -8,21 +6,28 @@ class HTMLSpec extends UnitSpec {
     val firstParaString = "This is my first paragraph"
     val contentpara = "contentpara"
     val first = "first"
-    val times = 1024
+    val times = 4096 * 2
 
     def testDomino() = {
-      import HTML._
+      import org.domino.HTML._
       val startTime = System.currentTimeMillis()
 
       (0 until times).foreach(_ => {
         html(
-          head(script("console.log(1)")),
+          head(
+            script("console.log(1)")
+          ),
           body(
             header(id := "header", title := "This is the header.")(titleString),
             h1(titleString),
             div(
-              p(className := contentpara + " " + first)(0, firstParaString),
-              div((0 until 5).map(n => p(className := contentpara)("Paragraph ", n)): _*)
+              p(cls := contentpara + " " + first)(0, firstParaString),
+              div((for (i <- 0 until 5) yield {
+                p(cls := contentpara)(
+                  "Paragraph ",
+                  i
+                )
+              }): _*)
             )
           )
         ).render
@@ -48,7 +53,6 @@ class HTMLSpec extends UnitSpec {
               div(for (i <- 0 until 5) yield {
                 p(i,
                   cls := contentpara,
-                  color := (if (i % 2 == 0) "red" else "green"),
                   "Paragraph ",
                   i
                 )
@@ -61,10 +65,8 @@ class HTMLSpec extends UnitSpec {
       endTime - startTime
     }
 
-    (0 until 3).foreach { _ =>
-      testDomino()
-      testScalaTags()
-    }
+    testDomino()
+    testScalaTags()
 
     val dmResult = testDomino()
     val stResult = testScalaTags()

@@ -1,25 +1,27 @@
-package org.domino
+package org.domino.dom
 
+import org.domino.Attribute.{CustomData, Id}
+import org.domino.{Element, EventAttribute, Node, SimpleAttribute, Text}
 import org.scalajs.dom.{document, raw}
 
 import scala.scalajs.js
 
-object Domino {
-  def render(src: html.Element[_], dest: raw.Element): Either[String, Unit] = {
+object DominoDOM {
+  def render(src: Element[_], dest: raw.Element): Either[String, Unit] = {
     if (dest.childNodes.length < 1) {
       val newChild = createElement(src)
       dest.appendChild(newChild)
       merge(src, newChild)
+
     } else {
       merge(src, dest.firstChild)
     }
   }
 
-  private def createElement(element: html.Element[_]): raw.HTMLElement =
+  private def createElement(element: Element[_]): raw.HTMLElement =
     document.createElement(element.name).asInstanceOf[raw.HTMLElement]
 
-  private def updateElement(source: html.Element[_], target: raw.HTMLElement): Unit = {
-    import org.domino.html.Attribute._
+  private def updateElement(source: Element[_], target: raw.HTMLElement): Unit = {
 
     prepareEventDelegation(target)
     source.attributes.foreach {
@@ -30,10 +32,10 @@ object Domino {
       case Id(value) =>
         target.setAttribute("id", value)
 
-      case c: html.SimpleAttribute[_] =>
+      case c: SimpleAttribute[_] =>
         target.setAttribute(c.name, c.value.toString)
 
-      case e: html.EventAttribute[_] =>
+      case e: EventAttribute[_] =>
         updateEventDelegate(e, target)
     }
 
@@ -49,7 +51,7 @@ object Domino {
       })
     }
   }
-  private def merge(src: html.Node, dest: raw.Node): Either[String, Unit] = {
+  private def merge(src: Node, dest: raw.Node): Either[String, Unit] = {
     if (dest == null) return Left("The target node was null.")
     if (js.isUndefined(dest)) return Left("The target node was undefined.")
 
@@ -59,7 +61,7 @@ object Domino {
     }
 
     src match {
-      case element: html.Element[_] =>
+      case element: Element[_] =>
         dest match {
           case dest: raw.HTMLElement =>
             if (dest.nodeName.equalsIgnoreCase(element.name)) {
@@ -73,8 +75,8 @@ object Domino {
               element.children.zipWithIndex.foreach { case (child, index) =>
                 if (dest.childNodes.length <= index) {
                   val newChild = child match {
-                    case e: html.Element[_] => createElement(e)
-                    case html.Text(text) => document.createTextNode(text)
+                    case e: Element[_] => createElement(e)
+                    case Text(text) => document.createTextNode(text)
                   }
                   dest.appendChild(newChild)
                 }
@@ -86,7 +88,7 @@ object Domino {
           case _ => recreate(createElement(element))
         }
 
-      case html.Text(text) =>
+      case Text(text) =>
         dest match {
           case textNode: raw.Text =>
             if (!textNode.nodeValue.equals(text)) {
@@ -137,7 +139,7 @@ object Domino {
    * @param attr The event listener to link with the element.
    * @param target The element that the event listener should be attached to.
    */
-  private def updateEventDelegate(attr: html.EventAttribute[_], target: raw.HTMLElement): Unit = {
+  private def updateEventDelegate(attr: EventAttribute[_], target: raw.HTMLElement): Unit = {
     val dynamicTarget = target.asInstanceOf[js.Dynamic]
 
     // If the listenerInfo field does not have an entry with the name of this event,
