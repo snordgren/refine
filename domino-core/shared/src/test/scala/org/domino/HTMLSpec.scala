@@ -30,7 +30,7 @@ class HTMLSpec extends UnitSpec {
               }): _*)
             )
           )
-        ).render
+        ).renderToString
       })
 
       val endTime = System.currentTimeMillis()
