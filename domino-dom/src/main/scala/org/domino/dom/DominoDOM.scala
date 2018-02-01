@@ -98,7 +98,7 @@ object DominoDOM {
         }
 
       case c: Component =>
-        merge(c.render, dest)
+        VirtualDOM.renderComponent(c, dest, merge)
     }
   }
 
