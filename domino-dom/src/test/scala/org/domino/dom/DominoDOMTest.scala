@@ -5,6 +5,8 @@ import org.scalajs.dom.document
 import org.scalajs.dom.raw.MouseEvent
 import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
 
+import scala.scalajs.js
+
 class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   before {
     if (document.getElementById("root") == null) {
@@ -110,5 +112,37 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     document.getElementById(articleDiv).childElementCount should be(2)
     document.getElementById(articleH1).textContent should be(title)
     document.getElementById(articleP).textContent should be(body)
+  }
+
+  test("don't re-render unchanged components") {
+    import HTML._
+
+    val articleDiv = "article-div"
+    val articleH1 = "article-h1"
+    val articleP = "article-p"
+
+    case class Article(title: String, body: String) extends Component {
+      override def render =
+        div(id := articleDiv)(
+          h1(id := articleH1)(title),
+          p(id := articleP)(body))
+    }
+
+    val title = "title"
+    val body = "body"
+    val source = div(Article(title, body))
+
+    val root = document.getElementById("root")
+    DominoDOM.render(source, root)
+    val dynamicArticleDiv = document.getElementById(articleDiv).asInstanceOf[js.Dynamic]
+    js.isUndefined(dynamicArticleDiv.previousDominoComp) should be(false)
+    js.isUndefined(dynamicArticleDiv.dominoRenderCount) should be(false)
+    dynamicArticleDiv.dominoRenderCount should be(1)
+    DominoDOM.render(source, root)
+    dynamicArticleDiv.dominoRenderCount should be(1)
+
+    val newSource = div(Article(title, "newBody"))
+    DominoDOM.render(newSource, root)
+    dynamicArticleDiv.dominoRenderCount should be(2)
   }
 }
