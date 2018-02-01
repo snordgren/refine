@@ -3,9 +3,11 @@ package org.domino
 class TextRendererSpec extends UnitSpec {
   "An HTML text renderer" should "render a paragraph element" in {
     import HTML._
-    val source = p("Hello, world!")
+    val text = "Hello, world!"
+    val source = p(text)
+    val expected = s"<p>${HTMLEscape(text)}</p>"
     val result = source.renderToString()
-    result should be("<p>Hello, world!</p>")
+    result should be(expected)
   }
 
   it should "render an attribute" in {
@@ -18,9 +20,11 @@ class TextRendererSpec extends UnitSpec {
 
   it should "render a child element" in {
     import HTML._
-    val source = div(p("I'm a child node."))
+    val text = "I'm a child node."
+    val source = div(p(text))
     val result = source.renderToString()
-    result should be("""<div><p>I'm a child node.</p></div>""")
+    val expected = s"<div><p>${HTMLEscape(text)}</p></div>"
+    result should be(expected)
   }
 
   it should "handle a data attribute" in {

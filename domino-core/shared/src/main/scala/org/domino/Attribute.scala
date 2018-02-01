@@ -3,7 +3,7 @@ package org.domino
 sealed trait Attribute {
   val name: String
 
-  def render: String
+  def renderToString(): String
 }
 
 /**
@@ -13,15 +13,15 @@ sealed trait Attribute {
 sealed abstract class SimpleAttribute[T](val name: String) extends Attribute {
   val value: T
 
-  final override def render =
-    name + "=\"" + value + "\""
+  final override def renderToString(): String =
+    name + "=\"" + HTMLEscape(value.toString) + "\""
 }
 
 abstract class EventAttribute[T](val name: String) extends GlobalAttribute {
   val f: (T => _)
 
-  final override def render =
-    name + "=\"" + f.toString() + "\""
+  final override def renderToString(): String =
+    name + "=\"" + HTMLEscape(f.toString) + "\""
 }
 
 sealed trait AnchorAttribute extends Attribute
@@ -290,7 +290,7 @@ object Attribute {
    * @param value The value of the data.
    */
   final case class CustomData(name: String, value: String) extends GlobalAttribute {
-    override def render =
+    override def renderToString() =
       "data-" + name + "=\"" + value + "\""
   }
 
@@ -387,7 +387,7 @@ object Attribute {
   final case class Id(value: String) extends GlobalAttribute {
     val name = s"#$value"
 
-    override def render =
+    override def renderToString() =
       "id=\"" + value + "\""
   }
 

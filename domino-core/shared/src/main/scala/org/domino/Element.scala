@@ -5,13 +5,14 @@ sealed trait Node {
 }
 
 final case class Text(value: String) extends Node {
-  override def renderToString(): String = value
+  override def renderToString(): String =
+    HTMLEscape(value)
 }
 
 trait Component extends Node {
   def render: Node
 
-  override final def renderToString() =
+  final override def renderToString() =
     render.renderToString()
 }
 
@@ -22,7 +23,7 @@ sealed trait Element[A <: Attribute] extends Node {
 
   def nonErasedAttr: Seq[Attribute] = attributes
 
-  final def renderToString(): String = {
+  final override def renderToString(): String = {
     val attrStr = if (this.nonErasedAttr.nonEmpty) {
       val attributes = this.nonErasedAttr
       val attrBuf = new StringBuilder()
@@ -31,7 +32,7 @@ sealed trait Element[A <: Attribute] extends Node {
       while (index < attributes.length) {
         val attr = attributes(index)
         attrBuf.append(' ')
-        attrBuf.append(attr.render)
+        attrBuf.append(attr.renderToString())
         index += 1
       }
 
