@@ -31,4 +31,7 @@ object App {
 Add the following to your `build.sbt`.
 
 	resolvers += "jitpack" at "https://jitpack.io"
-	libraryDependencies += "com.github.snordgren" % "domino" % "-SNAPSHOT"
+
+    libraryDependencies ++= Seq(
+      "com.github.scalacode.domino" %%% "domino-core" % "-SNAPSHOT",
+      "com.github.scalacode.domino" %%% "domino-dom" % "-SNAPSHOT")
