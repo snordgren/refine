@@ -7,6 +7,11 @@ trait Elements {
   def a(head: AnchorAttribute, tail: AnchorAttribute*)(children: Node*) =
     AnchorElement(head +: tail, children)
 
+  def anchor(children: Node*) = AnchorElement(Seq.empty, children)
+
+  def anchor(head: AnchorAttribute, tail: AnchorAttribute*)(children: Node*) =
+    AnchorElement(head +: tail, children)
+
   def abbr(children: Node*) = AbbrElement(Seq.empty, children)
 
   def abbr(head: GlobalAttribute, tail: GlobalAttribute*)(children: Node*) =
