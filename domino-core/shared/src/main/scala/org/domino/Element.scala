@@ -1,19 +1,25 @@
 package org.domino
 
 sealed trait Node {
-  def renderToString(): String
+  private[domino] def acceptStringBuilder(builder: StringBuilder): Unit
+
+  final def renderToString(): String = {
+    val builder = new StringBuilder()
+    acceptStringBuilder(builder)
+    builder.toString()
+  }
 }
 
 final case class Text(value: String) extends Node {
-  override def renderToString(): String =
-    HTMLEscape(value)
+  private[domino] override def acceptStringBuilder(builder: StringBuilder): Unit =
+    builder.append(HTMLEscape(value))
 }
 
 trait Component extends Node {
   def render: Node
 
-  final override def renderToString() =
-    render.renderToString()
+  private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit =
+    render.acceptStringBuilder(builder)
 }
 
 sealed trait Element[A <: Attribute] extends Node {
@@ -23,34 +29,35 @@ sealed trait Element[A <: Attribute] extends Node {
 
   def nonErasedAttr: Seq[Attribute] = attributes
 
-  final override def renderToString(): String = {
-    val attrStr = if (this.nonErasedAttr.nonEmpty) {
+  private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit = {
+    builder.append('<')
+    builder.append(name)
+
+    if (this.nonErasedAttr.nonEmpty) {
       val attributes = this.nonErasedAttr
-      val attrBuf = new StringBuilder()
       var index = 0
 
       while (index < attributes.length) {
-        val attr = attributes(index)
-        attrBuf.append(' ')
-        attrBuf.append(attr.renderToString())
+        builder.append(' ')
+        builder.append(attributes(index).renderToString())
         index += 1
       }
+    }
 
-      attrBuf.toString()
-    } else ""
+    builder.append('>')
 
-    val childStr = if (this.children.nonEmpty) {
-      val childBuf = new StringBuilder()
+    if (this.children.nonEmpty) {
       var index = 0
-      while (index < this.children.length) {
-        val child = this.children(index)
-        childBuf.append(child.renderToString())
+      while (index < children.length) {
+        builder.append(children(index).renderToString())
         index += 1
       }
-      childBuf.toString()
-    } else ""
+    }
 
-    "<" + this.name + attrStr + ">" + childStr + "</" + this.name + ">"
+    builder.append("</")
+    builder.append(name)
+    builder.append('>')
+    builder.toString()
   }
 }
 
