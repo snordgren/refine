@@ -33,5 +33,5 @@ Add the following to your `build.sbt`.
 	resolvers += "jitpack" at "https://jitpack.io"
 
     libraryDependencies ++= Seq(
-      "com.github.scalacode.domino" %%% "domino-core" % "-SNAPSHOT",
-      "com.github.scalacode.domino" %%% "domino-dom" % "-SNAPSHOT")
+      "com.github.scalacode.domino" %%% "domino-core" % "0.2.1",
+      "com.github.scalacode.domino" %%% "domino-dom" % "0.2.1")
