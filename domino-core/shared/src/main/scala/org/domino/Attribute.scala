@@ -6,6 +6,13 @@ sealed trait Attribute {
   def renderToString(): String
 }
 
+sealed abstract class BooleanAttribute(val name: String) extends Attribute {
+  val value: Boolean
+
+  final override def renderToString(): String =
+    if (value) name else ""
+}
+
 /**
  * Most attributes have no special behavior, and only need a name and a value that
  * can be transformed into a string (any object).
@@ -218,20 +225,20 @@ object Attribute {
     with ImageAttribute
     with InputAttribute
 
-  final case class Async(value: Boolean) extends SimpleAttribute[Boolean]("async")
+  final case class Async(value: Boolean) extends BooleanAttribute("async")
     with ScriptAttribute
 
-  final case class AutoComplete(value: Boolean) extends SimpleAttribute[Boolean]("autocomplete")
+  final case class AutoComplete(value: Boolean) extends BooleanAttribute("autocomplete")
     with FormAttribute
     with InputAttribute
 
-  final case class AutoFocus(value: Boolean) extends SimpleAttribute[Boolean]("autofocus")
+  final case class AutoFocus(value: Boolean) extends BooleanAttribute("autofocus")
     with ButtonAttribute
     with InputAttribute
     with SelectAttribute
     with TextAreaAttribute
 
-  final case class AutoPlay(value: Boolean) extends SimpleAttribute[Boolean]("autoplay")
+  final case class AutoPlay(value: Boolean) extends BooleanAttribute("autoplay")
     with AudioAttribute
     with VideoAttribute
 
@@ -265,7 +272,7 @@ object Attribute {
   final case class Content(value: String) extends SimpleAttribute[String]("content")
     with MetaAttribute
 
-  final case class ContentEditable(value: String) extends SimpleAttribute[String]("contenteditable")
+  final case class ContentEditable(value: Boolean) extends SimpleAttribute[Boolean]("contenteditable")
     with GlobalAttribute
 
   final case class Controls(value: String) extends SimpleAttribute[String]("controls")
@@ -312,7 +319,7 @@ object Attribute {
   final case class DirName(value: String) extends SimpleAttribute[String]("dirname")
     with InputAttribute with TextAreaAttribute
 
-  final case class Disabled(value: Boolean) extends SimpleAttribute[Boolean]("disabled")
+  final case class Disabled(value: Boolean) extends BooleanAttribute("disabled")
     with ButtonAttribute
     with CommandAttribute
     with FieldSetAttribute
@@ -325,7 +332,7 @@ object Attribute {
   final case class Download(value: String) extends SimpleAttribute[String]("download")
     with AnchorAttribute with AreaAttribute
 
-  final case class Draggable(value: Boolean) extends SimpleAttribute[Boolean]("draggable")
+  final case class Draggable(value: Boolean) extends BooleanAttribute("draggable")
     with GlobalAttribute
 
   final case class DropZone(value: String) extends SimpleAttribute[String]("dropzone")
@@ -364,7 +371,7 @@ object Attribute {
     with ObjectAttribute
     with VideoAttribute
 
-  final case class Hidden(value: Boolean) extends SimpleAttribute[Boolean]("hidden")
+  final case class Hidden(value: Boolean) extends BooleanAttribute("hidden")
     with GlobalAttribute
 
   final case class High(value: String) extends SimpleAttribute[String]("high")
@@ -394,7 +401,7 @@ object Attribute {
   final case class Integrity(value: String) extends SimpleAttribute[String]("integrity")
     with LinkAttribute with ScriptAttribute
 
-  final case class IsMap(value: Boolean) extends SimpleAttribute[Boolean]("ismap")
+  final case class IsMap(value: Boolean) extends BooleanAttribute("ismap")
     with ImageAttribute
 
   final case class ItemProp(value: String) extends SimpleAttribute[String]("itemprop")
@@ -450,7 +457,7 @@ object Attribute {
   final case class Multiple(value: String) extends SimpleAttribute[String]("multiple")
     with InputAttribute with SelectAttribute
 
-  final case class Muted(value: String) extends SimpleAttribute[String]("muted")
+  final case class Muted(value: Boolean) extends BooleanAttribute("muted")
     with AudioAttribute with VideoAttribute
 
   final case class Name(value: String) extends SimpleAttribute[String]("name")
@@ -467,7 +474,7 @@ object Attribute {
     with SelectAttribute
     with TextAreaAttribute
 
-  final case class NoValidate(value: String) extends SimpleAttribute[String]("novalidate")
+  final case class NoValidate(value: Boolean) extends BooleanAttribute("novalidate")
     with FormAttribute
 
   final case class Open(value: String) extends SimpleAttribute[String]("open")
@@ -502,7 +509,7 @@ object Attribute {
     with AreaAttribute
     with LinkAttribute
 
-  final case class Required(value: String) extends SimpleAttribute[String]("required")
+  final case class Required(value: Boolean) extends BooleanAttribute("required")
     with InputAttribute
     with SelectAttribute
     with TextAreaAttribute
@@ -528,7 +535,7 @@ object Attribute {
   final case class Seamless(value: String) extends SimpleAttribute[String]("seamless")
     with IFrameAttribute
 
-  final case class Selected(value: String) extends SimpleAttribute[String]("selected")
+  final case class Selected(value: Boolean) extends BooleanAttribute("selected")
     with OptionAttribute
 
   final case class Shape(value: String) extends SimpleAttribute[String]("shape")
@@ -548,7 +555,13 @@ object Attribute {
   final case class Span(value: String) extends SimpleAttribute[String]("span")
     with ColAttribute with ColGroupAttribute
 
-  final case class SpellCheck(value: String) extends SimpleAttribute[String]("spellcheck")
+  /**
+   * This attribute is not like other boolean attributes, for whatever reason. It's
+   * "an enumerated value of true and false", yet not boolean.
+   *
+   * @param value
+   */
+  final case class SpellCheck(value: Boolean) extends SimpleAttribute[Boolean]("spellcheck")
     with GlobalAttribute
 
   final case class Source(value: String) extends SimpleAttribute[String]("src")
