@@ -40,7 +40,6 @@ sealed trait Element[A <: Attribute] extends Node {
       while (index < attributes.length) {
         builder.append(' ')
         builder.append(attributes(index).renderToString())
-        index += 1
       }
     }
 
@@ -48,6 +47,7 @@ sealed trait Element[A <: Attribute] extends Node {
 
     if (this.children.nonEmpty) {
       var index = 0
+      
       while (index < children.length) {
         builder.append(children(index).renderToString())
         index += 1

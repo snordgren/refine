@@ -61,7 +61,7 @@ class TextRendererSpec extends UnitSpec {
     val result = source.renderToString()
     result should be(expected)
   }
-
+  
   it should "properly handle boolean attributes" in {
     import HTML._
     div(contenteditable := true)().renderToString() should be("<div contenteditable=\"true\"></div>")
