@@ -38,8 +38,8 @@ sealed trait Element[A <: Attribute] extends Node {
       var index = 0
 
       while (index < attributes.length) {
-        builder.append(' ')
-        builder.append(attributes(index).renderToString())
+        attributes(index).acceptStringBuilder(builder)
+        index += 1
       }
     }
 
@@ -49,7 +49,7 @@ sealed trait Element[A <: Attribute] extends Node {
       var index = 0
       
       while (index < children.length) {
-        builder.append(children(index).renderToString())
+        children(index).acceptStringBuilder(builder)
         index += 1
       }
     }

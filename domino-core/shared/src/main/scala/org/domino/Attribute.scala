@@ -3,14 +3,23 @@ package org.domino
 sealed trait Attribute {
   val name: String
 
-  def renderToString(): String
+  private[domino] def acceptStringBuilder(builder: StringBuilder): Unit
+
+  def renderToString(): String = {
+    val builder = new StringBuilder()
+    acceptStringBuilder(builder)
+    builder.toString()
+  }
 }
 
 sealed abstract class BooleanAttribute(val name: String) extends Attribute {
   val value: Boolean
 
-  final override def renderToString(): String =
-    if (value) name else ""
+  private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit =
+    if (value) {
+      builder.append(' ')
+      builder.append(name)
+    }
 }
 
 /**
@@ -20,15 +29,25 @@ sealed abstract class BooleanAttribute(val name: String) extends Attribute {
 sealed abstract class SimpleAttribute[T](val name: String) extends Attribute {
   val value: T
 
-  final override def renderToString(): String =
-    name + "=\"" + HTMLEscape(value.toString) + "\""
+  private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit = {
+    builder.append(' ')
+    builder.append(name)
+    builder.append("=\"")
+    builder.append(HTMLEscape(value.toString))
+    builder.append('"')
+  }
 }
 
 abstract class EventAttribute[T](val name: String) extends GlobalAttribute {
   val f: (T => _)
 
-  final override def renderToString(): String =
-    name + "=\"" + HTMLEscape(f.toString) + "\""
+  private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit = {
+    builder.append(' ')
+    builder.append(name)
+    builder.append("=\"")
+    builder.append(HTMLEscape(f.toString))
+    builder.append('"')
+  }
 }
 
 sealed trait AnchorAttribute extends Attribute
@@ -297,8 +316,14 @@ object Attribute {
    * @param value The value of the data.
    */
   final case class CustomData(name: String, value: String) extends GlobalAttribute {
-    override def renderToString() =
-      "data-" + name + "=\"" + value + "\""
+    private[domino] override def acceptStringBuilder(builder: StringBuilder): Unit = {
+      builder.append(' ')
+      builder.append("data-")
+      builder.append(name)
+      builder.append("=\"")
+      builder.append(value)
+      builder.append("\"")
+    }
   }
 
   final case class DateTime(value: String) extends SimpleAttribute[String]("datetime")
@@ -394,8 +419,12 @@ object Attribute {
   final case class Id(value: String) extends GlobalAttribute {
     val name = s"#$value"
 
-    override def renderToString() =
-      "id=\"" + value + "\""
+    private[domino] override def acceptStringBuilder(builder: StringBuilder): Unit = {
+      builder.append(' ')
+      builder.append("id=\"")
+      builder.append(value)
+      builder.append('"')
+    }
   }
 
   final case class Integrity(value: String) extends SimpleAttribute[String]("integrity")

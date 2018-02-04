@@ -67,7 +67,7 @@ class TextRendererSpec extends UnitSpec {
     div(contenteditable := true)().renderToString() should be("<div contenteditable=\"true\"></div>")
     div(contenteditable := false)().renderToString() should be("<div contenteditable=\"false\"></div>")
     div(hidden := true)().renderToString() should be(s"<div hidden></div>")
-    div(hidden := false)().renderToString() should be(s"<div ></div>")
+    div(hidden := false)().renderToString() should be(s"<div></div>")
     div(spellcheck := true)().renderToString() should be("<div spellcheck=\"true\"></div>")
     div(spellcheck := false)().renderToString() should be("<div spellcheck=\"false\"></div>")
   }

@@ -6,7 +6,7 @@ class HTMLSpec extends UnitSpec {
     val firstParaString = "This is my first paragraph"
     val contentpara = "contentpara"
     val first = "first"
-    val times = 1024 * 2
+    val times = 1024 * 4
 
     def testDomino() = {
       import org.domino.HTML._
@@ -65,7 +65,7 @@ class HTMLSpec extends UnitSpec {
       endTime - startTime
     }
 
-    (0 until 16).foreach { _ =>
+    (0 until 4).foreach { _ =>
       testDomino()
       testScalaTags()
     }
