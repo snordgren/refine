@@ -18,6 +18,17 @@ object DominoDOM {
     }
   }
 
+  def render(comp: Component, dest: raw.Element): Either[String, Unit] = {
+    val rendered = comp.render
+    rendered match {
+      case e: Element[_] =>
+        render(e, dest)
+
+      case _ =>
+        merge(rendered, dest)
+    }
+  }
+
   private def createElement(element: Element[_]): raw.HTMLElement =
     document.createElement(element.name).asInstanceOf[raw.HTMLElement]
 

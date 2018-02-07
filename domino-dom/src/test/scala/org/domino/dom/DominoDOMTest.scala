@@ -145,4 +145,20 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     DominoDOM.render(newSource, root)
     dynamicArticleDiv.dominoRenderCount should be(2)
   }
+
+  test("render a top-level component") {
+    case class Article() extends Component {
+
+      import HTML._
+
+      override def render =
+        div(id := "article-div")(p(id := "article-p")("Hello, world!"))
+    }
+
+    val root = document.getElementById("root")
+    DominoDOM.render(Article(), root)
+    root.childElementCount should be(1)
+    root.children(0).id should be("article-div")
+    root.children(0).children(0).id should be("article-p")
+  }
 }
