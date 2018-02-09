@@ -1,6 +1,6 @@
-package org.domino.dom
+package domino.dom
 
-import org.domino.EventAttribute
+import domino.EventAttribute
 import org.scalajs.dom.raw
 
 import scala.scalajs.js

@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 sealed trait Attribute {
   val name: String

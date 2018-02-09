@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 class HTMLSpec extends UnitSpec {
   "HTML" should "be performant" in {
@@ -9,7 +9,7 @@ class HTMLSpec extends UnitSpec {
     val times = 1024 * 4
 
     def testDomino() = {
-      import org.domino.HTML._
+      import domino.HTML._
       val startTime = System.currentTimeMillis()
 
       (0 until times).foreach(_ => {

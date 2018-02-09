@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 sealed trait Node {
   private[domino] def acceptStringBuilder(builder: StringBuilder): Unit
@@ -47,7 +47,7 @@ sealed trait Element[A <: Attribute] extends Node {
 
     if (this.children.nonEmpty) {
       var index = 0
-      
+
       while (index < children.length) {
         children(index).acceptStringBuilder(builder)
         index += 1

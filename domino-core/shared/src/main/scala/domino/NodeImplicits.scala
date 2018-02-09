@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 trait NodeImplicits {
   implicit def double2Text(n: Double): Node = Text(n.toString)

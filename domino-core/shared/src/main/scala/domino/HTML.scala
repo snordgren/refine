@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 /**
  * The HTML object aggregates the factories for elements and attributes. It also

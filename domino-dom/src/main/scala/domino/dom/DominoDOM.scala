@@ -1,7 +1,7 @@
-package org.domino.dom
+package domino.dom
 
-import org.domino.Attribute.{CustomData, Id}
-import org.domino.{Component, Element, EventAttribute, Node, SimpleAttribute, Text}
+import domino.Attribute.{CustomData, Id}
+import domino.{Component, Element, EventAttribute, Node, SimpleAttribute, Text}
 import org.scalajs.dom.{document, raw}
 
 import scala.scalajs.js

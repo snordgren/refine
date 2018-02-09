@@ -1,6 +1,6 @@
-package org.domino.dom
+package domino.dom
 
-import org.domino.{Component, Node}
+import domino.{Component, Node}
 import org.scalajs.dom.document
 
 /**

@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 trait Attributes {
 

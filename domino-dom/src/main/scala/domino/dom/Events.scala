@@ -1,6 +1,6 @@
-package org.domino.dom
+package domino.dom
 
-import org.domino.AttributeFactory
+import domino.AttributeFactory
 
 object Events {
   val onAbort = AttributeFactory(OnAbort)

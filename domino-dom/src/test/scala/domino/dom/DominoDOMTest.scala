@@ -1,6 +1,6 @@
-package org.domino.dom
+package domino.dom
 
-import org.domino.{Component, HTML}
+import domino.Component
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.MouseEvent
 import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
@@ -18,7 +18,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("a simple page") {
-    import org.domino.HTML._
+    import domino.HTML._
 
     def page() =
       div(id := "div")(
@@ -39,7 +39,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
 
   test("adding and removing event handlers") {
     import Events._
-    import org.domino.HTML._
+    import domino.HTML._
 
     var upperClicks = 0
     var lowerClicks = 0
@@ -90,7 +90,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("rendering components") {
-    import HTML._
+    import domino.HTML._
 
     val articleDiv = "article-div"
     val articleH1 = "article-h1"
@@ -115,7 +115,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("don't re-render unchanged components") {
-    import HTML._
+    import domino.HTML._
 
     val articleDiv = "article-div"
     val articleH1 = "article-h1"
@@ -149,7 +149,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   test("render a top-level component") {
     case class Article() extends Component {
 
-      import HTML._
+      import domino.HTML._
 
       override def render =
         div(id := "article-div")(p(id := "article-p")("Hello, world!"))

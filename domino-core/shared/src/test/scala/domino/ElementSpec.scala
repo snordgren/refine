@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 class ElementSpec extends UnitSpec {
 
@@ -6,7 +6,7 @@ class ElementSpec extends UnitSpec {
    * The best way to start a test suite, ain't it?
    */
   "An element" should "be easy to construct" in {
-    import HTML._
+    import domino.HTML._
 
     val source =
       html(lang := "en", manifest := "yes")(

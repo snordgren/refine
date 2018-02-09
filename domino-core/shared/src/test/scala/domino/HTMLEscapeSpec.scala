@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 class HTMLEscapeSpec extends UnitSpec {
   "HTML escaping" should "escape all necessary characters" in {

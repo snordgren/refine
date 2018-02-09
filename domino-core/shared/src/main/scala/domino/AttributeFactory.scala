@@ -1,4 +1,4 @@
-package org.domino
+package domino
 
 /**
  * The AttributeFactory type is used to instantiate HTML attributes assigned to
