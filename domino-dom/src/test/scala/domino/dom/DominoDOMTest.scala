@@ -1,6 +1,6 @@
 package domino.dom
 
-import domino.Component
+import domino.{Component, HTML}
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.MouseEvent
 import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
@@ -8,8 +8,10 @@ import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
 import scala.scalajs.js
 
 class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
+  def root = document.getElementById("root")
+
   before {
-    if (document.getElementById("root") == null) {
+    if (root == null) {
       val body = document.querySelector("body")
       val root = document.createElement("div")
       root.id = "root"
@@ -27,7 +29,6 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
           "This page was rendered with the Domino library for Scala.js."),
         p(id := "enjoy")("Enjoy!"))
 
-    val root = document.getElementById("root")
     root should not be null
     DominoDOM.render(page(), root)
 
@@ -65,7 +66,6 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
             }))("Enjoy!"))
 
     def render(upper: Boolean): Unit = {
-      val root = document.getElementById("root")
       root should not be null
       DominoDOM.render(page(upper), root)
     }
@@ -132,7 +132,6 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     val body = "body"
     val source = div(Article(title, body))
 
-    val root = document.getElementById("root")
     DominoDOM.render(source, root)
     val dynamicArticleDiv = document.getElementById(articleDiv).asInstanceOf[js.Dynamic]
     js.isUndefined(dynamicArticleDiv.previousDominoComp) should be(false)
@@ -155,10 +154,25 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
         div(id := "article-div")(p(id := "article-p")("Hello, world!"))
     }
 
-    val root = document.getElementById("root")
     DominoDOM.render(Article(), root)
+    root should not be null
     root.childElementCount should be(1)
     root.children(0).id should be("article-div")
     root.children(0).children(0).id should be("article-p")
+  }
+
+  test("render nested components while preserving ID") {
+    import HTML._
+
+    case class A() extends Component {
+      override def render = B()
+    }
+
+    case class B() extends Component {
+      override def render = "No!"
+    }
+
+    DominoDOM.render(A(), root)
+    root should not be null
   }
 }

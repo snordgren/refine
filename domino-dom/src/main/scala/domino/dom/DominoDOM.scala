@@ -11,11 +11,9 @@ object DominoDOM {
     if (dest.childNodes.length < 1) {
       val newChild = createElement(src)
       dest.appendChild(newChild)
-      merge(src, newChild)
-
-    } else {
-      merge(src, dest.firstChild)
     }
+
+    patch(src, dest.firstChild)
   }
 
   def render(comp: Component, dest: raw.Element): Either[String, Unit] = {
@@ -25,7 +23,11 @@ object DominoDOM {
         render(e, dest)
 
       case _ =>
-        merge(rendered, dest)
+        if (dest.childElementCount < 1) {
+          dest.appendChild(createChild(rendered))
+        }
+
+        patch(rendered, dest.firstChild)
     }
   }
 
@@ -63,13 +65,13 @@ object DominoDOM {
     }
   }
 
-  private def merge(src: Node, dest: raw.Node): Either[String, Unit] = {
+  private def patch(src: Node, dest: raw.Node): Either[String, Unit] = {
     if (dest == null) return Left("The target node was null.")
     if (js.isUndefined(dest)) return Left("The target node was undefined.")
 
     def recreate(newChild: raw.Node): Either[String, Unit] = {
       dest.parentNode.replaceChild(newChild, dest)
-      merge(src, newChild)
+      patch(src, newChild)
     }
 
     src match {
@@ -89,7 +91,7 @@ object DominoDOM {
                   dest.appendChild(createChild(child))
                 }
                 val target = dest.childNodes(index)
-                merge(child, target)
+                patch(child, target)
               }
               Right()
             } else recreate(createElement(element))
@@ -109,7 +111,7 @@ object DominoDOM {
         }
 
       case c: Component =>
-        VirtualDOM.renderComponent(c, dest, merge)
+        VirtualDOM.renderComponent(c, dest, patch)
     }
   }
 
