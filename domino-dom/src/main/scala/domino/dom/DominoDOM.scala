@@ -5,8 +5,18 @@ import org.scalajs.dom.{document, raw}
 
 import scala.scalajs.js
 
+sealed trait RenderResult
+
+object RenderResult {
+
+  case object Success extends RenderResult
+
+  case class Failure(errorMsg: String) extends RenderResult
+
+}
+
 object DominoDOM {
-  def render(src: Element[_], dest: raw.Element): Either[String, Unit] = {
+  def render(src: Element[_], dest: raw.Element): RenderResult = {
     if (dest.childNodes.length < 1) {
       val newChild = createElement(src)
       dest.appendChild(newChild)
@@ -15,7 +25,7 @@ object DominoDOM {
     patch(src, dest.firstChild)
   }
 
-  def render(comp: Component, dest: raw.Element): Either[String, Unit] = {
+  def render(comp: Component, dest: raw.Element): RenderResult = {
     val rendered = comp.render
     rendered match {
       case e: Element[_] =>
@@ -53,11 +63,11 @@ object DominoDOM {
     }
   }
 
-  private def patch(src: Node, dest: raw.Node): Either[String, Unit] = {
-    if (dest == null) return Left("The target node was null.")
-    if (js.isUndefined(dest)) return Left("The target node was undefined.")
+  private def patch(src: Node, dest: raw.Node): RenderResult = {
+    if (dest == null) return RenderResult.Failure("The target node was null.")
+    if (js.isUndefined(dest)) return RenderResult.Failure("The target node was undefined.")
 
-    def recreate(newChild: raw.Node): Either[String, Unit] = {
+    def recreate(newChild: raw.Node): RenderResult = {
       dest.parentNode.replaceChild(newChild, dest)
       patch(src, newChild)
     }
@@ -81,7 +91,7 @@ object DominoDOM {
                 val target = dest.childNodes(index)
                 patch(child, target)
               }
-              Right()
+              RenderResult.Success
             } else recreate(createElement(element))
           case _ => recreate(createElement(element))
         }
@@ -92,7 +102,7 @@ object DominoDOM {
             if (!textNode.nodeValue.equals(text)) {
               textNode.textContent = text
             }
-            Right()
+            RenderResult.Success
 
           case _ =>
             recreate(document.createTextNode(text))

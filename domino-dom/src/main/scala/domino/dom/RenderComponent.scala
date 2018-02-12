@@ -16,7 +16,7 @@ private[dom] object RenderComponent {
     }
 
   def apply(c: Component, e: raw.Node,
-    render: (Node, raw.Node) => Either[String, Unit]): Either[String, Unit] = {
+    render: (Node, raw.Node) => RenderResult): RenderResult = {
     val dynElement = e.asInstanceOf[js.Dynamic]
 
     val toReturn = if (isComponentDirty(c, e)) {
@@ -30,7 +30,7 @@ private[dom] object RenderComponent {
         dynElement.dominoRenderCount = newRenderCount
       }
       render(c.render, e)
-    } else Right()
+    } else RenderResult.Success
 
     dynElement.previousDominoComp = c.asInstanceOf[js.Dynamic]
     toReturn
