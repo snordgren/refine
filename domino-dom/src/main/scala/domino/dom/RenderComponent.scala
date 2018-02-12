@@ -5,7 +5,7 @@ import org.scalajs.dom.raw
 
 import scala.scalajs.js
 
-private[dom] object VirtualDOM {
+private[dom] object RenderComponent {
   private def isComponentDirty(c: Component, e: raw.Node): Boolean =
     if (js.isUndefined(e.asInstanceOf[js.Dynamic].previousDominoComp))
       true
@@ -15,7 +15,7 @@ private[dom] object VirtualDOM {
       !dynamicComp.equals(prevComp)
     }
 
-  def renderComponent(c: Component, e: raw.Node,
+  def apply(c: Component, e: raw.Node,
     render: (Node, raw.Node) => Either[String, Unit]): Either[String, Unit] = {
     val dynElement = e.asInstanceOf[js.Dynamic]
 

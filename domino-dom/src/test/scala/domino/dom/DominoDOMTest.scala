@@ -175,4 +175,21 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     DominoDOM.render(A(), root)
     root should not be null
   }
+
+  test("render a required attribute") {
+    import HTML._
+
+    DominoDOM.render(input(required := true)(), root)
+    root.firstChild.attributes.getNamedItem("required") should not be null
+  }
+
+  test("render autocomplete") {
+    import HTML._
+
+    DominoDOM.render(input(autoComplete := true)(), root)
+    root.firstChild.attributes.getNamedItem("autocomplete").value should be("on")
+
+    DominoDOM.render(input(autoComplete := false)(), root)
+    root.firstChild.attributes.getNamedItem("autocomplete").value should be("off")
+  }
 }

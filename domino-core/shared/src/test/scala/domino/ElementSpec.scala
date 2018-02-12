@@ -8,12 +8,11 @@ class ElementSpec extends UnitSpec {
   "An element" should "be easy to construct" in {
     import domino.HTML._
 
-    val source =
-      html(lang := "en", manifest := "yes")(
-        head(
-          title(title := "no")("Welcome to Domino!")),
-        body(
-          h1("Welcome to Domino!"),
-          p(data("home") := "where the heart is")("")))
+    html(lang := "en", manifest := "yes")(
+      head(
+        title(title := "no")("Welcome to Domino!")),
+      body(
+        h1("Welcome to Domino!"),
+        p(data("home") := "where the heart is")("")))
   }
 }

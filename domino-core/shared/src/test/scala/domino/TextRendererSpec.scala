@@ -71,4 +71,14 @@ class TextRendererSpec extends UnitSpec {
     div(spellcheck := true)().renderToString() should be("<div spellcheck=\"true\"></div>")
     div(spellcheck := false)().renderToString() should be("<div spellcheck=\"false\"></div>")
   }
+
+  it should "render autocomplete as on-off" in {
+    import HTML._
+
+    input(autoComplete := true)().renderToString() should be(
+      "<input autocomplete=\"on\"></input>")
+
+    input(autoComplete := false)().renderToString() should be(
+      "<input autocomplete=\"off\"></input>")
+  }
 }

@@ -1,7 +1,6 @@
 package domino.dom
 
-import domino.Attribute.{CustomData, Id}
-import domino.{Component, Element, EventAttribute, Node, SimpleAttribute, Text}
+import domino.{Component, Element, Node, Text}
 import org.scalajs.dom.{document, raw}
 
 import scala.scalajs.js
@@ -37,20 +36,9 @@ object DominoDOM {
   private def updateElement(source: Element[_], target: raw.HTMLElement): Unit = {
 
     EventDelegate.prepare(target)
-    source.attributes.foreach {
-      case CustomData(name, value) =>
-        val attrId = s"data-$name"
-        target.setAttribute(attrId, value)
 
-      case Id(value) =>
-        target.setAttribute("id", value)
-
-      case c: SimpleAttribute[_] =>
-        target.setAttribute(c.name, c.value.toString)
-
-      case e: EventAttribute[_] =>
-        EventDelegate.update(e, target)
-    }
+    val patch = PatchAttribute(target)
+    source.nonErasedAttr.foreach(patch)
 
     if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
       (0 until target.attributes.length).flatMap((index) => {
@@ -111,7 +99,7 @@ object DominoDOM {
         }
 
       case c: Component =>
-        VirtualDOM.renderComponent(c, dest, patch)
+        RenderComponent(c, dest, patch)
     }
   }
 

@@ -247,9 +247,20 @@ object Attribute {
   final case class Async(value: Boolean) extends BooleanAttribute("async")
     with ScriptAttribute
 
-  final case class AutoComplete(value: Boolean) extends BooleanAttribute("autocomplete")
+  final case class AutoComplete(value: Boolean) extends Attribute
     with FormAttribute
-    with InputAttribute
+    with InputAttribute {
+
+    override val name = "autocomplete"
+
+    private[domino] override def acceptStringBuilder(builder: StringBuilder): Unit = {
+      builder.append(' ')
+      builder.append(name)
+      builder.append("=\"")
+      builder.append(if (value) "on" else "off")
+      builder.append('"')
+    }
+  }
 
   final case class AutoFocus(value: Boolean) extends BooleanAttribute("autofocus")
     with ButtonAttribute
