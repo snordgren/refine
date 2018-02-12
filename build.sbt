@@ -1,6 +1,6 @@
 val commonSettings = Seq(
   organization := "org.scalacode",
-  version := "0.3.2-SNAPSHOT",
+  version := "0.4.0",
   scalaVersion := "2.12.4",
   scalacOptions := Seq(
     "-deprecation", // Emit warning and location for usages of deprecated APIs.
