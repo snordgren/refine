@@ -86,4 +86,4 @@ object App {
 }
 ```
 
-Components generate elements based on parameters. If the DOM is re-rendered, components whose parameters are identical are not re-rendered. 
+Components generate elements based on parameters. If the DOM is re-rendered, components that compare equally between the first and second renders are not re-rendered.
