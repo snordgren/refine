@@ -9,7 +9,7 @@ class HTMLSpec extends UnitSpec {
     val times = 1024 * 4
 
     def testDomino() = {
-      import domino.HTML._
+      import domino.html._
       val startTime = System.currentTimeMillis()
 
       (0 until times).foreach(_ => {

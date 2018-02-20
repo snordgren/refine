@@ -1,6 +1,6 @@
 package domino.dom
 
-import domino.{Component, HTML}
+import domino.{Component, html}
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.MouseEvent
 import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
@@ -20,7 +20,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("a simple page") {
-    import domino.HTML._
+    import domino.html._
 
     def page() =
       div(id := "div")(
@@ -40,7 +40,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
 
   test("adding and removing event handlers") {
     import Events._
-    import domino.HTML._
+    import domino.html._
 
     var upperClicks = 0
     var lowerClicks = 0
@@ -90,7 +90,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("rendering components") {
-    import domino.HTML._
+    import domino.html._
 
     val articleDiv = "article-div"
     val articleH1 = "article-h1"
@@ -115,7 +115,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("don't re-render unchanged components") {
-    import domino.HTML._
+    import domino.html._
 
     val articleDiv = "article-div"
     val articleH1 = "article-h1"
@@ -148,7 +148,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   test("render a top-level component") {
     case class Article() extends Component {
 
-      import domino.HTML._
+      import domino.html._
 
       override def render =
         div(id := "article-div")(p(id := "article-p")("Hello, world!"))
@@ -162,7 +162,7 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("render nested components while preserving ID") {
-    import HTML._
+    import html._
 
     case class A() extends Component {
       override def render = B()
@@ -177,14 +177,14 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("render a required attribute") {
-    import HTML._
+    import html._
 
     DominoDOM.render(input(required := true)(), root)
     root.firstChild.attributes.getNamedItem("required") should not be null
   }
 
   test("render autocomplete") {
-    import HTML._
+    import html._
 
     DominoDOM.render(input(autoComplete := true)(), root)
     root.firstChild.attributes.getNamedItem("autocomplete").value should be("on")

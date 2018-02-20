@@ -8,4 +8,4 @@ package domino
  * HTML tree. Do not import it as a top-level import as that may lead to namespace
  * collisions.
  */
-object HTML extends Elements with Attributes with NodeImplicits
+object html extends Elements with Attributes with Implicits
