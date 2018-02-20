@@ -22,30 +22,34 @@ tab.
 ### Hello, world!
 ```scala
 import org.scalajs.dom.document
+import domino._
+import domino.dom._
 
 object App {
   def main(args: Array[String]): Unit = {
-    import domino.HTML._
+    import html._
     
     val html = h1("Hello, world!")
-    val root = document.getElementById("root")
-    DominoDOM.render(html, root)
+    DominoDOM.render(html, "root")
   }
 }
 ```
 
-Import the ScalaJS document to acquire components, and import `domino.HTML._` in the function where you render HTML (importing all members of HTML at the top of your file will likely cause namespace collisions). DominoDOM.render will render your HTML to the element you pass in, typically your root node. 
+Import the ScalaJS document to acquire components, and import `domino.HTML._` in the
+function where you render HTML (importing all members of HTML at the top of your file
+will likely cause namespace collisions). DominoDOM.render will render your HTML to the
+id that you pass in, or a custom element if you prefer.
 
 ### Components
 
 ```scala
 import org.scalajs.dom.document
-import domino.Component
-import domino.HTML
+import domino._
+import domino.dom._
 
 case class Header(title: String) extends Component {
   override def render = {
-    import HTML._
+    import html._
     
     h1(title)
   }
@@ -53,7 +57,7 @@ case class Header(title: String) extends Component {
 
 case class App() extends Component {
   override def render = {
-    import HTML._
+    import html._
     
     div(Header(), p("I'm the description..."))
   }
@@ -61,12 +65,13 @@ case class App() extends Component {
 
 object App {
   def main(args: Array[String]): Unit = {
-    import HTML._
+    import html._
     
-    val root = document.getElementById("root")
-    DominoDOM.render(App(), root)
+    DominoDOM.render(App(), "root")
   }
 }
 ```
 
-Components generate elements based on parameters. If the DOM is re-rendered, components that compare equally between the first and second renders are not re-rendered.
+Components generate elements based on parameters. If the DOM is re-rendered,
+components that compare equally between the first and second renders are not
+re-rendered.
