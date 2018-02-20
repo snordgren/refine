@@ -4,22 +4,6 @@
 
 Domino is a library for declarative HTML rendering in Scala.js.
 
-## Example
-
-```scala
-import domino.HTML
-import org.scalajs.dom.document
-
-object App {
-  import HTML._
-
-  def main(args: Array[String]): Unit = {
-    val root = document.getElementById("root")
-    DominoDOM.render(h1("Hello, world!"), root)
-  }
-}
-```
-
 ## Install
 Add the following to your `build.sbt`.
 
