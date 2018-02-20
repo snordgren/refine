@@ -8,4 +8,14 @@ package domino
  * HTML tree. Do not import it as a top-level import as that may lead to namespace
  * collisions.
  */
-object html extends Elements with Attributes with Implicits
+object html extends Elements with Attributes with Implicits {
+
+  lazy val cite = OverloadedFactory(CiteElement, Attribute.Cite)
+  lazy val form = OverloadedFactory(FormElement, Attribute.Form)
+  lazy val label = OverloadedFactory(LabelElement, Attribute.Label)
+  lazy val span = OverloadedFactory(SpanElement, Attribute.Span)
+  lazy val style = OverloadedFactory(StyleElement, Attribute.Style)
+  lazy val summary = OverloadedFactory(SummaryElement, Attribute.Summary)
+  lazy val title = OverloadedFactory(TitleElement, Attribute.Title)
+
+}

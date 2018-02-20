@@ -33,7 +33,7 @@ sealed abstract class SimpleAttribute[T](val name: String) extends Attribute {
     builder.append(' ')
     builder.append(name)
     builder.append("=\"")
-    builder.append(EscapeHTML(value.toString))
+    builder.append(EscapeHTML.attribute(value.toString))
     builder.append('"')
   }
 }
@@ -45,7 +45,7 @@ abstract class EventAttribute[T](val name: String) extends GlobalAttribute {
     builder.append(' ')
     builder.append(name)
     builder.append("=\"")
-    builder.append(EscapeHTML(f.toString))
+    builder.append(EscapeHTML.attribute(f.toString))
     builder.append('"')
   }
 }

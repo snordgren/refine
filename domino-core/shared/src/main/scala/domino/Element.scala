@@ -3,7 +3,7 @@ package domino
 sealed trait Node {
   private[domino] def acceptStringBuilder(builder: StringBuilder): Unit
 
-  final def renderToString(): String = {
+  final def renderToString: String = {
     val builder = new StringBuilder()
     acceptStringBuilder(builder)
     builder.toString()
@@ -12,7 +12,7 @@ sealed trait Node {
 
 final case class Text(value: String) extends Node {
   private[domino] override def acceptStringBuilder(builder: StringBuilder): Unit =
-    builder.append(EscapeHTML(value))
+    builder.append(EscapeHTML.element(value))
 }
 
 trait Component extends Node {
@@ -28,13 +28,16 @@ sealed trait Element[A <: Attribute] extends Node {
   def children: Seq[Node]
 
   def nonErasedAttr: Seq[Attribute] = attributes
+}
 
-  private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit = {
-    builder.append('<')
+object RenderElement {
+  def apply(builder: StringBuilder, name: String, attributes: Seq[Attribute],
+    children: Seq[Node], empty: Boolean, prefix: String): Unit = {
+
+    builder.append(prefix)
     builder.append(name)
 
-    if (this.nonErasedAttr.nonEmpty) {
-      val attributes = this.nonErasedAttr
+    if (attributes.nonEmpty) {
       var index = 0
 
       while (index < attributes.length) {
@@ -45,7 +48,7 @@ sealed trait Element[A <: Attribute] extends Node {
 
     builder.append('>')
 
-    if (this.children.nonEmpty) {
+    if (!empty && children.nonEmpty) {
       var index = 0
 
       while (index < children.length) {
@@ -54,14 +57,22 @@ sealed trait Element[A <: Attribute] extends Node {
       }
     }
 
-    builder.append("</")
-    builder.append(name)
-    builder.append('>')
+    if (!empty) {
+      builder.append("</")
+      builder.append(name)
+      builder.append('>')
+    }
+
     builder.toString()
   }
 }
 
-abstract class AbstractElement[A <: Attribute](val name: String) extends Element[A]
+abstract class AbstractElement[A <: Attribute](val name: String,
+  empty: Boolean = false) extends Element[A] {
+
+  private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit =
+    RenderElement.apply(builder, name, attributes, children, empty, "<")
+}
 
 final case class AnchorElement(attributes: Seq[AnchorAttribute],
   children: Seq[Node]) extends AbstractElement[AnchorAttribute]("a")
@@ -202,7 +213,13 @@ final case class HRElement(attributes: Seq[HRAttribute],
   children: Seq[Node]) extends AbstractElement[HRAttribute]("hr")
 
 final case class HTMLElement(attributes: Seq[HTMLAttribute],
-  children: Seq[Node]) extends AbstractElement[HTMLAttribute]("html")
+  children: Seq[Node]) extends Element[HTMLAttribute] {
+
+  override def name = "html"
+
+  override private[domino] def acceptStringBuilder(builder: StringBuilder): Unit =
+    RenderElement(builder, name, attributes, children, empty = false, "<!DOCTYPE html><")
+}
 
 final case class IElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("i")
@@ -244,7 +261,7 @@ final case class MarkElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("mark")
 
 final case class MetaElement(attributes: Seq[MetaAttribute],
-  children: Seq[Node]) extends AbstractElement[MetaAttribute]("meta")
+  children: Seq[Node]) extends AbstractElement[MetaAttribute]("meta", empty = true)
 
 final case class MeterElement(attributes: Seq[MeterAttribute],
   children: Seq[Node]) extends AbstractElement[MeterAttribute]("meter")

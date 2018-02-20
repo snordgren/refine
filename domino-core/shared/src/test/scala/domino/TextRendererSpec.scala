@@ -5,15 +5,15 @@ class TextRendererSpec extends UnitSpec {
     import domino.html._
     val text = "Hello, world!"
     val source = p(text)
-    val expected = s"<p>${EscapeHTML(text)}</p>"
-    val result = source.renderToString()
+    val expected = s"<p>${EscapeHTML.element(text)}</p>"
+    val result = source.renderToString
     result should be(expected)
   }
 
   it should "render an attribute" in {
     import domino.html._
     val source = p(id := "my-paragraph")("This is my paragraph.")
-    val result = source.renderToString()
+    val result = source.renderToString
     val expected = """<p id="my-paragraph">This is my paragraph.</p>"""
     result should be(expected)
   }
@@ -22,15 +22,15 @@ class TextRendererSpec extends UnitSpec {
     import domino.html._
     val text = "I'm a child node."
     val source = div(p(text))
-    val result = source.renderToString()
-    val expected = s"<div><p>${EscapeHTML(text)}</p></div>"
+    val result = source.renderToString
+    val expected = s"<div><p>${EscapeHTML.element(text)}</p></div>"
     result should be(expected)
   }
 
   it should "handle a data attribute" in {
     import domino.html._
     val source = div(data("my-data") := "good")()
-    val result = source.renderToString()
+    val result = source.renderToString
     result should be("""<div data-my-data="good"></div>""")
   }
 
@@ -56,29 +56,55 @@ class TextRendererSpec extends UnitSpec {
           h1(title),
           p(body)),
         p(readMore))
-        .renderToString()
+        .renderToString
 
-    val result = source.renderToString()
+    val result = source.renderToString
     result should be(expected)
   }
 
   it should "properly handle boolean attributes" in {
     import domino.html._
-    div(contenteditable := true)().renderToString() should be("<div contenteditable=\"true\"></div>")
-    div(contenteditable := false)().renderToString() should be("<div contenteditable=\"false\"></div>")
-    div(hidden := true)().renderToString() should be(s"<div hidden></div>")
-    div(hidden := false)().renderToString() should be(s"<div></div>")
-    div(spellcheck := true)().renderToString() should be("<div spellcheck=\"true\"></div>")
-    div(spellcheck := false)().renderToString() should be("<div spellcheck=\"false\"></div>")
+    div(contenteditable := true)().renderToString should be("<div contenteditable=\"true\"></div>")
+    div(contenteditable := false)().renderToString should be("<div contenteditable=\"false\"></div>")
+    div(hidden := true)().renderToString should be(s"<div hidden></div>")
+    div(hidden := false)().renderToString should be(s"<div></div>")
+    div(spellcheck := true)().renderToString should be("<div spellcheck=\"true\"></div>")
+    div(spellcheck := false)().renderToString should be("<div spellcheck=\"false\"></div>")
   }
 
   it should "render autocomplete as on-off" in {
     import html._
 
-    input(autoComplete := true)().renderToString() should be(
+    input(autoComplete := true)().renderToString should be(
       "<input autocomplete=\"on\"></input>")
 
-    input(autoComplete := false)().renderToString() should be(
+    input(autoComplete := false)().renderToString should be(
       "<input autocomplete=\"off\"></input>")
+  }
+
+  it should "render a doctype" in {
+    import html._
+
+    html().renderToString should be("<!DOCTYPE html><html></html>")
+  }
+
+  it should "render a meta charset tag" in {
+    import html._
+
+    meta(charset := "UTF-8")().renderToString should be("<meta charset=\"UTF-8\">")
+  }
+
+  it should "render an anchor link" in {
+    import html._
+
+    anchor(href := "/")("link").renderToString should be("<a href=\"/\">link</a>")
+  }
+
+  it should "render a cite" in {
+    import html._
+
+    cite(id := "test")("cite").renderToString should be("<cite id=\"test\">cite</cite>")
+    blockquote(cite := "someone")("content").renderToString should be(
+      "<blockquote cite=\"someone\">content</blockquote>")
   }
 }
