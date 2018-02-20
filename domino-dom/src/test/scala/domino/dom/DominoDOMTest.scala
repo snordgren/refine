@@ -192,4 +192,11 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     DominoDOM.render(input(autoComplete := false)(), root)
     root.firstChild.attributes.getNamedItem("autocomplete").value should be("off")
   }
+
+  test("render to ID") {
+    import html._
+
+    DominoDOM.render(h1("Hello, world!"), "root")
+    root.firstChild.nodeName.toLowerCase() should be("h1")
+  }
 }

@@ -16,6 +16,9 @@ object RenderResult {
 }
 
 object DominoDOM {
+  def render(src: Element[_], id: String): RenderResult =
+    render(src, document.getElementById(id))
+
   def render(src: Element[_], dest: raw.Element): RenderResult = {
     if (dest.childNodes.length < 1) {
       val newChild = createElement(src)
@@ -24,6 +27,9 @@ object DominoDOM {
 
     patch(src, dest.firstChild)
   }
+
+  def render(comp: Component, id: String): RenderResult =
+    render(comp, document.getElementById(id))
 
   def render(comp: Component, dest: raw.Element): RenderResult = {
     val rendered = comp.render
