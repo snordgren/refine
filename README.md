@@ -5,19 +5,18 @@
 Domino is a library for declarative HTML rendering in Scala.js.
 
 ## Install
-Add the following to your `build.sbt`.
+Add the following to your `build.sbt`. You can find `dominoVersion` in the Releases
+tab.
 
 	resolvers += "jitpack" at "https://jitpack.io"
 	
-	lazy val dominoVersion = "0.4.0"
-	
 	// JVM
-	libraryDependencies += "com.github.scalacode.domino" %% "domino-core" % dominoVersion
+	libraryDependencies += "com.github.snordgren.domino" %% "domino-core" % dominoVersion
 
 	// Scala.js
     libraryDependencies ++= Seq(
-      "com.github.scalacode.domino" %%% "domino-core" % dominoVersion,
-      "com.github.scalacode.domino" %%% "domino-dom" % dominoVersion)
+      "com.github.snordgren.domino" %%% "domino-core" % dominoVersion,
+      "com.github.snordgren.domino" %%% "domino-dom" % dominoVersion)
       
 ## Getting Started
 ### Hello, world!
