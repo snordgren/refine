@@ -5,7 +5,7 @@ class TextRendererSpec extends UnitSpec {
     import domino.HTML._
     val text = "Hello, world!"
     val source = p(text)
-    val expected = s"<p>${HTMLEscape(text)}</p>"
+    val expected = s"<p>${EscapeHTML(text)}</p>"
     val result = source.renderToString()
     result should be(expected)
   }
@@ -23,7 +23,7 @@ class TextRendererSpec extends UnitSpec {
     val text = "I'm a child node."
     val source = div(p(text))
     val result = source.renderToString()
-    val expected = s"<div><p>${HTMLEscape(text)}</p></div>"
+    val expected = s"<div><p>${EscapeHTML(text)}</p></div>"
     result should be(expected)
   }
 

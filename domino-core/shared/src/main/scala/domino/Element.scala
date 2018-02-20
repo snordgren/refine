@@ -12,7 +12,7 @@ sealed trait Node {
 
 final case class Text(value: String) extends Node {
   private[domino] override def acceptStringBuilder(builder: StringBuilder): Unit =
-    builder.append(HTMLEscape(value))
+    builder.append(EscapeHTML(value))
 }
 
 trait Component extends Node {

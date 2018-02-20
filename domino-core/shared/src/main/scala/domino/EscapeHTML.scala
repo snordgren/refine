@@ -2,7 +2,7 @@ package domino
 
 import java.lang.StringBuilder
 
-object HTMLEscape {
+object EscapeHTML {
   def apply(str: String): String = {
     val result = new StringBuilder()
     var index = 0
