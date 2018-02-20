@@ -3,9 +3,7 @@ package domino
 import java.lang.StringBuilder
 
 object EscapeHTML {
-  def attribute(str: String): String = {
-    val result = new StringBuilder()
-
+  def appendAttribute(str: String, result: StringBuilder): Unit = {
     var index = 0
     while (index < str.length) {
       val currentChar = str.codePointAt(index)
@@ -19,12 +17,9 @@ object EscapeHTML {
         case _ => result.appendCodePoint(currentChar)
       }
     }
-
-    result.toString
   }
 
-  def element(str: String): String = {
-    val result = new StringBuilder()
+  def appendElement(str: String, result: StringBuilder): Unit = {
     var index = 0
     while (index < str.length) {
       val currentChar = str.codePointAt(index)
@@ -36,7 +31,17 @@ object EscapeHTML {
         case _ => result.appendCodePoint(currentChar)
       }
     }
+  }
 
+  def attribute(str: String): String = {
+    val result = new StringBuilder()
+    appendAttribute(str, result)
+    result.toString
+  }
+
+  def element(str: String): String = {
+    val result = new StringBuilder()
+    appendElement(str, result)
     result.toString
   }
 }

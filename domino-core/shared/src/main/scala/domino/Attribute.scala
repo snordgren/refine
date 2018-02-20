@@ -1,5 +1,7 @@
 package domino
 
+import java.lang.StringBuilder
+
 sealed trait Attribute {
   val name: String
 
@@ -45,7 +47,6 @@ abstract class EventAttribute[T](val name: String) extends GlobalAttribute {
     builder.append(' ')
     builder.append(name)
     builder.append("=\"")
-    builder.append(EscapeHTML.attribute(f.toString))
     builder.append('"')
   }
 }
@@ -428,7 +429,7 @@ object Attribute {
     with MetaAttribute
 
   final case class Id(value: String) extends GlobalAttribute {
-    val name = s"#$value"
+    val name = "#" + value
 
     private[domino] override def acceptStringBuilder(builder: StringBuilder): Unit = {
       builder.append(' ')

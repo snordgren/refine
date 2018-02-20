@@ -1,5 +1,10 @@
 package domino
 
+/**
+ * Trait containing the attribute factories for all elements, save those
+ * that have namespace conflicts with elmenents. Those overloaded factories
+ * are defined in the html object.
+ */
 trait Attributes {
 
   import Attribute._
@@ -17,7 +22,6 @@ trait Attributes {
   lazy val buffered = AttributeFactory(Buffered)
   lazy val charset = AttributeFactory(Charset)
   lazy val checked = AttributeFactory(Checked)
-  private[domino] lazy val citeAttribute = AttributeFactory(Cite)
   lazy val className = AttributeFactory(ClassName)
   lazy val cls = className
   lazy val cols = AttributeFactory(Cols)

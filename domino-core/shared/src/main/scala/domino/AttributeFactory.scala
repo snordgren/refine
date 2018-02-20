@@ -1,5 +1,12 @@
 package domino
 
+/**
+ * Trait for sharing attribute creation code between AttributeFactory and
+ * OverloadedFactory.
+ *
+ * @tparam T The type of value that the attribute requires.
+ * @tparam A The type of attribute that this factory instantiates.
+ */
 trait AbstractAttributeFactory[T, A] {
   val newAttribute: T => A
 
@@ -16,8 +23,8 @@ trait AbstractAttributeFactory[T, A] {
  * The AttributeFactory type is used to instantiate HTML attributes assigned to
  * values using the := operator.
  *
- * @param newAttribute The function that instantiates a new attribute of type A with a value
- * of type T.
+ * @param newAttribute The function that instantiates a new attribute of type A with a
+ * value of type T.
  * @tparam T The type of the constructor parameter value for the attribute.
  * @tparam A The type of attribute.
  */

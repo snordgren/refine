@@ -1,21 +1,71 @@
 package domino
 
+import java.lang.StringBuilder
+
+/**
+ * The node is the primary unit of rendering in Domino. Each node corresponds
+ * to an HTML node, such as a #text node or an element. There are also
+ * components, that are essentially comparable pure functions from state S
+ * to node tree N, usually implemented using case classes.
+ */
 sealed trait Node {
+
+  /**
+   * Append the contents of this node to the string builder. The actual
+   * rendering to text is done in this method, to reduce the number of
+   * of reallocated strings.
+   *
+   * @param builder The builder to append to.
+   */
   private[domino] def acceptStringBuilder(builder: StringBuilder): Unit
 
+  /**
+   * Render this node to a string.
+   *
+   * @return An unformatted HTML string matching this node.
+   */
   final def renderToString: String = {
-    val builder = new StringBuilder()
+
+    // Most HTML renders should fit into 1024 characters.
+    // By using this large default instead of the 16 character
+    // default of string builders, we can render most elements
+    // without having to reallocate the backing array of the
+    // string builder.
+    val builder = new StringBuilder(1024)
     acceptStringBuilder(builder)
-    builder.toString()
+    builder.toString
   }
 }
 
+/**
+ * A text node corresponds to a #text node in HTML.
+ *
+ * @param value The string.
+ */
 final case class Text(value: String) extends Node {
   private[domino] override def acceptStringBuilder(builder: StringBuilder): Unit =
-    builder.append(EscapeHTML.element(value))
+    EscapeHTML.appendElement(value, builder)
 }
 
+/**
+ * Lazy rendering optimization is built-in in components. A component is a
+ * closure over a pure function S => Node where S is the state of the
+ * component. The component is only re-rendered by Domino when its S is not
+ * equal to the component that was there before.
+ *
+ * Components should be case classes. If for some reason you cannot use a
+ * case class to represent your component, be sure to override the equals
+ * method to ensure that the component behaves properly on re-renders.
+ */
 trait Component extends Node {
+
+  /**
+   * Render this component into a node. This must be a pure function, its
+   * result only varying based on the constructor parameters of the
+   * implementing case class.
+   *
+   * @return The rendered items.
+   */
   def render: Node
 
   private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit =
@@ -30,14 +80,23 @@ sealed trait Element[A <: Attribute] extends Node {
   def nonErasedAttr: Seq[Attribute] = attributes
 }
 
+/**
+ * Contains the primary method of rendering elements, for sharing code between
+ * elements that may have different rendering characteristics, such as
+ * AbstractElement and HTMLElement.
+ */
 object RenderElement {
-  def apply(builder: StringBuilder, name: String, attributes: Seq[Attribute],
-    children: Seq[Node], empty: Boolean, prefix: String): Unit = {
 
-    builder.append(prefix)
+  /**
+   * Render an element to a string builder, using the standard algorithm.
+   */
+  private[domino] def apply(builder: StringBuilder, name: String,
+    attributes: Seq[Attribute], children: Seq[Node], empty: Boolean): Unit = {
+
+    builder.append('<')
     builder.append(name)
 
-    if (attributes.nonEmpty) {
+    if (attributes.length > 0) {
       var index = 0
 
       while (index < attributes.length) {
@@ -48,22 +107,46 @@ object RenderElement {
 
     builder.append('>')
 
-    if (!empty && children.nonEmpty) {
-      var index = 0
-
-      while (index < children.length) {
-        children(index).acceptStringBuilder(builder)
-        index += 1
-      }
-    }
-
+    // Elements that are empty do not have any content, and do not have a closing
+    // tag either. If the element is empty we can skip this section entirely.
     if (!empty) {
-      builder.append("</")
+      if (children.length > 0) {
+        var index = 0
+
+        // Pre-allocate a buffer array that will contain a reference to the
+        // rendered strings of each of the child elements.
+        //
+        // By storing the intermediate representations of each of the child
+        // elements, we can calculate how large to make the final string
+        // builder that will contain them all.
+        //
+        // This way, we avoid multiple slow re-allocations inside of the
+        // string builder.
+        //
+        val buffer = new Array[String](children.length)
+        var length = 0
+        while (index < children.length) {
+          val result = children(index).renderToString
+          length += result.length
+          buffer(index) = result
+          index += 1
+        }
+
+        // Ensure that the string builder has at least enough excess capacity
+        // to serve the rest of this element.
+        builder.ensureCapacity(builder.length + length + 3 + name.length)
+        index = 0
+        while (index < children.length) {
+          builder.append(buffer(index))
+          index += 1
+        }
+      }
+
+      builder.append('<')
+      builder.append('/')
       builder.append(name)
       builder.append('>')
     }
-
-    builder.toString()
   }
 }
 
@@ -71,7 +154,7 @@ abstract class AbstractElement[A <: Attribute](val name: String,
   empty: Boolean = false) extends Element[A] {
 
   private[domino] final override def acceptStringBuilder(builder: StringBuilder): Unit =
-    RenderElement.apply(builder, name, attributes, children, empty, "<")
+    RenderElement.apply(builder, name, attributes, children, empty)
 }
 
 final case class AnchorElement(attributes: Seq[AnchorAttribute],
@@ -217,8 +300,10 @@ final case class HTMLElement(attributes: Seq[HTMLAttribute],
 
   override def name = "html"
 
-  override private[domino] def acceptStringBuilder(builder: StringBuilder): Unit =
-    RenderElement(builder, name, attributes, children, empty = false, "<!DOCTYPE html><")
+  override private[domino] def acceptStringBuilder(builder: StringBuilder): Unit = {
+    builder.append("<!DOCTYPE html>")
+    RenderElement(builder, name, attributes, children, empty = false)
+  }
 }
 
 final case class IElement(attributes: Seq[GlobalAttribute],

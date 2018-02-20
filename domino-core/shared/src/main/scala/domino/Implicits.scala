@@ -1,5 +1,9 @@
 package domino
 
+/**
+ * Implicit functions for automatically transforming numbers and strings into
+ * Text nodes.
+ */
 trait Implicits {
   implicit def double2Text(n: Double): Node = Text(n.toString)
   implicit def float2Text(n: Float): Node = Text(n.toString)

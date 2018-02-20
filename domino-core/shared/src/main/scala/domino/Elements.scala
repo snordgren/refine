@@ -1,7 +1,11 @@
 package domino
 
+/**
+ * Trait containing the element factories for all HTML5 elements, save those
+ * that have namespace clashes with attributes. Those are defined in the html
+ * object.
+ */
 trait Elements {
-
   lazy val a = ElementFactory(AnchorElement)
   lazy val anchor = a
   lazy val abbr = ElementFactory(AbbrElement)
