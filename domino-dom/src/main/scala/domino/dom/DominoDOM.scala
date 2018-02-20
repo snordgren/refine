@@ -33,10 +33,10 @@ object DominoDOM {
    * Render an element to a node with the passed ID.
    *
    * @param src The wanted content of the node.
-   * @param id The id of the node to render to. The default is root.
+   * @param id The id of the node to render to.
    * @return The result of the render.
    */
-  def render(src: Element[_], id: String = "root"): RenderResult =
+  def render(src: Element[_], id: String): RenderResult =
     render(src, document.getElementById(id))
 
   /**
@@ -59,10 +59,10 @@ object DominoDOM {
    * Render a component to a DOM node with the passed ID.
    *
    * @param comp The component to render.
-   * @param id The ID of the node to render to. The default is root.
+   * @param id The ID of the node to render to.
    * @return The result of the render.
    */
-  def render(comp: Component, id: String = "root"): RenderResult =
+  def render(comp: Component, id: String): RenderResult =
     render(comp, document.getElementById(id))
 
   def render(comp: Component, dest: raw.Element): RenderResult = {
