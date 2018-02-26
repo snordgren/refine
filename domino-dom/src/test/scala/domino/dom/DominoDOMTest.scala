@@ -39,31 +39,28 @@ class DominoDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("adding and removing event handlers") {
-    import Events._
     import domino.html._
+    import events._
 
     var upperClicks = 0
     var lowerClicks = 0
 
     def page(upper: Boolean) =
-      if (upper) {
+      if (upper) div(
+        h1("Hello, world!"),
+        p(id := "description", title := "These are attributes.")(
+          "This page was rendered with the Domino library for Scala.js."),
+        p(id := "click-listener",
+          onClick { _: MouseEvent => upperClicks += 1 })(
+          "Enjoy!"))
+      else
         div(
           h1("Hello, world!"),
           p(id := "description", title := "These are attributes.")(
             "This page was rendered with the Domino library for Scala.js."),
           p(id := "click-listener",
-            onClick := ((_: MouseEvent) => {
-              upperClicks += 1
-            }))("Enjoy!"))
-      } else
-        div(
-          h1("Hello, world!"),
-          p(id := "description", title := "These are attributes.")(
-            "This page was rendered with the Domino library for Scala.js."),
-          p(id := "click-listener",
-            onClick := ((_: MouseEvent) => {
-              lowerClicks += 1
-            }))("Enjoy!"))
+            onClick { _: MouseEvent => lowerClicks += 1 })(
+            "Enjoy!"))
 
     def render(upper: Boolean): Unit = {
       root should not be null

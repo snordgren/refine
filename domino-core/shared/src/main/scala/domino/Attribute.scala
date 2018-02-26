@@ -216,7 +216,8 @@ object Attribute {
     with FormAttribute
     with InputAttribute
 
-  final case class AcceptCharset(value: String) extends SimpleAttribute[String]("accept-charset")
+  final case class AcceptCharset(value: String)
+    extends SimpleAttribute[String]("accept-charset")
     with FormAttribute
 
   final case class AccessKey(value: String) extends SimpleAttribute[String]("accesskey")
@@ -303,7 +304,8 @@ object Attribute {
   final case class Content(value: String) extends SimpleAttribute[String]("content")
     with MetaAttribute
 
-  final case class ContentEditable(value: Boolean) extends SimpleAttribute[Boolean]("contenteditable")
+  final case class ContentEditable(value: Boolean)
+    extends SimpleAttribute[Boolean]("contenteditable")
     with GlobalAttribute
 
   final case class Controls(value: String) extends SimpleAttribute[String]("controls")
@@ -321,8 +323,8 @@ object Attribute {
     with ObjectAttribute
 
   /**
-   * The CustomData attribute type represents a custom data attribute on an element. Because it
-   * requires special handling, it cannot be a subclass of SimpleAttribute.
+   * The CustomData attribute type represents a custom data attribute on an element.
+   * Because it requires special handling, it cannot be a subclass of SimpleAttribute.
    *
    * @param name The name of the data, without the <code>data-</code> prefix.
    * @param value The value of the data.
@@ -457,7 +459,8 @@ object Attribute {
   final case class Language(value: String) extends SimpleAttribute[String]("lang")
     with GlobalAttribute
 
-  final case class ScriptingLanguage(value: String) extends SimpleAttribute[String]("language")
+  final case class ScriptingLanguage(value: String)
+    extends SimpleAttribute[String]("language")
     with ScriptAttribute
 
   final case class List(value: String) extends SimpleAttribute[String]("list")

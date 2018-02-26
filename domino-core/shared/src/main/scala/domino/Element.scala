@@ -405,14 +405,14 @@ final case class SElement(attributes: Seq[GlobalAttribute],
 final case class SampElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("samp")
 
-final case class ScriptElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("script")
+final case class ScriptElement(attributes: Seq[ScriptAttribute],
+  children: Seq[Node]) extends AbstractElement[ScriptAttribute]("script")
 
 final case class SectionElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("section")
 
-final case class SelectElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("select")
+final case class SelectElement(attributes: Seq[SelectAttribute],
+  children: Seq[Node]) extends AbstractElement[SelectAttribute]("select")
 
 final case class SmallElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("small")
@@ -438,14 +438,14 @@ final case class SummaryElement(attributes: Seq[GlobalAttribute],
 final case class SupElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("sup")
 
-final case class TableElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("table")
+final case class TableElement(attributes: Seq[TableAttribute],
+  children: Seq[Node]) extends AbstractElement[TableAttribute]("table")
 
-final case class TBodyElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("tbody")
+final case class TBodyElement(attributes: Seq[TBodyAttribute],
+  children: Seq[Node]) extends AbstractElement[TBodyAttribute]("tbody")
 
-final case class TDElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("td")
+final case class TDElement(attributes: Seq[TDAttribute],
+  children: Seq[Node]) extends AbstractElement[TDAttribute]("td")
 
 final case class TemplateElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("template")
@@ -453,23 +453,23 @@ final case class TemplateElement(attributes: Seq[GlobalAttribute],
 final case class TextAreaElement(attributes: Seq[TextAreaAttribute],
   children: Seq[Node]) extends AbstractElement[TextAreaAttribute]("textarea")
 
-final case class TFootElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("tfoot")
+final case class TFootElement(attributes: Seq[TFootAttribute],
+  children: Seq[Node]) extends AbstractElement[TFootAttribute]("tfoot")
 
-final case class THElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("th")
+final case class THElement(attributes: Seq[THAttribute],
+  children: Seq[Node]) extends AbstractElement[THAttribute]("th")
 
-final case class THeadElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("thead")
+final case class THeadElement(attributes: Seq[THeadAttribute],
+  children: Seq[Node]) extends AbstractElement[THeadAttribute]("thead")
 
-final case class TimeElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("time")
+final case class TimeElement(attributes: Seq[TimeAttribute],
+  children: Seq[Node]) extends AbstractElement[TimeAttribute]("time")
 
 final case class TitleElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("title")
 
-final case class TRElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("tr")
+final case class TRElement(attributes: Seq[TRAttribute],
+  children: Seq[Node]) extends AbstractElement[TRAttribute]("tr")
 
 final case class TrackElement(attributes: Seq[TrackAttribute],
   children: Seq[Node]) extends AbstractElement[TrackAttribute]("track")
@@ -483,8 +483,8 @@ final case class ULElement(attributes: Seq[GlobalAttribute],
 final case class VarElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("`var`")
 
-final case class VideoElement(attributes: Seq[GlobalAttribute],
-  children: Seq[Node]) extends AbstractElement[GlobalAttribute]("video")
+final case class VideoElement(attributes: Seq[VideoAttribute],
+  children: Seq[Node]) extends AbstractElement[VideoAttribute]("video")
 
 final case class WBRElement(attributes: Seq[GlobalAttribute],
   children: Seq[Node]) extends AbstractElement[GlobalAttribute]("wbr")

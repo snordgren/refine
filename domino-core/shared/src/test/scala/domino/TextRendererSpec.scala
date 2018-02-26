@@ -64,12 +64,19 @@ class TextRendererSpec extends UnitSpec {
 
   it should "properly handle boolean attributes" in {
     import domino.html._
-    div(contenteditable := true)().renderToString should be("<div contenteditable=\"true\"></div>")
-    div(contenteditable := false)().renderToString should be("<div contenteditable=\"false\"></div>")
+    div(contenteditable := true)().renderToString should be(
+      "<div contenteditable=\"true\"></div>")
+
+    div(contenteditable := false)().renderToString should be(
+      "<div contenteditable=\"false\"></div>")
+
     div(hidden := true)().renderToString should be(s"<div hidden></div>")
     div(hidden := false)().renderToString should be(s"<div></div>")
-    div(spellcheck := true)().renderToString should be("<div spellcheck=\"true\"></div>")
-    div(spellcheck := false)().renderToString should be("<div spellcheck=\"false\"></div>")
+    div(spellcheck := true)().renderToString should be(
+      "<div spellcheck=\"true\"></div>")
+
+    div(spellcheck := false)().renderToString should be(
+      "<div spellcheck=\"false\"></div>")
   }
 
   it should "render autocomplete as on-off" in {
