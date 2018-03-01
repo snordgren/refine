@@ -53,27 +53,27 @@ val commonSettings = Seq(
   )
 )
 
-lazy val dominoCore = crossProject
-  .in(file("domino-core"))
+lazy val refineCore = crossProject
+  .in(file("refine-core"))
   .settings(commonSettings)
-  .settings(name := "domino-core")
+  .settings(name := "refine-core")
   .jsSettings()
   .jvmSettings()
 
-lazy val dominoCoreJS = dominoCore.js
-lazy val dominoCoreJVM = dominoCore.jvm
+lazy val refineCoreJS = refineCore.js
+lazy val refineCoreJVM = refineCore.jvm
 
-lazy val dominoDOM = project
-  .in(file("domino-dom"))
+lazy val refineDOM = project
+  .in(file("refine-dom"))
   .settings(commonSettings)
-  .settings(name := "domino-dom",
+  .settings(name := "refine-dom",
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "0.9.2",
       "org.scala-js" %% "scalajs-env-jsdom-nodejs" % "1.0.0-M1" % Test),
     jsEnv in Test := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv())
-  .dependsOn(dominoCoreJS)
+  .dependsOn(refineCoreJS)
   .enablePlugins(ScalaJSPlugin)
 
 lazy val root = project
   .in(file("."))
-  .aggregate(dominoCoreJS, dominoCoreJVM, dominoDOM)
+  .aggregate(refineCoreJS, refineCoreJVM, refineDOM)
