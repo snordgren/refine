@@ -47,31 +47,6 @@ final case class Text(value: String) extends Node {
     EscapeHTML.appendElement(value, builder)
 }
 
-/**
- * Lazy rendering optimization is built-in in components. A component is a
- * closure over a pure function S => Node where S is the state of the
- * component. The component is only re-rendered by Refine when its S is not
- * equal to the component that was there before.
- *
- * Components should be case classes. If for some reason you cannot use a
- * case class to represent your component, be sure to override the equals
- * method to ensure that the component behaves properly on re-renders.
- */
-trait Component extends Node {
-
-  /**
-   * Render this component into a node. This must be a pure function, its
-   * result only varying based on the constructor parameters of the
-   * implementing case class.
-   *
-   * @return The rendered items.
-   */
-  def render: Node
-
-  private[refine] final override def acceptStringBuilder(builder: StringBuilder): Unit =
-    render.acceptStringBuilder(builder)
-}
-
 sealed trait Element[A <: Attribute] extends Node {
   def name: String
   def attributes: Seq[A]

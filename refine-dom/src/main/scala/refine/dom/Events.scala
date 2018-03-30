@@ -1,11 +1,6 @@
 package refine.dom
 
-case class EventAttributeFactory[A, B](newAttribute: A => B) {
-  def apply(f: A): B =
-    newAttribute(f)
-}
-
-object events {
+trait Events {
   val onAbort = EventAttributeFactory(OnAbort)
   val onActivate = EventAttributeFactory(OnActivate)
   val onBeforeCut = EventAttributeFactory(OnBeforeCut)
@@ -70,3 +65,5 @@ object events {
   val onVolumeChange = EventAttributeFactory(OnVolumeChange)
   val onWaiting = EventAttributeFactory(OnWaiting)
 }
+
+object Events extends Events

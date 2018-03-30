@@ -11,7 +11,7 @@ object ProfilerMain {
     var running = true
     val thread = new Thread(() => {
       while (running) {
-        import refine.html._
+        import refine.HTML._
 
         html(
           head(

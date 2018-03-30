@@ -1,7 +1,7 @@
 package refine.dom
 
 import org.scalajs.dom.{document, raw}
-import refine.{Component, Element, Node, Text}
+import refine._
 
 import scala.scalajs.js
 
@@ -29,6 +29,24 @@ object RenderResult {
 
 object RefineDOM {
 
+  def render[A](a: A, dest: String)(implicit ev: Render[A]): RenderResult =
+    render(a, document.getElementById(dest))(ev)
+
+  def render[A](a: A, dest: raw.Element)(implicit ev: Render[A]): RenderResult = {
+    val rendered = ev.render(a)
+    rendered match {
+      case e: Element[_] =>
+        render(e, dest)
+
+      case _ =>
+        if (dest.childElementCount < 1) {
+          dest.appendChild(createChild(rendered))
+        }
+
+        patch(rendered, dest.firstChild)
+    }
+  }
+
   /**
    * Render an element to a node with the passed ID.
    *
@@ -54,31 +72,31 @@ object RefineDOM {
 
     patch(src, dest.firstChild)
   }
+  /*
+    /**
+     * Render a component to a DOM node with the passed ID.
+     *
+     * @param comp The component to render.
+     * @param id The ID of the node to render to.
+     * @return The result of the render.
+     */
+    def render(comp: Component, id: String): RenderResult =
+      render(comp, document.getElementById(id))
 
-  /**
-   * Render a component to a DOM node with the passed ID.
-   *
-   * @param comp The component to render.
-   * @param id The ID of the node to render to.
-   * @return The result of the render.
-   */
-  def render(comp: Component, id: String): RenderResult =
-    render(comp, document.getElementById(id))
+    def render(comp: Component, dest: raw.Element): RenderResult = {
+      val rendered = comp.render
+      rendered match {
+        case e: Element[_] =>
+          render(e, dest)
 
-  def render(comp: Component, dest: raw.Element): RenderResult = {
-    val rendered = comp.render
-    rendered match {
-      case e: Element[_] =>
-        render(e, dest)
+        case _ =>
+          if (dest.childElementCount < 1) {
+            dest.appendChild(createChild(rendered))
+          }
 
-      case _ =>
-        if (dest.childElementCount < 1) {
-          dest.appendChild(createChild(rendered))
-        }
-
-        patch(rendered, dest.firstChild)
-    }
-  }
+          patch(rendered, dest.firstChild)
+      }
+    }*/
 
   /**
    * Instantiate a new element and cast it to the proper type.
@@ -165,15 +183,15 @@ object RefineDOM {
           case _ =>
             recreate(document.createTextNode(text))
         }
-
-      case c: Component =>
-        RenderComponent(c, dest, patch)
+      /*
+            case c: Component =>
+              RenderComponent(c, dest, patch)*/
     }
   }
 
   private def createChild(source: Node): raw.Node =
     source match {
-      case c: Component => createChild(c.render)
+      //case c: Component => createChild(c.render)
       case e: Element[_] => createElement(e)
       case Text(text) => document.createTextNode(text)
     }

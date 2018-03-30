@@ -18,58 +18,45 @@ tab.
       
 ## Getting Started
 ### Hello, world!
+
 ```scala
-import org.scalajs.dom.document
-import refine._
-import refine.dom._
+case class App(user: String)
 
 object App {
-  def main(args: Array[String]): Unit = {
-    import html._
-    
-    val html = h1("Hello, world!")
-    RefineDOM.render(html, "root")
+  implicit object RenderApp extends Render[App] {
+    override def render(app: App): Node =
+      div(
+        h1(s"Hello, ${app.user}!"),
+        p(id := "description")("Welcome to Refine!")
+      )
   }
 }
 ```
 
-Import the ScalaJS document to acquire components, and import `refine.HTML._` in the
-function where you render HTML (importing all members of HTML at the top of your file
-will likely cause namespace collisions). RefineDOM.render will render your HTML to the
-id that you pass in, or a custom element if you prefer.
-
-### Components
+First, we define our data type (`App`), then we implement the `Render` type class
+for that data type (this means that we can write render code for types that we do
+not control).
 
 ```scala
-import org.scalajs.dom.document
-import refine._
-import refine.dom._
-
-case class Header(title: String) extends Component {
-  override def render = {
-    import html._
-    
-    h1(title)
-  }
-}
-
-case class App() extends Component {
-  override def render = {
-    import html._
-    
-    div(Header(), p("I'm the description..."))
-  }
-}
-
-object App {
-  def main(args: Array[String]): Unit = {
-    import html._
-    
-    RefineDOM.render(App(), "root")
-  }
+object EntryPoint {
+  def main(args: Array[String]): Unit =
+    RefineDOM.render(App(user = "Me"), "root")
 }
 ```
 
-Components generate elements based on parameters. If the DOM is re-rendered,
-components that compare equally between the first and second renders are not
-re-rendered.
+Then, in our entry point, we use `RefineDOM.render` to render our data to a
+DOM element with the id `root`.
+
+Alternatively, if you are running Refine server-side, you can render the data
+to a string using the `.renderToString` method of any Node object. By importing
+`refine.implicits._`, you can also call it on any data type that has a `Render`
+instance.
+
+```scala
+import refine.implicits._
+
+object ServerSideRender {
+  def renderPage: String =
+    App(user = "You!").renderToString
+}
+```

@@ -2,10 +2,8 @@ package refine.dom
 
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.MouseEvent
-import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
-import refine.{Component, html}
-
-import scala.scalajs.js
+import org.scalatest._
+import refine._
 
 class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   def root = document.getElementById("root")
@@ -20,7 +18,7 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("a simple page") {
-    import refine.html._
+    import refine.HTML._
 
     def page() =
       div(id := "div")(
@@ -39,8 +37,8 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("adding and removing event handlers") {
-    import events._
-    import refine.html._
+    import Events._
+    import refine.HTML._
 
     var upperClicks = 0
     var lowerClicks = 0
@@ -87,17 +85,19 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("rendering components") {
-    import refine.html._
+    import refine.HTML._
 
     val articleDiv = "article-div"
     val articleH1 = "article-h1"
     val articleP = "article-p"
 
-    case class Article(title: String, body: String) extends Component {
-      override def render =
+    case class Article(title: String, body: String)
+
+    implicit object RenderArticle extends Render[Article] {
+      override def render(a: Article): Node =
         div(id := articleDiv)(
-          h1(id := articleH1)(title),
-          p(id := articleP)(body))
+          h1(id := articleH1)(a.title),
+          p(id := articleP)(a.body))
     }
 
     val title = "Swiss university unveils yodeling degree"
@@ -111,43 +111,11 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
     document.getElementById(articleP).textContent should be(body)
   }
 
-  test("don't re-render unchanged components") {
-    import refine.html._
-
-    val articleDiv = "article-div"
-    val articleH1 = "article-h1"
-    val articleP = "article-p"
-
-    case class Article(title: String, body: String) extends Component {
-      override def render =
-        div(id := articleDiv)(
-          h1(id := articleH1)(title),
-          p(id := articleP)(body))
-    }
-
-    val title = "title"
-    val body = "body"
-    val source = div(Article(title, body))
-
-    RefineDOM.render(source, root)
-    val dynamicArticleDiv = document.getElementById(articleDiv).asInstanceOf[js.Dynamic]
-    js.isUndefined(dynamicArticleDiv.previousRefineComp) should be(false)
-    js.isUndefined(dynamicArticleDiv.refineRenderCount) should be(false)
-    dynamicArticleDiv.refineRenderCount should be(1)
-    RefineDOM.render(source, root)
-    dynamicArticleDiv.refineRenderCount should be(1)
-
-    val newSource = div(Article(title, "newBody"))
-    RefineDOM.render(newSource, root)
-    dynamicArticleDiv.refineRenderCount should be(2)
-  }
-
   test("render a top-level component") {
-    case class Article() extends Component {
+    case class Article()
 
-      import refine.html._
-
-      override def render =
+    implicit object RenderArticle extends Render[Article] {
+      override def render(a: Article): Node =
         div(id := "article-div")(p(id := "article-p")("Hello, world!"))
     }
 
@@ -159,14 +127,17 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("render nested components while preserving ID") {
-    import html._
+    case class A()
+    case class B()
 
-    case class A() extends Component {
-      override def render = B()
+    implicit object RenderB extends Render[B] {
+      def render(b: B): Node =
+        "No!"
     }
 
-    case class B() extends Component {
-      override def render = "No!"
+    implicit object RenderA extends Render[A] {
+      def render(a: A): Node =
+        B()
     }
 
     RefineDOM.render(A(), root)
@@ -174,14 +145,14 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("render a required attribute") {
-    import html._
+    import HTML._
 
     RefineDOM.render(input(required := true)(), root)
     root.firstChild.attributes.getNamedItem("required") should not be null
   }
 
   test("render autocomplete") {
-    import html._
+    import HTML._
 
     RefineDOM.render(input(autoComplete := true)(), root)
     root.firstChild.attributes.getNamedItem("autocomplete").value should be("on")
@@ -191,7 +162,7 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   }
 
   test("render to ID") {
-    import html._
+    import HTML._
 
     RefineDOM.render(h1("Hello, world!"), "root")
     root.firstChild.nodeName.toLowerCase() should be("h1")
