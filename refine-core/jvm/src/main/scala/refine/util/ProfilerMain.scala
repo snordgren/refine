@@ -11,20 +11,20 @@ object ProfilerMain {
     var running = true
     val thread = new Thread(() => {
       while (running) {
-        import refine.HTML._
+        import refine.DSL._
 
-        html(
-          head(
-            meta(charset := "UTF-8")()
+        html[Unit]()(
+          head()(
+            meta(charset("UTF-8"))()
           ),
-          body(
-            header(h1("header")),
-            div(
-              div(
-                h1("title"),
-                p("content")),
-              aside(div(id := "root")("This is where I render to!"))),
-            footer("copyright")
+          body()(
+            header()(h1()(text("header"))),
+            div()(
+              div()(
+                h1()(text("title")),
+                p()(text("content"))),
+              aside()(div(id("root"))(text("This is where I render to!")))),
+            footer()(text("copyright"))
           )
         ).renderToString
 

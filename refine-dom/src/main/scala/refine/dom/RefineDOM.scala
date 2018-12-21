@@ -1,198 +1,189 @@
 package refine.dom
 
-import org.scalajs.dom.{document, raw}
-import refine._
+import org.scalajs.dom.{Event, document, raw}
+import refine.Node
 
+import scala.collection.mutable
 import scala.scalajs.js
-
-/**
- * Algebraic data type representing either the success or failure of an
- * attempt to render a node tree to the DOM.
- */
-sealed trait RenderResult
-
-object RenderResult {
-
-  /**
-   * The render was successful.
-   */
-  case object Success extends RenderResult
-
-  /**
-   * The render failed at some point. The error message should describe
-   * what went wrong.
-   *
-   * @param errorMsg An explanation of what went wrong.
-   */
-  case class Failure(errorMsg: String) extends RenderResult
-}
 
 object RefineDOM {
 
-  def render[A](a: A, dest: String)(implicit ev: Render[A]): RenderResult =
-    render(a, document.getElementById(dest))(ev)
+  def render[A](f: (A, Event) => Unit, node: Node.Element[A], target: raw.Node): Unit = {
 
-  def render[A](a: A, dest: raw.Element)(implicit ev: Render[A]): RenderResult = {
-    val rendered = ev.render(a)
-    rendered match {
-      case e: Element[_] =>
-        render(e, dest)
+    val childNodes = target.childNodes
+    val targetChild = if (target.hasChildNodes()) {
+      childNodes(0)
+    } else {
+      val newChild = createElementFrom(node)
+      target.appendChild(newChild)
+      newChild
+    }
+
+    while (childNodes.length > 1) {
+      target.removeChild(childNodes(1))
+    }
+
+    renderUnsafe(f, node, targetChild)
+  }
+
+  private def createElementFrom[A](a: Node.Element[A]): raw.HTMLElement = {
+    document.createElement(a.name).asInstanceOf[raw.HTMLElement]
+  }
+
+  private def removeSurplusChildren[A](n: Node.Element[A], e: raw.HTMLElement): Unit = {
+    val childNodes = e.childNodes
+    val currentLength = childNodes.length
+
+    if (n.children.length < currentLength) {
+      var index = n.children.length
+
+      while (index < currentLength) {
+        e.removeChild(childNodes.apply(index))
+
+        index += 1
+      }
+    }
+  }
+
+  private def renderUnsafe[A](f: (A, Event) => Unit, node: Node[A], target: raw.Node): Unit =
+    node match {
+      case a: Node.Element[A] => renderElementAt(f, a, target)
+      case Node.Text(text) => renderTextAt(text, target)
+    }
+
+  private def renderElementAt[A](
+    f: (A, Event) => Unit, n: Node.Element[A], target: raw.Node
+  ): Unit =
+    target match {
+      case a: raw.HTMLElement =>
+        if (a.nodeName.equalsIgnoreCase(n.name)) {
+          updateElementAttributes(n, a)
+          updateElementCallbacks(f, n, a)
+          removeSurplusChildren(n, a)
+          updateChildren(f, n, a)
+        } else {
+          val newTarget = createElementFrom(n)
+          replaceNode(target, newTarget)
+          renderElementAt(f, n, newTarget)
+        }
+
+      case a: raw.Text =>
+        val newTarget = createElementFrom(n)
+        replaceNode(a, newTarget)
+        renderElementAt(f, n, newTarget)
 
       case _ =>
-        if (dest.childElementCount < 1) {
-          dest.appendChild(createChild(rendered))
+    }
+
+  private def renderTextAt(text: String, target: raw.Node): Unit =
+    target match {
+      case a: raw.Text =>
+        if (text != a.textContent) {
+          a.textContent = text
         }
 
-        patch(rendered, dest.firstChild)
-    }
-  }
-
-  /**
-   * Render an element to a node with the passed ID.
-   *
-   * @param src The wanted content of the node.
-   * @param id The id of the node to render to.
-   * @return The result of the render.
-   */
-  def render(src: Element[_], id: String): RenderResult =
-    render(src, document.getElementById(id))
-
-  /**
-   * Render the passed virtual element to the passed DOM element.
-   *
-   * @param src The virtual element; the expected result.
-   * @param dest The target to place the element inside.
-   * @return The result of the render.
-   */
-  def render(src: Element[_], dest: raw.Element): RenderResult = {
-    if (dest.childNodes.length < 1) {
-      val newChild = createElement(src)
-      dest.appendChild(newChild)
+      case _ =>
+        val newNode = document.createTextNode(text)
+        replaceNode(target, newNode)
     }
 
-    patch(src, dest.firstChild)
+  private def replaceNode(oldNode: raw.Node, newNode: raw.Node): Unit = {
+    oldNode.parentNode.replaceChild(newNode, oldNode)
   }
-  /*
-    /**
-     * Render a component to a DOM node with the passed ID.
-     *
-     * @param comp The component to render.
-     * @param id The ID of the node to render to.
-     * @return The result of the render.
-     */
-    def render(comp: Component, id: String): RenderResult =
-      render(comp, document.getElementById(id))
 
-    def render(comp: Component, dest: raw.Element): RenderResult = {
-      val rendered = comp.render
-      rendered match {
-        case e: Element[_] =>
-          render(e, dest)
+  private def updateChildren[A](
+    f: (A, Event) => Unit, n: Node.Element[A], e: raw.HTMLElement
+  ): Unit = {
+    val oldChildNodes = e.childNodes
+    var index = 0
 
-        case _ =>
-          if (dest.childElementCount < 1) {
-            dest.appendChild(createChild(rendered))
-          }
+    while (index < n.children.length) {
+      val currentSourceChild = n.children(index)
 
-          patch(rendered, dest.firstChild)
+      val target = if (oldChildNodes.length > index) {
+        oldChildNodes(index)
+      } else {
+        val newChild = currentSourceChild match {
+          case a: Node.Element[A] => createElementFrom(a)
+          case Node.Text(text) => document.createTextNode(text)
+        }
+        e.appendChild(newChild)
+        newChild
       }
-    }*/
 
-  /**
-   * Instantiate a new element and cast it to the proper type.
-   *
-   * @param element The element to create the DOM-side representation of.
-   * @return The real element.
-   */
-  private def createElement(element: Element[_]): raw.HTMLElement =
-    document.createElement(element.name).asInstanceOf[raw.HTMLElement]
+      renderUnsafe(f, currentSourceChild, target)
 
-  // Update this element, ensuring that it has the proper attributes.
-  private def updateElement(source: Element[_], target: raw.HTMLElement): Unit = {
-    EventDelegate.prepare(target)
-
-    // Create a local partially applied attribute patch function.
-    val patch = PatchAttribute(target)
-
-    // Apply it to all our attributes.
-    source.nonErasedAttr.foreach(patch)
-
-    // If we have too many attributes, remove the excess ones.
-    if (target.hasAttributes() && target.attributes.length > source.attributes.length) {
-      (0 until target.attributes.length).flatMap((index) => {
-        val attribute = target.attributes.item(index)
-        val name = attribute.name
-        if (!source.nonErasedAttr.exists((attr) => attr.name.equalsIgnoreCase(name))) {
-          Some(name)
-        } else None
-      }).foreach((name) => {
-        target.attributes.removeNamedItem(name)
-      })
+      index += 1
     }
   }
 
-  /**
-   * Attempt to reconcile the DOM-side node with the wanted result node.
-   *
-   * @param src The blueprint.
-   * @param dest The target.
-   * @return The result of the patching.
-   */
-  private def patch(src: Node, dest: raw.Node): RenderResult = {
-    if (dest == null) return RenderResult.Failure("The target node was null.")
-    if (js.isUndefined(dest)) return RenderResult.Failure("The target node was undefined.")
+  private def updateElementAttributes[A](n: Node.Element[A], e: raw.HTMLElement): Unit = {
+    val oldAttrs = e.attributes
+    var index = 0
+    val toRemove = new mutable.ArrayBuffer[raw.Attr](oldAttrs.length)
 
-    // Recreate the original destination with a new child.
-    def recreate(newChild: raw.Node): RenderResult = {
-      dest.parentNode.replaceChild(newChild, dest)
-      patch(src, newChild)
+    while (index < oldAttrs.length) {
+      val current = oldAttrs(index)
+
+      n.properties.find(_.name == current.name) match {
+        case Some(newAttr) => current.value = newAttr.value
+        case None => toRemove += current
+      }
+
+      index += 1
     }
 
-    src match {
-      case element: Element[_] =>
-        dest match {
-          case dest: raw.HTMLElement =>
-            if (dest.nodeName.equalsIgnoreCase(element.name)) {
-              updateElement(element, dest)
-              if (dest.childNodes.length > element.children.length) {
-                val start = element.children.length
-                (start until dest.childNodes.length).map(dest.childNodes(_)).foreach(child => {
-                  child.parentNode.removeChild(child)
-                })
-              }
-              element.children.zipWithIndex.foreach { case (child, index) =>
-                if (dest.childNodes.length <= index) {
-                  dest.appendChild(createChild(child))
-                }
-                val target = dest.childNodes(index)
-                patch(child, target)
-              }
-              RenderResult.Success
-            } else recreate(createElement(element))
-          case _ => recreate(createElement(element))
-        }
+    for (a <- toRemove) {
+      e.removeAttributeNode(a)
+    }
 
-      case Text(text) =>
-        dest match {
-          case textNode: raw.Text =>
-            if (!textNode.nodeValue.equals(text)) {
-              textNode.textContent = text
-            }
-            RenderResult.Success
-
-          case _ =>
-            recreate(document.createTextNode(text))
-        }
-      /*
-            case c: Component =>
-              RenderComponent(c, dest, patch)*/
+    for (a <- n.properties) {
+      if (!e.hasAttribute(a.name)) {
+        e.setAttribute(a.name, a.value)
+      }
     }
   }
 
-  private def createChild(source: Node): raw.Node =
-    source match {
-      //case c: Component => createChild(c.render)
-      case e: Element[_] => createElement(e)
-      case Text(text) => document.createTextNode(text)
+  private def updateElementCallbacks[A](
+    f: (A, Event) => Unit, n: Node.Element[A], e: raw.HTMLElement
+  ): Unit = {
+    val dynamicE = e.asInstanceOf[js.Dynamic]
+
+    // Re-allocate the listener store on each update, so that all unused listeners are
+    // automatically dropped.
+    dynamicE.vdomListenerStore = js.Dynamic.literal()
+
+    // The vdomListenerMetadata stores whether or not an event listener delegating to the
+    // current value in the listener store has been registered on the DOM node.
+    if (js.isUndefined(dynamicE.vdomListenerMetadata)) {
+      dynamicE.vdomListenerMetadata = js.Dynamic.literal()
     }
+
+    val callbacks = n.callbacks
+    for (a <- callbacks) {
+      val callbackEventName = a.event.jsName
+
+      // If the metadata has no property with the name of the current event, we bind an
+      // event listener, and register that one has been bound.
+      if (!dynamicE.vdomListenerMetadata.hasOwnProperty(callbackEventName).asInstanceOf[Boolean]) {
+
+        // Register our new event handler.
+        e.addEventListener(callbackEventName, { (b: Event) =>
+          val store = dynamicE.vdomListenerStore
+
+          if (store.hasOwnProperty(callbackEventName).asInstanceOf[Boolean]) {
+            val listener = store.selectDynamic(callbackEventName)
+            listener.apply(b)
+          }
+        })
+
+        // Register that our new event handler has been bound.
+        dynamicE.vdomListenerMetadata.updateDynamic(callbackEventName)(true)
+      }
+
+      dynamicE.vdomListenerStore.updateDynamic(callbackEventName) { (b: Event) =>
+        f(a.message, b)
+      }
+    }
+  }
 }
