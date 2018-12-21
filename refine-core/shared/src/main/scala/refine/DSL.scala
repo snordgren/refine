@@ -1,6 +1,6 @@
 package refine
 
-trait DSL {
+abstract class DSL {
 
   lazy val a = element("a")
   lazy val anchor = a
