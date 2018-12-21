@@ -1,18 +1,18 @@
 {
-  "name": "domino",
+  "name": "refine",
   "version": "1.0.0",
   "description": "A declarative HTML rendering library for Scala.js.",
   "repository": {
 	"type": "git",
-	"url": "git+https://github.com/snordgren/domino.git"
+	"url": "git+https://github.com/snordgren/refine.git"
   },
   "author": "Silas Nordgren <nordgrensilas@gmail.com>",
   "license": "ISC",
   "bugs": {
-	"url": "https://github.com/snordgren/domino/issues"
+	"url": "https://github.com/snordgren/refine/issues"
   },
-  "homepage": "https://github.com/snordgren/domino#readme",
+  "homepage": "https://github.com/snordgren/refine#readme",
   "devDependencies": {
-	"jsdom": "^11.6.1"
+	"jsdom": "^13.1.0"
   }
 }

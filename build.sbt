@@ -1,7 +1,14 @@
-val commonSettings = Seq(
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
+lazy val scalaJSDOMVersion = "0.9.6"
+lazy val scalaTestVersion = "3.0.4"
+lazy val scalaTagsVersion = "0.6.7"
+lazy val scalaJSEnvJSDOMNodeJSVersion = "1.0.0-M1"
+
+lazy val commonSettings = Seq(
   organization := "org.scalacode",
-  version := "0.5.0",
-  scalaVersion := "2.12.4",
+  version := "0.1.0",
+  scalaVersion := "2.12.7",
   scalacOptions := Seq(
     "-deprecation", // Emit warning and location for usages of deprecated APIs.
     "-encoding", "utf-8", // Specify character encoding used by source files.
@@ -48,12 +55,13 @@ val commonSettings = Seq(
     "-Ywarn-unused:privates", // Warn if a private member is unused.
   ),
   libraryDependencies ++= Seq(
-    "org.scalatest" %%% "scalatest" % "3.0.4" % Test,
-    "com.lihaoyi" %%% "scalatags" % "0.6.7" % Test
+    "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
+    "com.lihaoyi" %%% "scalatags" % scalaTagsVersion % Test
   )
 )
 
-lazy val refineCore = crossProject
+lazy val refineCore = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Full)
   .in(file("refine-core"))
   .settings(commonSettings)
   .settings(name := "refine-core")
@@ -68,8 +76,8 @@ lazy val refineDOM = project
   .settings(commonSettings)
   .settings(name := "refine-dom",
     libraryDependencies ++= Seq(
-      "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-      "org.scala-js" %% "scalajs-env-jsdom-nodejs" % "1.0.0-M1" % Test),
+      "org.scala-js" %%% "scalajs-dom" % scalaJSDOMVersion,
+      "org.scala-js" %% "scalajs-env-jsdom-nodejs" % scalaJSEnvJSDOMNodeJSVersion % Test),
     jsEnv in Test := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv())
   .dependsOn(refineCoreJS)
   .enablePlugins(ScalaJSPlugin)
