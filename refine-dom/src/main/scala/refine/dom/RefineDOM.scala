@@ -8,6 +8,12 @@ import scala.scalajs.js
 
 object RefineDOM {
 
+  /**
+   * Render to the DOM, ignoring any events.
+   */
+  def renderStatic[A](node: Node.Element[A], target: raw.Node): Unit =
+    render[A]((_, _) => (), node, target)
+
   def render[A](f: (A, Event) => Unit, node: Node.Element[A], target: raw.Node): Unit = {
 
     val childNodes = target.childNodes
@@ -165,7 +171,8 @@ object RefineDOM {
 
       // If the metadata has no property with the name of the current event, we bind an
       // event listener, and register that one has been bound.
-      if (!dynamicE.vdomListenerMetadata.hasOwnProperty(callbackEventName).asInstanceOf[Boolean]) {
+      if (!dynamicE.vdomListenerMetadata.hasOwnProperty(callbackEventName)
+        .asInstanceOf[Boolean]) {
 
         // Register our new event handler.
         e.addEventListener(callbackEventName, { (b: Event) =>

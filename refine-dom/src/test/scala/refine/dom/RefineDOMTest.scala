@@ -1,5 +1,6 @@
 package refine.dom
 
+import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.{Element, document}
 import org.scalatest._
 import refine._
@@ -10,8 +11,6 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   def root: Element = document.getElementById("root")
 
   before {
-    if (document == null || js.isUndefined(document)) ???
-
     if (root == null) {
       val body = document.querySelector("body")
       val root = document.createElement("div")
@@ -31,7 +30,7 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
         p(id("enjoy"))(text("Enjoy!")))
 
     root should not be null
-    RefineDOM.render[Unit]((_, _) => {}, page, root)
+    RefineDOM.renderStatic[Unit](page, root)
 
     document.getElementById("div") should not be null
     document.getElementById("h1") should not be null
@@ -89,17 +88,43 @@ class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   test("render a required attribute") {
     import DSL._
 
-    RefineDOM.render[Unit]((_, _) => (), input[Unit](required)(), root)
+    RefineDOM.renderStatic[Unit](input[Unit](required)(), root)
     root.firstChild.attributes.getNamedItem("required") should not be null
   }
 
   test("render autocomplete") {
     import DSL._
 
-    RefineDOM.render[Unit]((_, _) => (), input[Unit](autoComplete(true))(), root)
+    RefineDOM.renderStatic[Unit](input[Unit](autoComplete(true))(), root)
     root.firstChild.attributes.getNamedItem("autocomplete").value should be("on")
 
-    RefineDOM.render[Unit]((_, _) => (), input[Unit](autoComplete(false))(), root)
+    RefineDOM.renderStatic[Unit](input[Unit](autoComplete(false))(), root)
     root.firstChild.attributes.getNamedItem("autocomplete").value should be("off")
+  }
+
+  test("replace an element") {
+    import DSL._
+
+    val first = button()(p()(text("hello!")))
+    val second = p()(text("hello!"))
+
+    RefineDOM.renderStatic(first, root)
+    root.firstChild.asInstanceOf[HTMLElement].tagName.toLowerCase should be("button")
+
+    RefineDOM.renderStatic(second, root)
+    root.firstChild.asInstanceOf[HTMLElement].tagName.toLowerCase should be("p")
+  }
+
+  test("remove a child") {
+    import DSL._
+
+    val first = div()(p()(text("hey!")))
+    val second = div()()
+
+    RefineDOM.renderStatic(first, root)
+    root.firstChild.firstChild should not be null
+
+    RefineDOM.renderStatic(second, root)
+    root.firstChild.hasChildNodes() should be(false)
   }
 }
