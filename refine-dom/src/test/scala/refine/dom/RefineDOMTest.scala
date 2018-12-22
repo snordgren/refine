@@ -5,8 +5,6 @@ import org.scalajs.dom.{Element, document}
 import org.scalatest._
 import refine._
 
-import scala.scalajs.js
-
 class RefineDOMTest extends FunSuite with Matchers with BeforeAndAfter {
   def root: Element = document.getElementById("root")
 
