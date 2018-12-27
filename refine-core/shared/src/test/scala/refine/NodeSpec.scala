@@ -2,12 +2,10 @@ package refine
 
 final class NodeSpec extends UnitSuite {
   test("the class property should be associative") {
+    import DSL._
 
-    val first = Node.Element[Unit]("div", Seq(DSL.className("first second")), Seq.empty,
-      closingTag = true)
-
-    val second = Node.Element[Unit]("div", Seq(DSL.className("first"), DSL.className("second")),
-      Seq.empty, closingTag = true)
+    val first = div[Unit](className("first second"))()
+    val second = div[Unit](className("first"), className("second"))()
 
     val expectedProperty = DSL.className[Unit]("first second")
 
