@@ -8,7 +8,7 @@ lazy val scalaJSEnvJSDOMNodeJSVersion = "1.0.0-M1"
 lazy val commonSettings = Seq(
   organization := "org.scalacode",
   version := "0.1.0",
-  scalaVersion := "2.12.7",
+  scalaVersion := "2.12.8",
   scalacOptions := Seq(
     "-deprecation", // Emit warning and location for usages of deprecated APIs.
     "-encoding", "utf-8", // Specify character encoding used by source files.
