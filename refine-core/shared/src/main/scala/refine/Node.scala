@@ -32,19 +32,30 @@ object Node {
 
     lazy val properties: Seq[Attribute.Property[A]] = {
       val b = new mutable.ArrayBuffer[Attribute.Property[A]](attributes.length)
+      val classes = new java.lang.StringBuilder()
       var index = 0
 
       while (index < attributes.length) {
         val current = attributes(index)
 
         current match {
-          case a: Attribute.Property[A] => b += a
+          case a: Attribute.Property[A] =>
+            if (a.name == "class") {
+              classes.append(a.value)
+              classes.append(' ')
+            } else {
+              b += a
+            }
           case _ =>
         }
 
         index += 1
       }
 
+      val classString = classes.toString.trim
+      if (classString.nonEmpty) {
+        b += Attribute.Property("class", classString)
+      }
       b
     }
 
