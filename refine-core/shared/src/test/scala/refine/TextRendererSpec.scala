@@ -4,7 +4,7 @@ class TextRendererSpec extends UnitSpec {
   "An HTML text renderer" should "render a paragraph element" in {
     import DSL._
     val source = p()(text("Hello, world!"))
-    val expected = s"<p>${EscapeHTML.element("Hello, world!")}</p>"
+    val expected = s"<p>Hello, world!</p>"
     val result = source.renderToString
     result should be(expected)
   }
@@ -22,7 +22,7 @@ class TextRendererSpec extends UnitSpec {
     val str = "I'm a child node."
     val source = div()(p()(text(str)))
     val result = source.renderToString
-    val expected = s"<div><p>${EscapeHTML.element(str)}</p></div>"
+    val expected = s"<div><p>$str</p></div>"
     result should be(expected)
   }
 
@@ -104,5 +104,12 @@ class TextRendererSpec extends UnitSpec {
         p(id("description"))(text("Welcome to Refine!"))
       ).renderToString
     })
+  }
+
+  it should "escape necessary characters" in {
+    import DSL._
+
+    val ast = p(id("""&<>"'"""))(text("""&<>"""))
+    ast.renderToString should be("<p id=\"&amp;&lt;&gt;&quot;&#39;\">&amp;&lt;&gt;</p>")
   }
 }
